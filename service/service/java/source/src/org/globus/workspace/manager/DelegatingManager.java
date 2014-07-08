@@ -939,7 +939,6 @@ public class DelegatingManager implements Manager {
             CreationException, MetadataException,
             ResourceRequestDeniedException, SchedulingException {
         AsyncRequest backfillRequest = this.creation.addAsyncRequest(req, caller);
-        
         try {
             return dataConvert.getRequestInfo(backfillRequest);
         } catch (CannotTranslateException e) {
@@ -950,7 +949,6 @@ public class DelegatingManager implements Manager {
     public RequestInfo[] cancelBackfillRequests(String[] ids, Caller caller)
             throws DoesNotExistException, AuthorizationException,
             ManageException {
-
         for (int i = 0; i < ids.length; i++) {
             AsyncRequest backfillReq = this.asyncHome.getRequest(ids[i]);
             authorizeCaller(caller, backfillReq);
@@ -975,7 +973,6 @@ public class DelegatingManager implements Manager {
             throws DoesNotExistException, ManageException,
             AuthorizationException {
         RequestInfo[] result = new RequestInfo[ids.length];
-        
         for (int i = 0; i < ids.length; i++) {
             AsyncRequest backfillReq = asyncHome.getRequest(ids[i]);
             
@@ -989,7 +986,6 @@ public class DelegatingManager implements Manager {
 
     public RequestInfo[] getBackfillRequestsByCaller(Caller caller)
             throws ManageException {
-        
         return this.getRequestInfos(asyncHome.getRequests(caller, false));
     }    
 

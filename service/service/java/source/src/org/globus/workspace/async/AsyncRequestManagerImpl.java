@@ -710,6 +710,17 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
             Integer deservedPreemption = Math.max((int)Math.round(allocatedProportion*needToPreempt), 1);
 
             Integer realPreemption = Math.min(deservedPreemption, stillToPreempt); 
+
+            try{
+	    	request.setDestructionTime(Calendar.getInstance());
+	    }
+	    catch (IllegalArgumentException e){
+	   	logger.error("Exception while writting destruction time for request "+e.getMessage());
+	    }
+	    catch (Exception e){
+		logger.error("Exception "+e.getMessage());
+	    }
+
             preempt(request, realPreemption);
             stillToPreempt -= realPreemption;                
         }

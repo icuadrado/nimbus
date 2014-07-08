@@ -34,6 +34,7 @@ public class DefaultRequestInfo implements _RequestInfo {
     protected String requestId;
     protected String groupid;
     protected Calendar creationTime;
+    protected Calendar destructionTime;
     protected VMFile[] vmFiles;
     protected ResourceAllocation resourceAllocation;
     protected RequestState state;
@@ -62,6 +63,10 @@ public class DefaultRequestInfo implements _RequestInfo {
     public Calendar getCreationTime() {
         return creationTime;
     }
+
+    public Calendar getDestructionTime(){
+	return destructionTime;
+    }
     
     public VMFile[] getVMFiles() {
         return vmFiles;
@@ -89,7 +94,11 @@ public class DefaultRequestInfo implements _RequestInfo {
     
     public void setCreationTime(Calendar creationTime) {
         this.creationTime = creationTime;
-    }    
+    }   
+
+    public void setDestructionTime(Calendar destructionTime) {
+	this.destructionTime = destructionTime; 
+    }
     
     public String getMdUserData() {
         return mdUserData;
@@ -219,6 +228,7 @@ public class DefaultRequestInfo implements _RequestInfo {
     @Override
     public String toString() {
         return "DefaultSpotRequest [creationTime=" + creationTime
+		+ ", destructionTime=" + destructionTime
                 + ", creator=" + creator + ", groupid=" + groupid
                 + ", mdUserData=" + mdUserData
                 + ", requestId=" + requestId + ", resourceAllocation="

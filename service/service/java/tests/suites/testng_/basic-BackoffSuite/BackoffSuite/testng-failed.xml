@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [BackoffSuite]" parallel="none">
+  <test name="nimbus(failed)" parallel="none" preserve-order="false">
+    <classes>
+      <class name="org.globus.workspace.testing.suites.failure.BackoffSuite">
+        <methods>
+          <include name="noBackoff"/>
+          <include name="springTestContextAfterTestClass"/>
+          <include name="springTestContextBeforeTestClass"/>
+          <include name="testBackoff"/>
+          <include name="springTestContextPrepareTestInstance"/>
+          <include name="suiteTeardown"/>
+          <include name="springTestContextAfterTestMethod"/>
+          <include name="retrieveModuleLocator"/>
+        </methods>
+      </class>
+    </classes>
+  </test>
+</suite>

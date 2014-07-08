@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="10" passed="10">
+  <reporter-output>
+  </reporter-output>
+  <suite name="ParallelIdempotentCreationSuite" duration-ms="8834" started-at="2014-07-08T00:46:45Z" finished-at="2014-07-08T00:46:54Z">
+    <groups>
+    </groups>
+    <test name="nimbus" duration-ms="8834" started-at="2014-07-08T00:46:45Z" finished-at="2014-07-08T00:46:54Z">
+      <class name="org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite">
+        <test-method status="PASS" signature="springTestContextBeforeTestClass()" name="springTestContextBeforeTestClass" is-config="true" duration-ms="10" started-at="2014-07-08T00:46:45Z" finished-at="2014-07-08T00:46:45Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextPrepareTestInstance()" name="springTestContextPrepareTestInstance" is-config="true" duration-ms="8534" started-at="2014-07-08T00:46:45Z" finished-at="2014-07-08T00:46:53Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="216" started-at="2014-07-08T00:46:53Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="233" started-at="2014-07-08T00:46:53Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="208" started-at="2014-07-08T00:46:53Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="229" started-at="2014-07-08T00:46:53Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="220" started-at="2014-07-08T00:46:53Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="201" started-at="2014-07-08T00:46:53Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="224" started-at="2014-07-08T00:46:53Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="212" started-at="2014-07-08T00:46:53Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="234" started-at="2014-07-08T00:46:53Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="188" started-at="2014-07-08T00:46:53Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="parallelIdempotencyTest()" name="parallelIdempotencyTest" duration-ms="78" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="parallelIdempotencyTest()" name="parallelIdempotencyTest" duration-ms="67" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="parallelIdempotencyTest()" name="parallelIdempotencyTest" duration-ms="60" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="parallelIdempotencyTest()" name="parallelIdempotencyTest" duration-ms="56" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="parallelIdempotencyTest()" name="parallelIdempotencyTest" duration-ms="54" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="parallelIdempotencyTest()" name="parallelIdempotencyTest" duration-ms="53" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="parallelIdempotencyTest()" name="parallelIdempotencyTest" duration-ms="49" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="parallelIdempotencyTest()" name="parallelIdempotencyTest" duration-ms="46" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="parallelIdempotencyTest()" name="parallelIdempotencyTest" duration-ms="43" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="parallelIdempotencyTest()" name="parallelIdempotencyTest" duration-ms="42" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.ParallelIdempotentCreationSuite.parallelIdempotencyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestClass()" name="springTestContextAfterTestClass" is-config="true" duration-ms="4" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+        <test-method status="PASS" signature="suiteTeardown()" name="suiteTeardown" is-config="true" duration-ms="17" started-at="2014-07-08T00:46:54Z" finished-at="2014-07-08T00:46:54Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>

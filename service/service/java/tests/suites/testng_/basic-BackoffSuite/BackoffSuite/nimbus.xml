@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite hostname="wireles-guest-16-38-161.uchicago.edu" name="org.globus.workspace.testing.suites.failure.BackoffSuite" tests="3" failures="0" timestamp="7 Jul 2014 22:50:49 GMT" time="77.939" errors="0">
+  <testcase name="retrieveModuleLocator" time="0.006" classname="org.globus.workspace.testing.suites.failure.BackoffSuite"/>
+  <testcase name="noBackoff" time="16.218" classname="org.globus.workspace.testing.suites.failure.BackoffSuite"/>
+  <testcase name="testBackoff" time="53.655" classname="org.globus.workspace.testing.suites.failure.BackoffSuite"/>
+</testsuite>

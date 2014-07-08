@@ -26,6 +26,8 @@ public interface RequestInfo {
     public Integer getInstanceCount();
     public RequestState getState();
     public Calendar getCreationTime();
+    public Calendar getDestructionTime();
+
     public String[] getVMIds();
     
     public VMFile[] getVMFiles();

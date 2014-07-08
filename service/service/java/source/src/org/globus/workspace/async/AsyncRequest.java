@@ -37,6 +37,8 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
     private LinkedHashSet<Integer> toBePreempted = new LinkedHashSet<Integer>();
     private Calendar creationTime;
 
+    private Calendar destructionTime = null;
+  
     //Test-only
     public AsyncRequest(String id, Double highestPrice, VirtualMachine[] bindings) {
         this(id, highestPrice, false, null, null, bindings, null, null, null, null);
@@ -92,6 +94,8 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
         this.caller = caller;
         this.creationTime = creationTime;
         this.sshKeyName = sshKeyName;
+
+	this.destructionTime = creationTime;
     }
     
     public Double getMaxBid() {
@@ -160,6 +164,17 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
             return true;
         }
         return false;
+    }
+
+    public void setDestructionTime(Calendar preempt)
+                        throws IllegalArgumentException{
+        if(preempt.compareTo(this.creationTime) < 0)
+                throw new IllegalArgumentException("You cannot pause a lease before it was created");
+        this.destructionTime = preempt;
+    }
+
+    public Calendar getDestructionTime(){
+	return destructionTime;
     }
 
     private boolean statusIsOpenOrActive() {

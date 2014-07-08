@@ -8,7 +8,6 @@ JAVA_OPTIONS="-Dorg.newsclub.net.unix.library.path=${NATIVELIB_DIR}"
 
 ALL_TEST_SUITES="basic01 basic02 basic03 basic04 basic05 basic06 basic07 failure01 failure02 spot01 spot02 spot03 spot04 spot05 spot06"
 
-
 if [ "X" == "X$1" ]; then
   echo "Must supply argument: test report directory absolute path"
   exit 1

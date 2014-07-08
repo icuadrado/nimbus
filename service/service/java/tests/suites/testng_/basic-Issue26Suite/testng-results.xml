@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Issue26Suite" duration-ms="8162" started-at="2014-07-08T01:00:53Z" finished-at="2014-07-08T01:01:01Z">
+    <groups>
+    </groups>
+    <test name="nimbus" duration-ms="8162" started-at="2014-07-08T01:00:53Z" finished-at="2014-07-08T01:01:01Z">
+      <class name="org.globus.workspace.testing.suites.spotinstances.Issue26Suite">
+        <test-method status="PASS" signature="springTestContextBeforeTestClass()" name="springTestContextBeforeTestClass" is-config="true" duration-ms="7" started-at="2014-07-08T01:00:53Z" finished-at="2014-07-08T01:00:53Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextPrepareTestInstance()" name="springTestContextPrepareTestInstance" is-config="true" duration-ms="7531" started-at="2014-07-08T01:00:53Z" finished-at="2014-07-08T01:01:01Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="84" started-at="2014-07-08T01:01:01Z" finished-at="2014-07-08T01:01:01Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.spotinstances.Issue26Suite.tooMuchMemory() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="tooMuchMemory()" name="tooMuchMemory" duration-ms="25" started-at="2014-07-08T01:01:01Z" finished-at="2014-07-08T01:01:01Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="507" started-at="2014-07-08T01:01:01Z" finished-at="2014-07-08T01:01:01Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.spotinstances.Issue26Suite.tooMuchMemory() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestClass()" name="springTestContextAfterTestClass" is-config="true" duration-ms="1" started-at="2014-07-08T01:01:01Z" finished-at="2014-07-08T01:01:01Z">
+        </test-method>
+        <test-method status="PASS" signature="suiteTeardown()" name="suiteTeardown" is-config="true" duration-ms="32" started-at="2014-07-08T01:01:01Z" finished-at="2014-07-08T01:01:01Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>

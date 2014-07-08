@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [BasicSuite]" parallel="none">
+  <test name="nimbus(failed)" parallel="none" preserve-order="false">
+    <classes>
+      <class name="org.globus.workspace.testing.suites.basic.AsyncRequestMapSuite">
+        <methods>
+          <include name="retrieveModuleLocator"/>
+          <include name="springTestContextAfterTestClass"/>
+          <include name="springTestContextBeforeTestClass"/>
+          <include name="suiteTeardown"/>
+          <include name="springTestContextPrepareTestInstance"/>
+          <include name="springTestContextAfterTestMethod"/>
+          <include name="persistOne"/>
+        </methods>
+      </class>
+    </classes>
+  </test>
+</suite>

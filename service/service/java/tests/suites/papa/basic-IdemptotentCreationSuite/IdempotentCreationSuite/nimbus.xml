@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite hostname="wireles-guest-16-38-161.uchicago.edu" name="org.globus.workspace.testing.suites.basic.IdempotentCreationSuite" tests="4" failures="0" timestamp="3 Jul 2014 17:19:07 GMT" time="11.661" errors="0">
+  <testcase name="testBasicIdempotency" time="1.352" classname="org.globus.workspace.testing.suites.basic.IdempotentCreationSuite"/>
+  <testcase name="testGroupIdempotency" time="0.096" classname="org.globus.workspace.testing.suites.basic.IdempotentCreationSuite"/>
+  <testcase name="testIdempotencyRollback" time="0.018" classname="org.globus.workspace.testing.suites.basic.IdempotentCreationSuite"/>
+  <testcase name="testTooLongClientToken" time="0.001" classname="org.globus.workspace.testing.suites.basic.IdempotentCreationSuite"/>
+</testsuite>

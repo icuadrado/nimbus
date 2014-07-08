@@ -17,6 +17,9 @@
 package org.nimbustools.api.services.metadata;
 
 import org.nimbustools.api.repr.vm.NIC;
+import org.nimbustools.api.repr.RequestInfo;
+import org.nimbustools.api.repr.Caller;
+import java.util.Calendar; 
 
 public interface MetadataServer {
 
@@ -30,4 +33,8 @@ public interface MetadataServer {
     public String getContactURL(NIC[] nics);
     
     public boolean isEnabled();
+
+    public RequestInfo getRequestInfo(String RequestID, Caller caller);
+
+    public Calendar getDestructionTime(String RequestID, Caller caller);
 }

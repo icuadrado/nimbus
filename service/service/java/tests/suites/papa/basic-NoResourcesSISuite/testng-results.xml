@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="2" passed="2">
+  <reporter-output>
+  </reporter-output>
+  <suite name="NoResourcesSISuite" duration-ms="8878" started-at="2014-07-03T19:23:40Z" finished-at="2014-07-03T19:23:49Z">
+    <groups>
+    </groups>
+    <test name="nimbus" duration-ms="8878" started-at="2014-07-03T19:23:40Z" finished-at="2014-07-03T19:23:49Z">
+      <class name="org.globus.workspace.testing.suites.spotinstances.NoResourcesSISuite">
+        <test-method status="PASS" signature="springTestContextBeforeTestClass()" name="springTestContextBeforeTestClass" is-config="true" duration-ms="7" started-at="2014-07-03T19:23:40Z" finished-at="2014-07-03T19:23:40Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextPrepareTestInstance()" name="springTestContextPrepareTestInstance" is-config="true" duration-ms="6579" started-at="2014-07-03T19:23:40Z" finished-at="2014-07-03T19:23:47Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="17" started-at="2014-07-03T19:23:47Z" finished-at="2014-07-03T19:23:47Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.spotinstances.NoResourcesSISuite.multipleRequests() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="multipleRequests()" name="multipleRequests" duration-ms="649" started-at="2014-07-03T19:23:47Z" finished-at="2014-07-03T19:23:48Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="453" started-at="2014-07-03T19:23:48Z" finished-at="2014-07-03T19:23:48Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.spotinstances.NoResourcesSISuite.multipleRequests() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="855" started-at="2014-07-03T19:23:48Z" finished-at="2014-07-03T19:23:49Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.spotinstances.NoResourcesSISuite.singleRequest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="singleRequest()" name="singleRequest" duration-ms="162" started-at="2014-07-03T19:23:49Z" finished-at="2014-07-03T19:23:49Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="147" started-at="2014-07-03T19:23:49Z" finished-at="2014-07-03T19:23:49Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.spotinstances.NoResourcesSISuite.singleRequest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestClass()" name="springTestContextAfterTestClass" is-config="true" duration-ms="0" started-at="2014-07-03T19:23:49Z" finished-at="2014-07-03T19:23:49Z">
+        </test-method>
+        <test-method status="PASS" signature="suiteTeardown()" name="suiteTeardown" is-config="true" duration-ms="18" started-at="2014-07-03T19:23:49Z" finished-at="2014-07-03T19:23:49Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>

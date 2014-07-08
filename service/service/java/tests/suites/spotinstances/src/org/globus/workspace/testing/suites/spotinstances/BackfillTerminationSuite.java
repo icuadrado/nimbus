@@ -16,6 +16,14 @@
 
 package org.globus.workspace.testing.suites.spotinstances;
 
+import java.util.Calendar;
+
+
+import org.nimbustools.api.services.metadata.MetadataServer;
+import org.nimbustools.metadataserver.defaults.DefaultMetadataServer;
+import net.sf.ehcache.CacheManager;
+
+
 import com.google.gson.Gson;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -86,6 +94,7 @@ public class BackfillTerminationSuite extends NimbusTestBase {
         final String nodesJson = gson.toJson(nodes);
         RemoteNodeManagement rnm = this.locator.getNodeManagement();
         rnm.addNodes(nodesJson);
+	
     }
 
     // -----------------------------------------------------------------------------------------
@@ -128,7 +137,7 @@ public class BackfillTerminationSuite extends NimbusTestBase {
         boolean notEnoughMemory = false;
         try {
             rm.create(req, caller);
-        } catch (NotEnoughMemoryException e) {
+        }catch (NotEnoughMemoryException e) {
             notEnoughMemory = true;
         }
 
@@ -150,6 +159,8 @@ public class BackfillTerminationSuite extends NimbusTestBase {
         Manager rm = this.locator.getManager();
         Caller superuser = this.populator().getSuperuserCaller();
 
+	MetadataServer server = locator.getMetadataServer();
+
         logger.info(rm.getVMMReport());
 
         logger.debug("Submitting backfill request");
@@ -165,6 +176,12 @@ public class BackfillTerminationSuite extends NimbusTestBase {
         assertEquals(1, backfillRequestsByCaller.length);
 
         logger.info(rm.getVMMReport());
+
+        MetadataServerState mdState = new MetadataServerState(backfillRequestsByCaller, superuser, server);
+        mdState.start();
+
+        RequestInfoState riState = new RequestInfoState(backfillRequestsByCaller);
+        riState.start();
 
         // Set the shutdown task to not work
         MockShutdownTrash.resetFailCount();
@@ -196,5 +213,60 @@ public class BackfillTerminationSuite extends NimbusTestBase {
         assertTrue(totalSeconds > 9);
         assertTrue(totalSeconds < 14);
     }
+
+	public class MetadataServerState extends Thread {
+		Calendar destructionTime;
+		DefaultMetadataServer server;
+		Caller superuser;
+		RequestInfo request;
+
+		public MetadataServerState(RequestInfo[] requests, Caller superuser, MetadataServer server){
+			this.superuser = superuser;
+			this.request = requests[0];
+			this.server = (DefaultMetadataServer) server;
+		}
+
+    		public void run() {
+			destructionTime = server.getRequestInfo(request.getRequestID(), superuser).getDestructionTime();
+			while (destructionTime==null){
+				try{
+					Thread.sleep(4000);
+				}catch (InterruptedException e){
+					logger.error("Impossible to sleep the thread");
+					break;
+				}
+				destructionTime = server.getRequestInfo(request.getRequestID(), superuser).getDestructionTime();
+			}
+			logger.info("It will be destructed in "+destructionTime.toString());
+    		}
+    	
+    	}
+
+	public class RequestInfoState extends Thread {
+        	Calendar destructionTime;
+        	RequestInfo request;
+
+        	public RequestInfoState(RequestInfo[] requests){
+                	this.request = requests[0];
+        	}
+
+        	public void run() {
+                	destructionTime = request.getDestructionTime();
+
+                	while (destructionTime==null){ 
+                       		try{
+                                	Thread.sleep(4);
+                        	}catch (InterruptedException e){
+                                	logger.error("Cannot sleep");
+					break;
+                        	}
+
+                        	destructionTime = request.getDestructionTime();
+                	}
+
+                	logger.info("destruction Time = "+destructionTime);
+        	}
+    
+    	}
 
 }

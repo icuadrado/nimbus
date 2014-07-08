@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="8" passed="8">
+  <reporter-output>
+  </reporter-output>
+  <suite name="TerminateSuite" duration-ms="139171" started-at="2014-07-03T19:19:51Z" finished-at="2014-07-03T19:22:10Z">
+    <groups>
+      <group name="basicwait">
+        <method signature="org.globus.workspace.testing.suites.failure.TerminateSuite.leaseOneWait()" name="leaseOneWait" class="org.globus.workspace.testing.suites.failure.TerminateSuite"/>
+      </group>
+      <group name="basic5">
+        <method signature="org.globus.workspace.testing.suites.failure.TerminateSuite.leaseMany()" name="leaseMany" class="org.globus.workspace.testing.suites.failure.TerminateSuite"/>
+      </group>
+      <group name="unpropFail">
+        <method signature="org.globus.workspace.testing.suites.failure.TerminateSuite.unpropOneFail()" name="unpropOneFail" class="org.globus.workspace.testing.suites.failure.TerminateSuite"/>
+      </group>
+      <group name="basicfail1">
+        <method signature="org.globus.workspace.testing.suites.failure.TerminateSuite.basicFail()" name="basicFail" class="org.globus.workspace.testing.suites.failure.TerminateSuite"/>
+      </group>
+      <group name="basic1">
+        <method signature="org.globus.workspace.testing.suites.failure.TerminateSuite.leaseOne()" name="leaseOne" class="org.globus.workspace.testing.suites.failure.TerminateSuite"/>
+      </group>
+      <group name="prereqs">
+        <method signature="org.globus.workspace.testing.suites.failure.TerminateSuite.retrieveModuleLocator()" name="retrieveModuleLocator" class="org.globus.workspace.testing.suites.failure.TerminateSuite"/>
+      </group>
+      <group name="complicatedfail">
+        <method signature="org.globus.workspace.testing.suites.failure.TerminateSuite.complicatedFail()" name="complicatedFail" class="org.globus.workspace.testing.suites.failure.TerminateSuite"/>
+      </group>
+      <group name="unpropWait">
+        <method signature="org.globus.workspace.testing.suites.failure.TerminateSuite.unpropOneWait()" name="unpropOneWait" class="org.globus.workspace.testing.suites.failure.TerminateSuite"/>
+      </group>
+    </groups>
+    <test name="nimbus" duration-ms="139171" started-at="2014-07-03T19:19:51Z" finished-at="2014-07-03T19:22:10Z">
+      <class name="org.globus.workspace.testing.suites.failure.TerminateSuite">
+        <test-method status="PASS" signature="springTestContextBeforeTestClass()" name="springTestContextBeforeTestClass" is-config="true" duration-ms="8" started-at="2014-07-03T19:19:51Z" finished-at="2014-07-03T19:19:51Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextPrepareTestInstance()" name="springTestContextPrepareTestInstance" is-config="true" duration-ms="6584" started-at="2014-07-03T19:19:51Z" finished-at="2014-07-03T19:19:57Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="62" started-at="2014-07-03T19:19:57Z" finished-at="2014-07-03T19:19:58Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.retrieveModuleLocator() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="retrieveModuleLocator()" name="retrieveModuleLocator" duration-ms="2" started-at="2014-07-03T19:19:58Z" finished-at="2014-07-03T19:19:58Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2014-07-03T19:19:58Z" finished-at="2014-07-03T19:19:58Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.retrieveModuleLocator() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="21" started-at="2014-07-03T19:19:58Z" finished-at="2014-07-03T19:19:58Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.leaseOne() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="leaseOne()" name="leaseOne" duration-ms="5127" depends-on-groups="prereqs" started-at="2014-07-03T19:19:58Z" finished-at="2014-07-03T19:20:03Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2014-07-03T19:20:03Z" finished-at="2014-07-03T19:20:03Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.leaseOne() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="22" started-at="2014-07-03T19:20:03Z" finished-at="2014-07-03T19:20:03Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.leaseMany() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="leaseMany()" name="leaseMany" duration-ms="6402" depends-on-groups="basic1" started-at="2014-07-03T19:20:03Z" finished-at="2014-07-03T19:20:09Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2014-07-03T19:20:09Z" finished-at="2014-07-03T19:20:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.leaseMany() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="19" started-at="2014-07-03T19:20:09Z" finished-at="2014-07-03T19:20:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.leaseOneWait() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="leaseOneWait()" name="leaseOneWait" duration-ms="10017" depends-on-groups="basic5" started-at="2014-07-03T19:20:09Z" finished-at="2014-07-03T19:20:19Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2014-07-03T19:20:19Z" finished-at="2014-07-03T19:20:19Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.leaseOneWait() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="19" started-at="2014-07-03T19:20:19Z" finished-at="2014-07-03T19:20:19Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.unpropOneWait() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="unpropOneWait()" name="unpropOneWait" duration-ms="16526" depends-on-groups="basicwait" started-at="2014-07-03T19:20:19Z" finished-at="2014-07-03T19:20:36Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2014-07-03T19:20:36Z" finished-at="2014-07-03T19:20:36Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.unpropOneWait() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="17" started-at="2014-07-03T19:20:36Z" finished-at="2014-07-03T19:20:36Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.basicFail() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="basicFail()" name="basicFail" duration-ms="22151" depends-on-groups="unpropWait" started-at="2014-07-03T19:20:36Z" finished-at="2014-07-03T19:20:58Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2014-07-03T19:20:58Z" finished-at="2014-07-03T19:20:58Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.basicFail() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="19" started-at="2014-07-03T19:20:58Z" finished-at="2014-07-03T19:20:58Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.complicatedFail() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="complicatedFail()" name="complicatedFail" duration-ms="45613" depends-on-groups="basicfail1" started-at="2014-07-03T19:20:58Z" finished-at="2014-07-03T19:21:43Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2014-07-03T19:21:43Z" finished-at="2014-07-03T19:21:43Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.complicatedFail() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="17" started-at="2014-07-03T19:21:43Z" finished-at="2014-07-03T19:21:44Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.unpropOneFail() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="unpropOneFail()" name="unpropOneFail" duration-ms="26529" depends-on-groups="complicatedfail" started-at="2014-07-03T19:21:44Z" finished-at="2014-07-03T19:22:10Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2014-07-03T19:22:10Z" finished-at="2014-07-03T19:22:10Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.failure.TerminateSuite.unpropOneFail() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestClass()" name="springTestContextAfterTestClass" is-config="true" duration-ms="0" started-at="2014-07-03T19:22:10Z" finished-at="2014-07-03T19:22:10Z">
+        </test-method>
+        <test-method status="PASS" signature="suiteTeardown()" name="suiteTeardown" is-config="true" duration-ms="17" started-at="2014-07-03T19:22:10Z" finished-at="2014-07-03T19:22:10Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>

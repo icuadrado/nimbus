@@ -27,6 +27,8 @@ public interface _RequestInfo extends RequestInfo {
     public void setRequestID(String requestId);   
     public void setState(RequestState state);
     public void setCreationTime(Calendar date);
+    public void setDestructionTime(Calendar date);
+
     public void setVMIds(String[] ids);
     public void setInstanceCount(Integer instanceCount);
     

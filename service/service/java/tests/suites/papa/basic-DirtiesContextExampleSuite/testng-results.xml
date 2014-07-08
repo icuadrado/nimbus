@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="2" passed="2">
+  <reporter-output>
+  </reporter-output>
+  <suite name="DirtiesContextExampleSuite" duration-ms="8331" started-at="2014-07-03T19:18:44Z" finished-at="2014-07-03T19:18:53Z">
+    <groups>
+      <group name="dirtyTest">
+        <method signature="org.globus.workspace.testing.suites.basic.DirtiesContextExampleSuite.dirtyTest()" name="dirtyTest" class="org.globus.workspace.testing.suites.basic.DirtiesContextExampleSuite"/>
+      </group>
+    </groups>
+    <test name="nimbus" duration-ms="8331" started-at="2014-07-03T19:18:44Z" finished-at="2014-07-03T19:18:53Z">
+      <class name="org.globus.workspace.testing.suites.basic.DirtiesContextExampleSuite">
+        <test-method status="PASS" signature="springTestContextBeforeTestClass()" name="springTestContextBeforeTestClass" is-config="true" duration-ms="7" started-at="2014-07-03T19:18:44Z" finished-at="2014-07-03T19:18:44Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextPrepareTestInstance()" name="springTestContextPrepareTestInstance" is-config="true" duration-ms="7053" started-at="2014-07-03T19:18:44Z" finished-at="2014-07-03T19:18:51Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="64" started-at="2014-07-03T19:18:51Z" finished-at="2014-07-03T19:18:51Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.DirtiesContextExampleSuite.dirtyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="dirtyTest()" name="dirtyTest" duration-ms="50" started-at="2014-07-03T19:18:51Z" finished-at="2014-07-03T19:18:52Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="396" started-at="2014-07-03T19:18:52Z" finished-at="2014-07-03T19:18:52Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.DirtiesContextExampleSuite.dirtyTest() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="752" started-at="2014-07-03T19:18:52Z" finished-at="2014-07-03T19:18:53Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.DirtiesContextExampleSuite.checkEmpty() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="checkEmpty()" name="checkEmpty" duration-ms="1" depends-on-groups="dirtyTest" started-at="2014-07-03T19:18:53Z" finished-at="2014-07-03T19:18:53Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestClass()" name="springTestContextAfterTestClass" is-config="true" duration-ms="1" started-at="2014-07-03T19:18:53Z" finished-at="2014-07-03T19:18:53Z">
+        </test-method>
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2014-07-03T19:18:53Z" finished-at="2014-07-03T19:18:53Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[public void org.globus.workspace.testing.suites.basic.DirtiesContextExampleSuite.checkEmpty() throws java.lang.Exception]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="suiteTeardown()" name="suiteTeardown" is-config="true" duration-ms="16" started-at="2014-07-03T19:18:53Z" finished-at="2014-07-03T19:18:53Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>

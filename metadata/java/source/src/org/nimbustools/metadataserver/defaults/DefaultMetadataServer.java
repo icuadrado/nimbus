@@ -23,6 +23,9 @@ import org.nimbustools.api.services.metadata.MetadataServerUnauthorizedException
 import org.nimbustools.api.repr.vm.VM;
 import org.nimbustools.api.repr.vm.VMFile;
 import org.nimbustools.api.repr.vm.NIC;
+import org.nimbustools.api.repr.RequestInfo;
+import org.nimbustools.api.repr.Caller;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.safehaus.uuid.UUIDGenerator;
@@ -564,6 +567,29 @@ public class DefaultMetadataServer implements MetadataServer {
         }
 
         return vms[0];
+    }
+
+
+
+    public RequestInfo getRequestInfo(String requestID, Caller caller){
+	try {
+            RequestInfo request = this.manager.getBackfillRequest( requestID,  caller);
+	    return request;
+        } catch (Exception e) {
+	    logger.error("No information associated to the request");
+	    return null;
+	}
+    }
+
+
+    public Calendar getDestructionTime(String requestID, Caller caller){
+	try {
+            RequestInfo request = this.manager.getBackfillRequest( requestID,  caller);
+            return request.getDestructionTime();
+        } catch (Exception e) {
+            logger.warn("No destructionTime associated to the request");
+            return null;
+        }
     }
 
     protected void validateVM(VM vm,

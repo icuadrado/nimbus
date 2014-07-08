@@ -303,7 +303,8 @@ public class DataConvert implements WorkspaceConstants {
         result.setVMFiles(this.getStorage(bindings[0]));
         result.setSshKeyName(asyncReq.getSshKeyName());
         result.setVMIds(getVMIDs(asyncReq.getVMIds()));
-        
+	result.setDestructionTime(asyncReq.getDestructionTime());       
+ 
         _SIRequestState state = new DefaultSIRequestState();
         state.setState(this.getSIRequestState(asyncReq.getStatus()));
         result.setState(state);
