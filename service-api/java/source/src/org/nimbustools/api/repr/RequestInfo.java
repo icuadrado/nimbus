@@ -19,6 +19,7 @@ import java.util.Calendar;
 
 import org.nimbustools.api.repr.si.RequestState;
 import org.nimbustools.api.repr.vm.VMFile;
+import org.nimbustools.api.repr.Caller;
 
 public interface RequestInfo {
 
@@ -33,5 +34,6 @@ public interface RequestInfo {
     public VMFile[] getVMFiles();
     public String getSshKeyName();
     public String getGroupID();    
+    public Caller getCreator();
     
 }

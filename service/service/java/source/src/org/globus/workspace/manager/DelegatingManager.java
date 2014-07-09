@@ -221,6 +221,27 @@ public class DelegatingManager implements Manager {
         this.backfill.setManager(this);
         this.backfill.initiateBackfill();
         this.asyncHome.recalculateAvailableInstances();
+	PredictionDaemon predictionDaemon = new PredictionDaemon();
+	predictionDaemon.setDaemon(true);
+	predictionDaemon.start();
+    }
+
+    public class PredictionDaemon extends Thread {
+        public void run() {
+		while(true){
+			try {
+                    		Thread.sleep(4000);
+                	} catch (InterruptedException e) {
+                    		logger.error("Cannot sleep");
+                    		break;
+                	} catch (Exception e) {
+                                logger.error("Cannot sleep");
+                                break;
+			}
+
+			asyncHome.calculatePreemptionIfNeeded();
+		} 
+       }
     }
 
     public void shutdownImmediately() {
@@ -944,6 +965,19 @@ public class DelegatingManager implements Manager {
         } catch (CannotTranslateException e) {
             throw new MetadataException("Could not translate request from internal representation to RM API representation.", e);
         }
+    }
+
+    public RequestInfo getRequestInfoFromVM(VM vm){
+	RequestInfo request = null;
+
+	try{
+		request = dataConvert.getRequestInfo( asyncHome.getRequestFromVM(Integer.valueOf(vm.getID())));
+	}
+	catch (CannotTranslateException e){
+		logger.error("Cannot translate from Request to RequestInfo in "+ e.getMessage());
+	}
+
+        return request;
     }
 
     public RequestInfo[] cancelBackfillRequests(String[] ids, Caller caller)

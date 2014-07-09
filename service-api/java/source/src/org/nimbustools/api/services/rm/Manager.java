@@ -244,4 +244,5 @@ public interface Manager extends NimbusModule {
                                                     Caller caller)
             throws DoesNotExistException, AuthorizationException, ManageException;
     
+    public RequestInfo getRequestInfoFromVM(VM vm);
 }

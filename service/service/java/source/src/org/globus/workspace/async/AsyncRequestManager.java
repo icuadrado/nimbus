@@ -36,4 +36,9 @@ public interface AsyncRequestManager extends AsyncRequestHome, PreemptableSpaceM
      * Allow container shutdown and test suites to signal a clean exit.
      */
     public void shutdownImmediately();
+
+    /**
+     * Calculates a future preemption of Backfill instances
+     */
+    public void calculatePreemptionIfNeeded();
 }

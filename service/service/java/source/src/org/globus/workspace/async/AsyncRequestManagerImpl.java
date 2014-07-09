@@ -673,6 +673,170 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         return aliveRequests;
     }    
 
+    public void calculatePreemptionIfNeeded(){
+	Integer[] window = new Integer[2];
+	Integer time, expectedRequests;
+	Integer needToPreempt;
+	float result;
+	Calendar destructionTime = Calendar.getInstance();
+
+        /* 
+	* Dear Pierre This is a test just to see if it worked, but I still have to finish it tomorrow, 
+	* So I will recollect data during 10 seconds and predict in the future.
+	* The size of the window and the time to predict ahead we will need to obtain them through
+	* experimentation.
+	* Best regards, Ismael
+	*/
+        window[0] = 1;
+        window[1] = 2;
+        time = 3;
+        result = predictPreemption (window, time);
+        expectedRequests = Math.round(result);
+
+	List<AsyncRequest> aliveRequests = getAliveBackfillRequests();
+
+        List<AsyncRequest> activeRequests = getActiveRequests(aliveRequests);
+
+	Integer availableVMs = Math.max(this.getMaxVMs() - expectedRequests, 0);
+
+        Integer allocatedVMs = 0;
+        for (AsyncRequest aliveRequest : aliveRequests) {
+            allocatedVMs += aliveRequest.getAllocatedInstances();
+        }
+
+	//TODO if there are enough spots, stop
+   //     if(allocatedVMs == availableVMs){
+     //       return;
+     //   }
+
+        if(allocatedVMs > availableVMs){
+            needToPreempt = allocatedVMs - availableVMs;
+            if (this.lager.eventLog) {
+                logger.info(Lager.ev(-1) + "No more resources for backfill requests. " +
+                                           "Pre-empting " + needToPreempt + " VMs.");
+            }
+            preemptProportionaly(activeRequests, needToPreempt, allocatedVMs);
+        } else {
+	    needToPreempt = 0;
+	}
+	communicatePreemption(activeRequests, needToPreempt, allocatedVMs, destructionTime);
+    }
+
+    /**
+     * Pre-empts requests more-or-less proportional
+     * to the number of allocations that the request currently has.
+     *
+     * NOTE: Each ACTIVE request must have at least one
+     * VM pre-empted in order to ensure the needed
+     * quantity will be pre-empted.
+     *
+     * Example:
+     *
+     * Req A: 3 allocations (33.33%)
+     * Req B: 1 allocation (11.11%)
+     * Req C: 5 allocations (55.55%)
+     *
+     * If 6 machines needs to be pre-empted, the pre-emptions will be:
+     *
+     * Req A: 2 pre-emptions (~33.33%)
+     * Req B: 1 pre-emption (~11.11%)
+     * Req C: 3 pre-emptions (~55.55%)
+     *
+     * @param activeRequests ACTIVE requests with bid equal to the current spot price
+     * @param needToPreempt the number of VMs that needs to be pre-empted
+     * @param allocatedVMs the number of currently allocated VMs in <b>activeRequests</b>
+     */
+
+     private void communicatePreemption(List<AsyncRequest> activeRequests, Integer needToPreempt, Integer allocatedVMs, Calendar destructionTime) {
+
+        Integer stillToPreempt = needToPreempt;
+
+        Iterator<AsyncRequest> iterator = activeRequests.iterator();
+
+        while(iterator.hasNext() && stillToPreempt > 0){
+            AsyncRequest request = iterator.next();
+            Double allocatedProportion = (double)request.getAllocatedInstances()/allocatedVMs;
+
+            //Minimum deserved pre-emption is 1
+            Integer deservedPreemption = Math.max((int)Math.round(allocatedProportion*needToPreempt), 1);
+
+            Integer realPreemption = Math.min(deservedPreemption, stillToPreempt);
+
+            try{
+                request.setDestructionTime(destructionTime);
+            }
+            catch (IllegalArgumentException e){
+                logger.error("Exception while writting destruction time for request "+e.getMessage());
+            }
+            catch (Exception e){
+                logger.error("Exception "+e.getMessage());
+            }
+
+            stillToPreempt -= realPreemption;
+        }
+
+
+        //This may never happen. But just in case.
+        if(stillToPreempt > 0){
+            logger.warn("Unable to pre-empt VMs proportionally. Still " + stillToPreempt +
+                         " VMs to pre-empt. Pre-empting best-effort.");
+
+            iterator = activeRequests.iterator();
+            while(iterator.hasNext() && stillToPreempt > 0){
+                AsyncRequest request = iterator.next();
+                Integer allocatedInstances = request.getAllocatedInstances();
+                if(allocatedInstances > 0){
+                    if(allocatedInstances > stillToPreempt){
+                        try{
+                                request.setDestructionTime(destructionTime);
+                        }
+                        catch (IllegalArgumentException e){
+                                logger.error("Exception while writting destruction time for request "+e.getMessage());
+                        }
+                        catch (Exception e){
+                                logger.error("Exception "+e.getMessage());
+                        }
+                         stillToPreempt = 0;
+                    } else {
+ 			try{
+
+                                request.setDestructionTime(destructionTime);
+                        }
+                        catch (IllegalArgumentException e){
+                                logger.error("Exception while writting destruction time for request "+e.getMessage());
+                        }
+                        catch (Exception e){
+                                logger.error("Exception "+e.getMessage());
+                        }
+                         stillToPreempt -= allocatedInstances;
+                    }
+                }
+            }
+        }
+    }
+
+    private float predictPreemption (Integer[] window, Integer time)
+    {
+	float meanWindow = 0; 
+	Integer length = window.length;
+
+        float[] windowAux = new float[length];
+	for(Integer j = 0; j < length; j++)
+		windowAux[j] = (float)window[j];
+
+	for(Integer count = 0; count < time; count++){
+		meanWindow = 0;
+		for (Integer i = 0; i < length - 1; i++){
+			meanWindow += windowAux[i];
+			windowAux[i] = windowAux[i + 1];
+		}
+		meanWindow += windowAux[length - 1];
+		meanWindow = meanWindow/length;
+		windowAux[length - 1] = meanWindow;
+	}
+	return meanWindow;
+    }
+
     /**
      * Pre-empts requests more-or-less proportional 
      * to the number of allocations that the request currently has.
@@ -702,6 +866,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         Integer stillToPreempt = needToPreempt;
         
         Iterator<AsyncRequest> iterator = activeRequests.iterator();
+
         while(iterator.hasNext() && stillToPreempt > 0){
             AsyncRequest request = iterator.next();
             Double allocatedProportion = (double)request.getAllocatedInstances()/allocatedVMs;
@@ -709,28 +874,28 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
             //Minimum deserved pre-emption is 1
             Integer deservedPreemption = Math.max((int)Math.round(allocatedProportion*needToPreempt), 1);
 
-            Integer realPreemption = Math.min(deservedPreemption, stillToPreempt); 
+            Integer realPreemption = Math.min(deservedPreemption, stillToPreempt);
 
             try{
-	    	request.setDestructionTime(Calendar.getInstance());
-	    }
-	    catch (IllegalArgumentException e){
-	   	logger.error("Exception while writting destruction time for request "+e.getMessage());
-	    }
-	    catch (Exception e){
-		logger.error("Exception "+e.getMessage());
-	    }
+                request.setDestructionTime(Calendar.getInstance());
+            }
+            catch (IllegalArgumentException e){
+                logger.error("Exception while writting destruction time for request "+e.getMessage());
+            }
+            catch (Exception e){
+                logger.error("Exception "+e.getMessage());
+            }
 
             preempt(request, realPreemption);
-            stillToPreempt -= realPreemption;                
+            stillToPreempt -= realPreemption;
         }
-        
-        
+
+
         //This may never happen. But just in case.
         if(stillToPreempt > 0){
-            logger.warn("Unable to pre-empt VMs proportionally. Still " + stillToPreempt + 
+            logger.warn("Unable to pre-empt VMs proportionally. Still " + stillToPreempt +
                          " VMs to pre-empt. Pre-empting best-effort.");
-            
+
             iterator = activeRequests.iterator();
             while(iterator.hasNext() && stillToPreempt > 0){
                 AsyncRequest request = iterator.next();
@@ -741,7 +906,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
                         stillToPreempt = 0;
                     } else {
                         preempt(request, allocatedInstances);
-                        stillToPreempt -= allocatedInstances;                        
+                        stillToPreempt -= allocatedInstances;
                     }
                 }
             }

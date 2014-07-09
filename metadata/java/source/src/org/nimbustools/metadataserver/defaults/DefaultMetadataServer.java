@@ -420,7 +420,7 @@ public class DefaultMetadataServer implements MetadataServer {
             return dispatchUserData(target,
                                     subtarget.substring(9),
                                     remoteAddress);
-        } else {
+	} else {
             final String err = "Unrecognized URL: '" + target + "'.  " +
                     "Expected second subdirectory in path to be either " +
                     "'meta-data/' or 'user-data'.";
@@ -459,6 +459,8 @@ public class DefaultMetadataServer implements MetadataServer {
             return this.publicHostname(remoteAddress);
         } else if (subsubtarget.startsWith("public-ipv4")) {
             return this.publicIPV4(remoteAddress);
+	} else if (subsubtarget.startsWith("destruction-time")){
+            return this.destructionTime(remoteAddress);
         } else {
             throw unimplemented(target, remoteAddress);
         }
@@ -569,8 +571,6 @@ public class DefaultMetadataServer implements MetadataServer {
         return vms[0];
     }
 
-
-
     public RequestInfo getRequestInfo(String requestID, Caller caller){
 	try {
             RequestInfo request = this.manager.getBackfillRequest( requestID,  caller);
@@ -580,7 +580,6 @@ public class DefaultMetadataServer implements MetadataServer {
 	    return null;
 	}
     }
-
 
     public Calendar getDestructionTime(String requestID, Caller caller){
 	try {
@@ -762,6 +761,23 @@ public class DefaultMetadataServer implements MetadataServer {
             }
         }
         return "";
+    }
+
+    /*
+     * "/meta-data/destruction-time"
+     */
+    protected String destructionTime(String remoteAddress)
+            throws MetadataServerException,
+                   MetadataServerUnauthorizedException {
+
+        final VM vm = this.getCachedAndValidatedVM(remoteAddress);
+        final Calendar destructionTime = getDestructionTime((manager.getRequestInfoFromVM(vm)).getRequestID(), (manager.getRequestInfoFromVM(vm)).getCreator());
+	String result = "";
+
+	if (destructionTime != null) {
+            result = destructionTime.toString();
+        }
+        return result;
     }
 
     /*

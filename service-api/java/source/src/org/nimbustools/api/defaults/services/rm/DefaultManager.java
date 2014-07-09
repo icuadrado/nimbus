@@ -404,4 +404,9 @@ public class DefaultManager implements Manager {
         return null;
     }
 
+    public RequestInfo getRequestInfoFromVM(VM vm) {
+        Logging.debug("Manager.getRequestInfoFromVM() -- vm '" + vm.toString() + "'");
+        return null;
+    }
+
 }
