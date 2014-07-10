@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -673,8 +674,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         return aliveRequests;
     }    
 
-    public void calculatePreemptionIfNeeded(){
-	Integer[] window = new Integer[2];
+    public void calculatePreemptionIfNeeded(Vector<Float> window){
 	Integer time, expectedRequests;
 	Integer needToPreempt;
 	float result;
@@ -687,8 +687,6 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 	* experimentation.
 	* Best regards, Ismael
 	*/
-        window[0] = 1;
-        window[1] = 2;
         time = 3;
         result = predictPreemption (window, time);
         expectedRequests = Math.round(result);
@@ -710,12 +708,11 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
      //   }
 
         if(allocatedVMs > availableVMs){
-            needToPreempt = allocatedVMs - availableVMs;
+            needToPreempt = allocatedVMs + expectedRequests - availableVMs;
             if (this.lager.eventLog) {
                 logger.info(Lager.ev(-1) + "No more resources for backfill requests. " +
                                            "Pre-empting " + needToPreempt + " VMs.");
             }
-            preemptProportionaly(activeRequests, needToPreempt, allocatedVMs);
         } else {
 	    needToPreempt = 0;
 	}
@@ -799,7 +796,6 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
                          stillToPreempt = 0;
                     } else {
  			try{
-
                                 request.setDestructionTime(destructionTime);
                         }
                         catch (IllegalArgumentException e){
@@ -815,24 +811,21 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         }
     }
 
-    private float predictPreemption (Integer[] window, Integer time)
+    private float predictPreemption (Vector<Float> window, Integer time)
     {
 	float meanWindow = 0; 
-	Integer length = window.length;
-
-        float[] windowAux = new float[length];
-	for(Integer j = 0; j < length; j++)
-		windowAux[j] = (float)window[j];
+	Integer length = window.size();
+        Vector windowAux = (Vector) window.clone();
 
 	for(Integer count = 0; count < time; count++){
 		meanWindow = 0;
 		for (Integer i = 0; i < length - 1; i++){
-			meanWindow += windowAux[i];
-			windowAux[i] = windowAux[i + 1];
+			meanWindow += ((Float)windowAux.elementAt(i)).floatValue();
 		}
-		meanWindow += windowAux[length - 1];
+		meanWindow += (Float) windowAux.elementAt(length - 1);
 		meanWindow = meanWindow/length;
-		windowAux[length - 1] = meanWindow;
+		windowAux.remove(0);
+		windowAux.add(meanWindow);
 	}
 	return meanWindow;
     }

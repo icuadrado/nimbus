@@ -18,6 +18,7 @@ package org.globus.workspace.manager;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -103,6 +104,8 @@ public class DelegatingManager implements Manager {
     protected final Lager lager;
 
     protected AccountingReaderAdapter accounting;
+
+    protected static int requests = 0;
     
     // -------------------------------------------------------------------------
     // CONSTRUCTOR
@@ -162,6 +165,7 @@ public class DelegatingManager implements Manager {
             throw new IllegalArgumentException("siManagerImpl may not be null");
         }
         this.asyncHome = siManagerImpl;
+
     }
 
 
@@ -228,6 +232,12 @@ public class DelegatingManager implements Manager {
 
     public class PredictionDaemon extends Thread {
         public void run() {
+		Vector<Float> window = new Vector<Float>(10);
+
+		for (int i = 0; i < window.capacity(); i++){
+			window.add(i, (float)0);
+		}
+
 		while(true){
 			try {
                     		Thread.sleep(4000);
@@ -238,9 +248,12 @@ public class DelegatingManager implements Manager {
                                 logger.error("Cannot sleep");
                                 break;
 			}
-
-			asyncHome.calculatePreemptionIfNeeded();
-		} 
+		
+			Object removed = window.remove(0);
+			window.add((float)requests);
+			requests = 0;
+			asyncHome.calculatePreemptionIfNeeded(window);
+		}
        }
     }
 
@@ -264,19 +277,27 @@ public class DelegatingManager implements Manager {
 
         InstanceResource[] resources = this.creation.create(req, caller);
         final _CreateResult result = this.repr._newCreateResult();
+	int numberVMs = 0;	
+
         if(resources.length > 0){
             result.setCoscheduledID(resources[0].getEnsembleId());
             result.setGroupID(resources[0].getGroupId());
         }
 
         try {
+	    numberVMs = getInstances(resources).length;
             result.setVMs(getInstances(resources));
         } catch (CannotTranslateException e) {
             throw new MetadataException(e.getMessage(), e);
         }
-        
+	
+        DelegatingManager.setRequests(requests + numberVMs);
         
         return result;
+    }
+
+    private static void setRequests(int request){
+	requests = request;
     }
 
     public void setDestructionTime(String id, int type, Calendar time)

@@ -15,6 +15,8 @@
  */
 package org.globus.workspace.async;
 
+import java.util.Vector;
+
 import org.globus.workspace.StateChangeInterested;
 import org.globus.workspace.scheduler.defaults.PreemptableSpaceManager;
 import org.nimbustools.api.services.rm.ResourceRequestDeniedException;
@@ -40,5 +42,5 @@ public interface AsyncRequestManager extends AsyncRequestHome, PreemptableSpaceM
     /**
      * Calculates a future preemption of Backfill instances
      */
-    public void calculatePreemptionIfNeeded();
+    public void calculatePreemptionIfNeeded(Vector<Float> window);
 }
