@@ -42,5 +42,5 @@ public interface AsyncRequestManager extends AsyncRequestHome, PreemptableSpaceM
     /**
      * Calculates a future preemption of Backfill instances
      */
-    public void calculatePreemptionIfNeeded(Vector<Float> window);
+    public void calculatePreemptionIfNeeded(Vector<Double> window);
 }

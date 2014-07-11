@@ -29,6 +29,8 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.math3.stat.regression.SimpleRegression;
+
 import org.globus.workspace.Lager;
 import org.globus.workspace.WorkspaceConstants;
 import org.globus.workspace.async.pricingmodel.PricingModel;
@@ -674,10 +676,10 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         return aliveRequests;
     }    
 
-    public void calculatePreemptionIfNeeded(Vector<Float> window){
+    public void calculatePreemptionIfNeeded(Vector<Double> window){
 	Integer time, expectedRequests;
 	Integer needToPreempt;
-	float result;
+	Double result;
 	Calendar destructionTime = Calendar.getInstance();
 
         /* 
@@ -688,8 +690,9 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 	* Best regards, Ismael
 	*/
         time = 3;
-        result = predictPreemption (window, time);
-        expectedRequests = Math.round(result);
+
+        result = predictPreemptionLinearRegression (window, time);
+        expectedRequests = Math.round(result.intValue());
 
 	List<AsyncRequest> aliveRequests = getAliveBackfillRequests();
 
@@ -698,6 +701,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 	Integer availableVMs = Math.max(this.getMaxVMs() - expectedRequests, 0);
 
         Integer allocatedVMs = 0;
+
         for (AsyncRequest aliveRequest : aliveRequests) {
             allocatedVMs += aliveRequest.getAllocatedInstances();
         }
@@ -811,23 +815,47 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         }
     }
 
-    private float predictPreemption (Vector<Float> window, Integer time)
+    private double predictPreemption (Vector<Double> window, Integer time)
     {
-	float meanWindow = 0; 
+	double meanWindow = 0; 
 	Integer length = window.size();
-        Vector windowAux = (Vector) window.clone();
+        Vector<Double> windowAux = (Vector) window.clone();
 
 	for(Integer count = 0; count < time; count++){
 		meanWindow = 0;
 		for (Integer i = 0; i < length - 1; i++){
-			meanWindow += ((Float)windowAux.elementAt(i)).floatValue();
+			meanWindow += (windowAux.elementAt(i)).doubleValue();
 		}
-		meanWindow += (Float) windowAux.elementAt(length - 1);
+		meanWindow +=  windowAux.elementAt(length - 1).doubleValue();
 		meanWindow = meanWindow/length;
 		windowAux.remove(0);
 		windowAux.add(meanWindow);
 	}
 	return meanWindow;
+    }
+
+    // Predict using LR
+    private double predictPreemptionLinearRegression (Vector<Double> window, Integer time)
+    {
+        double meanWindow = 0;
+        Integer length = window.size();
+        Vector<Double> windowAux = (Vector) window.clone();
+	SimpleRegression regression = new SimpleRegression();
+        
+	for(Integer count = 0; count < time; count++){
+		meanWindow = 0;
+		int i;
+
+		for (i = 0; i < windowAux.size(); i++){
+			regression.addData((double)i, windowAux.elementAt(i).doubleValue());	
+		}
+
+		double d = (double) time;
+                meanWindow = regression.predict(d);
+		windowAux.remove(0);
+                windowAux.add(meanWindow);
+        }
+        return meanWindow;
     }
 
     /**

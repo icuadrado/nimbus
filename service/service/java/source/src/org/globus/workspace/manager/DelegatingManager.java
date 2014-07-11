@@ -232,10 +232,10 @@ public class DelegatingManager implements Manager {
 
     public class PredictionDaemon extends Thread {
         public void run() {
-		Vector<Float> window = new Vector<Float>(10);
+		Vector<Double> window = new Vector<Double>(10);
 
 		for (int i = 0; i < window.capacity(); i++){
-			window.add(i, (float)0);
+			//window.add(i, (double)0);
 		}
 
 		while(true){
@@ -250,8 +250,9 @@ public class DelegatingManager implements Manager {
 			}
 		
 			Object removed = window.remove(0);
-			window.add((float)requests);
+			window.add((double)requests);
 			requests = 0;
+
 			asyncHome.calculatePreemptionIfNeeded(window);
 		}
        }
