@@ -34,6 +34,7 @@ import org.globus.workspace.xen.XenUtil;
 import org.nimbustools.api._repr._Caller;
 import org.nimbustools.api._repr._RequestInfo;
 import org.nimbustools.api._repr._SpotRequestInfo;
+import org.nimbustools.api._repr._SpotANRequestInfo;
 import org.nimbustools.api._repr._Usage;
 import org.nimbustools.api._repr.si._SIRequestState;
 import org.nimbustools.api._repr.vm._NIC;
@@ -48,6 +49,8 @@ import org.nimbustools.api.repr.CannotTranslateException;
 import org.nimbustools.api.repr.ReprFactory;
 import org.nimbustools.api.repr.RequestInfo;
 import org.nimbustools.api.repr.SpotRequestInfo;
+import org.nimbustools.api.repr.SpotANCreateRequest;
+import org.nimbustools.api.repr.SpotANRequestInfo;
 import org.nimbustools.api.repr.Usage;
 import org.nimbustools.api.repr.si.RequestState;
 import org.nimbustools.api.repr.vm.NIC;
@@ -290,6 +293,25 @@ public class DataConvert implements WorkspaceConstants {
                 
         return result;
     }
+
+    public SpotANRequestInfo getSpotANRequest(AsyncRequest siRequest) throws CannotTranslateException {
+
+        VirtualMachine[] bindings = siRequest.getBindings();
+
+        if (bindings == null || bindings.length == 0) {
+            throw new CannotTranslateException("no resource?");
+        }
+
+        final _SpotANRequestInfo result = repr._newSpotANRequestInfo();
+
+        populate(siRequest, result);
+
+        result.setPersistent(siRequest.isPersistent());
+        result.setAdvanceNotice(siRequest.getAdvanceNotice());
+
+        return result;
+    }
+
 
 
     private void populate(AsyncRequest asyncReq, final _RequestInfo result) throws CannotTranslateException {

@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "./cc-nimbusAdminList-test.py", line 13, in <module>
+    tst_ca = os.environ['NIMBUS_TEST_CA']
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/UserDict.py", line 23, in __getitem__
+    raise KeyError(key)
+KeyError: 'NIMBUS_TEST_CA'

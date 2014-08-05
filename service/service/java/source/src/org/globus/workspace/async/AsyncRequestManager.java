@@ -16,6 +16,7 @@
 package org.globus.workspace.async;
 
 import java.util.Vector;
+import java.util.TreeSet;
 
 import org.globus.workspace.StateChangeInterested;
 import org.globus.workspace.scheduler.defaults.PreemptableSpaceManager;
@@ -42,5 +43,7 @@ public interface AsyncRequestManager extends AsyncRequestHome, PreemptableSpaceM
     /**
      * Calculates a future preemption of Backfill instances
      */
-    public void calculatePreemptionIfNeeded(Vector<Double> window);
+    public void calculatePreemptionIfNeeded(Vector<Double> window, TreeSet timeSet);
+
+    public boolean willBePreempted(Vector<Double> window, int time);
 }

@@ -28,6 +28,8 @@ import org.nimbustools.api._repr._ShutdownTasks;
 import org.nimbustools.api._repr._SpotCreateRequest;
 import org.nimbustools.api._repr._SpotPriceEntry;
 import org.nimbustools.api._repr._SpotRequestInfo;
+import org.nimbustools.api._repr._SpotANCreateRequest;
+import org.nimbustools.api._repr._SpotANRequestInfo;
 import org.nimbustools.api._repr._Usage;
 import org.nimbustools.api._repr.ctx._Context;
 import org.nimbustools.api._repr.vm._Kernel;
@@ -58,6 +60,9 @@ public interface ReprFactory extends NimbusModule {
     public _SpotPriceEntry _newSpotPriceEntry();
     public _AsyncCreateRequest _newBackfillRequest();
     public _SpotCreateRequest _newSpotCreateRequest();
+
+    public _SpotANRequestInfo _newSpotANRequestInfo();
+    public _SpotANCreateRequest _newSpotANCreateRequest();
 
     // vm package
     public _Kernel _newKernel();

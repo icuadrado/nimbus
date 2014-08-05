@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="nimbus-messaging-elastic-bridge-gt4.0" level="project" />
+    <orderEntry type="library" name="lib1" level="project" />
+    <orderEntry type="library" name="generated" level="project" />
+    <orderEntry type="library" name="test1" level="project" />
+    <orderEntry type="library" name="generated1" level="project" />
+    <orderEntry type="library" name="nimbus-messaging-stubs-gt4.0-elastic" level="project" />
+    <orderEntry type="library" name="test" level="project" />
+    <orderEntry type="library" name="lib2" level="project" />
+    <orderEntry type="library" name="nimbus-authzdb" level="project" />
+    <orderEntry type="library" name="nimbus-service-api" level="project" />
+    <orderEntry type="library" name="nimbus-query" level="project" />
+    <orderEntry type="library" name="clients" level="project" />
+    <orderEntry type="library" name="services" level="project" />
+    <orderEntry type="library" name="services1" level="project" />
+    <orderEntry type="library" name="lib3" level="project" />
+    <orderEntry type="library" name="clients1" level="project" />
+    <orderEntry type="module" module-name="msgbridge3" />
+    <orderEntry type="module" module-name="msgbridge2" />
+    <orderEntry type="module" module-name="query" />
+    <orderEntry type="module" module-name="query3" />
+    <orderEntry type="module" module-name="authzdb" />
+    <orderEntry type="module" module-name="service-api" />
+    <orderEntry type="module" module-name="service-api1" />
+    <orderEntry type="module" module-name="authzdb1" />
+  </component>
+</module>
+

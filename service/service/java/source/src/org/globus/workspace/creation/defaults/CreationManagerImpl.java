@@ -61,6 +61,7 @@ import org.nimbustools.api.repr.CreateRequest;
 import org.nimbustools.api.repr.ReprFactory;
 import org.nimbustools.api.repr.AsyncCreateRequest;
 import org.nimbustools.api.repr.SpotCreateRequest;
+import org.nimbustools.api.repr.SpotANCreateRequest;
 import org.nimbustools.api.repr.ctx.Context;
 import org.nimbustools.api.repr.si.SIConstants;
 import org.nimbustools.api.repr.vm.NIC;
@@ -298,7 +299,6 @@ public class CreationManagerImpl implements CreationManager, InternalCreationMan
                    ResourceRequestDeniedException,
                    SchedulingException {
 
-        
         if (caller == null) {
             throw new CreationException("no caller");
         }
@@ -316,7 +316,7 @@ public class CreationManagerImpl implements CreationManager, InternalCreationMan
         if (bound == null || bound.length == 0) {
             throw new CreationException("no binding result but no binding " +
                     "error: illegal binding implementation");
-        }        
+        } 
 
         final String creatorID = caller.getIdentity();
         if (creatorID == null || creatorID.trim().length() == 0) {
@@ -328,20 +328,26 @@ public class CreationManagerImpl implements CreationManager, InternalCreationMan
         final String reqiID = generateRequestID();
         
         AsyncRequest asyncReq;
-                
+
         if(req instanceof SpotCreateRequest){
             SpotCreateRequest spotReq = (SpotCreateRequest)req;
             asyncReq = new AsyncRequest(reqiID, spotReq.getSpotPrice(), spotReq.isPersistent(), 
                                         caller, groupID, bound, req.getContext(), req.getRequestedNics(), 
                                         req.getSshKeyName(), Calendar.getInstance());   
-        } else {
+        } else if(req instanceof SpotANCreateRequest) {
+            SpotANCreateRequest spotReq = (SpotANCreateRequest)req;
+            asyncReq = new AsyncRequest(reqiID, spotReq.isPersistent(), ((SpotANCreateRequest)req).getAdvanceNotice(), 
+                                        caller, groupID, bound, req.getContext(), req.getRequestedNics(),
+                                        req.getSshKeyName(), Calendar.getInstance());
+
+	} else {
             asyncReq = new AsyncRequest(reqiID, caller, groupID, bound, 
                                         req.getContext(), req.getRequestedNics(), 
                                         Calendar.getInstance());               
         }
         
         asyncManager.addRequest(asyncReq); 
-        
+ 
         return asyncReq;
     }    
 

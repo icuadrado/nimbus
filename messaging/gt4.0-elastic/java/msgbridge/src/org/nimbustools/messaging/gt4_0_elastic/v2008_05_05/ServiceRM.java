@@ -69,4 +69,20 @@ public interface ServiceRM {
     public DescribeSpotPriceHistoryResponseType describeSpotPriceHistory(
                         DescribeSpotPriceHistoryType describeSpotPriceHistoryType)
             throws RemoteException;
+
+    // -------------------------------------------------------------------------
+    // SIAN OPERATIONS
+    // -------------------------------------------------------------------------
+
+    public RequestSpotInstancesResponseType requestSpotANInstances(
+                        RequestSpotInstancesType requestSpotANInstancesMsg)
+            throws RemoteException;
+
+    public CancelSpotInstanceRequestsResponseType cancelSpotANInstanceRequests(
+                        CancelSpotInstanceRequestsType cancelSpotInstancesMsg)
+            throws RemoteException;
+
+    public DescribeSpotInstanceRequestsResponseType describeSpotANInstanceRequests(
+                        DescribeSpotInstanceRequestsType describeSpotInstancesMsg)
+            throws RemoteException;
 }

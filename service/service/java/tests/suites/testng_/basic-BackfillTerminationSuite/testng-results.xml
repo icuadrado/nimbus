@@ -2,16 +2,16 @@
 <testng-results skipped="0" failed="0" total="2" passed="2">
   <reporter-output>
   </reporter-output>
-  <suite name="BackfillTerminationSuite" duration-ms="45141" started-at="2014-07-08T18:04:18Z" finished-at="2014-07-08T18:05:03Z">
+  <suite name="BackfillTerminationSuite" duration-ms="44613" started-at="2014-07-11T22:46:23Z" finished-at="2014-07-11T22:47:08Z">
     <groups>
     </groups>
-    <test name="nimbus" duration-ms="45141" started-at="2014-07-08T18:04:18Z" finished-at="2014-07-08T18:05:03Z">
+    <test name="nimbus" duration-ms="44613" started-at="2014-07-11T22:46:23Z" finished-at="2014-07-11T22:47:08Z">
       <class name="org.globus.workspace.testing.suites.spotinstances.BackfillTerminationSuite">
-        <test-method status="PASS" signature="springTestContextBeforeTestClass()" name="springTestContextBeforeTestClass" is-config="true" duration-ms="7" started-at="2014-07-08T18:04:18Z" finished-at="2014-07-08T18:04:18Z">
+        <test-method status="PASS" signature="springTestContextBeforeTestClass()" name="springTestContextBeforeTestClass" is-config="true" duration-ms="7" started-at="2014-07-11T22:46:23Z" finished-at="2014-07-11T22:46:23Z">
         </test-method>
-        <test-method status="PASS" signature="springTestContextPrepareTestInstance()" name="springTestContextPrepareTestInstance" is-config="true" duration-ms="7080" started-at="2014-07-08T18:04:18Z" finished-at="2014-07-08T18:04:25Z">
+        <test-method status="PASS" signature="springTestContextPrepareTestInstance()" name="springTestContextPrepareTestInstance" is-config="true" duration-ms="6753" started-at="2014-07-11T22:46:23Z" finished-at="2014-07-11T22:46:30Z">
         </test-method>
-        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="46" started-at="2014-07-08T18:04:25Z" finished-at="2014-07-08T18:04:25Z">
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="45" started-at="2014-07-11T22:46:30Z" finished-at="2014-07-11T22:46:30Z">
           <params>
             <param index="0">
               <value>
@@ -20,9 +20,9 @@
             </param>
           </params>
         </test-method>
-        <test-method status="PASS" signature="backfillEventuallyDies()" name="backfillEventuallyDies" duration-ms="14441" started-at="2014-07-08T18:04:25Z" finished-at="2014-07-08T18:04:40Z">
+        <test-method status="PASS" signature="backfillEventuallyDies()" name="backfillEventuallyDies" duration-ms="14480" started-at="2014-07-11T22:46:30Z" finished-at="2014-07-11T22:46:45Z">
         </test-method>
-        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="415" started-at="2014-07-08T18:04:40Z" finished-at="2014-07-08T18:04:40Z">
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="364" started-at="2014-07-11T22:46:45Z" finished-at="2014-07-11T22:46:45Z">
           <params>
             <param index="0">
               <value>
@@ -31,7 +31,7 @@
             </param>
           </params>
         </test-method>
-        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="757" started-at="2014-07-08T18:04:40Z" finished-at="2014-07-08T18:04:41Z">
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="638" started-at="2014-07-11T22:46:45Z" finished-at="2014-07-11T22:46:46Z">
           <params>
             <param index="0">
               <value>
@@ -40,9 +40,9 @@
             </param>
           </params>
         </test-method>
-        <test-method status="PASS" signature="backfillWontDie()" name="backfillWontDie" duration-ms="22235" started-at="2014-07-08T18:04:41Z" finished-at="2014-07-08T18:05:03Z">
+        <test-method status="PASS" signature="backfillWontDie()" name="backfillWontDie" duration-ms="22206" started-at="2014-07-11T22:46:46Z" finished-at="2014-07-11T22:47:08Z">
         </test-method>
-        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="154" started-at="2014-07-08T18:05:03Z" finished-at="2014-07-08T18:05:03Z">
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)" name="springTestContextAfterTestMethod" is-config="true" duration-ms="114" started-at="2014-07-11T22:47:08Z" finished-at="2014-07-11T22:47:08Z">
           <params>
             <param index="0">
               <value>
@@ -51,9 +51,9 @@
             </param>
           </params>
         </test-method>
-        <test-method status="PASS" signature="springTestContextAfterTestClass()" name="springTestContextAfterTestClass" is-config="true" duration-ms="0" started-at="2014-07-08T18:05:03Z" finished-at="2014-07-08T18:05:03Z">
+        <test-method status="PASS" signature="springTestContextAfterTestClass()" name="springTestContextAfterTestClass" is-config="true" duration-ms="0" started-at="2014-07-11T22:47:08Z" finished-at="2014-07-11T22:47:08Z">
         </test-method>
-        <test-method status="PASS" signature="suiteTeardown()" name="suiteTeardown" is-config="true" duration-ms="20" started-at="2014-07-08T18:05:03Z" finished-at="2014-07-08T18:05:03Z">
+        <test-method status="PASS" signature="suiteTeardown()" name="suiteTeardown" is-config="true" duration-ms="15" started-at="2014-07-11T22:47:08Z" finished-at="2014-07-11T22:47:08Z">
         </test-method>
       </class>
     </test>

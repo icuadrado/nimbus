@@ -18,6 +18,7 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
  
     private String id;
     private boolean spot;
+    private boolean spotAN = false;   
 
     private Double maxBid;
     private boolean persistent;
@@ -38,7 +39,9 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
     private Calendar creationTime;
 
     private Calendar destructionTime = null;
-  
+
+    private Long advanceNotice;  
+
     //Test-only
     public AsyncRequest(String id, Double highestPrice, VirtualMachine[] bindings) {
         this(id, highestPrice, false, null, null, bindings, null, null, null, null);
@@ -61,7 +64,27 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
             NIC[] requestedNics, String sshKeyName, Calendar creationTime) {
         this(id, true, spotPrice, persistent, caller, groupID, bindings, context, requestedNics, sshKeyName, creationTime);
     }
-    
+
+     /**
+     * Constructor for Spot AN Instance requests
+     * @param id
+     * @param advanceNotice
+     * @param persistent
+     * @param caller
+     * @param groupID
+     * @param bindings
+     * @param context
+     * @param requestedNics
+     * @param creationTime
+     */
+    public AsyncRequest(String id, boolean persistent, long advanceNotice,
+            Caller caller, String groupID, VirtualMachine[] bindings, Context context,
+            NIC[] requestedNics, String sshKeyName, Calendar creationTime) {
+        this(id, true, null, persistent, caller, groupID, bindings, context, requestedNics, sshKeyName, creationTime);
+	this.advanceNotice = new Long(advanceNotice);
+	spotAN = true;
+    }
+ 
     /**
      * Constructor for backfill requests
      * @param id
@@ -96,12 +119,18 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
         this.sshKeyName = sshKeyName;
 
 	this.destructionTime = creationTime;
+	this.advanceNotice = new Long(0);
+	this.spotAN = false;
     }
     
     public Double getMaxBid() {
         return maxBid;
     }
-    
+   
+    public long getAdvanceNotice() {
+	return advanceNotice;
+    }
+ 
     public Integer getNeededInstances(){
         if(this.status.isCancelled()){
             return this.getAllocatedInstances();
@@ -355,5 +384,9 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
     
     public boolean isSpotRequest() {
         return spot;
-    }    
+    }   
+
+    public boolean isSpotAN() {
+	return spotAN; 
+    }
 }

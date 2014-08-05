@@ -52,8 +52,12 @@ public class AsyncRequestMapPersistenceUtil
 
         final PreparedStatement pstmt = c.prepareStatement(SQL_INSERT_ASYNC_REQUEST);
         pstmt.setString(1, asyncRequest.getId());
-        pstmt.setDouble(2, asyncRequest.getMaxBid());
-        if (asyncRequest.isSpotRequest()) {
+	if (asyncRequest.getMaxBid() != null)
+		pstmt.setDouble(2, asyncRequest.getMaxBid());
+	else 
+                pstmt.setDouble(2, 0);
+
+	if (asyncRequest.isSpotRequest()) {
             pstmt.setInt(3, 1);
         }
         else {
@@ -86,6 +90,12 @@ public class AsyncRequestMapPersistenceUtil
         pstmt.setString(10, nics);
 
         pstmt.setString(11, asyncRequest.getStatus().toString());
+
+	// It needs to be modified in DB
+	//if(asyncRequest.isSpotAN())
+        //        pstmt.setLong(12, asyncRequest.getAdvanceNotice());
+        //else
+        //        pstmt.setLong(12, 0);
         return pstmt;
     }
 

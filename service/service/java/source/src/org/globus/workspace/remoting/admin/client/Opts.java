@@ -222,6 +222,14 @@ public class Opts {
     public final Option STATE_OPT =
                 OptionBuilder.withLongOpt(STATE_LONG).hasArg().create(STATE);
 
+    //*************************************************************************
+    // LEASES MANAGEMENT
+    //*************************************************************************
+//    public static final String CREATE = "C";
+//    public static final String CREATE_LONG = "create";
+//    public final Option CREATE_OPT =
+//                OptionBuilder.withLongOpt(CREATE_LONG).hasArg().create(CREATE);
+
     public final Option[] ALL_ENABLED_OPTIONS = {
             HELP_OPT, DEBUG_OPT, CONFIG_OPT, FORCE_OPT, BATCH_OPT, DELIMITER_OPT,
             REPORT_OPT, JSON_OPT, OUTPUT_OPT, ADD_NODES_OPT, LIST_NODES_OPT,
@@ -229,6 +237,7 @@ public class Opts {
             ACTIVE_OPT, INACTIVE_OPT, CLEANUP_VMS_OPT, LIST_VMS_OPT, SHUTDOWN_VMS_OPT, USER_OPT, ID_OPT,
             SECONDS_OPT, ALL_VMS_OPT, HOST_OPT, DN_OPT, GROUP_ID_OPT,
             GROUP_NAME_OPT, FREE_OPT, USED_OPT, NODE_LIST_OPT, STATE_OPT
-    };
+//	    , CREATE_OPT
+	    };
 
 }

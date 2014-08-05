@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "./cc-nimbusAdmin-test.py", line 7, in <module>
+    to=int(os.environ["NIMBUS_TEST_TIMEOUT"])
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/UserDict.py", line 23, in __getitem__
+    raise KeyError(key)
+KeyError: 'NIMBUS_TEST_TIMEOUT'

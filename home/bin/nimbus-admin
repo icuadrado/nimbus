@@ -3,11 +3,12 @@
 NIMBUS_HOME_REL="`dirname $0`/.."
 NIMBUS_HOME=`cd $NIMBUS_HOME_REL; pwd`
 export NIMBUS_HOME
+echo $NIMBUS_HOME
 
 JAVALIB_DIR="$NIMBUS_HOME/services/lib"
 NATIVELIB_DIR="$NIMBUS_HOME/services/lib-native"
 CONF="$NIMBUS_HOME/services/etc/nimbus/workspace-service/admin.conf"
-
+echo $JAVALIB_DIR
 EXEC="org.globus.workspace.remoting.admin.client.RemoteAdminToolsMain"
 JAVA_OPTIONS="-Dorg.newsclub.net.unix.library.path=${NATIVELIB_DIR}"
 CMD_OPTIONS="--conf ${CONF}"

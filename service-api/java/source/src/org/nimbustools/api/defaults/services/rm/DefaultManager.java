@@ -27,6 +27,8 @@ import org.nimbustools.api.repr.RequestInfo;
 import org.nimbustools.api.repr.SpotCreateRequest;
 import org.nimbustools.api.repr.SpotPriceEntry;
 import org.nimbustools.api.repr.SpotRequestInfo;
+import org.nimbustools.api.repr.SpotANCreateRequest;
+import org.nimbustools.api.repr.SpotANRequestInfo;
 import org.nimbustools.api.repr.ShutdownTasks;
 import org.nimbustools.api.repr.Usage;
 import org.nimbustools.api.repr.vm.VM;
@@ -357,6 +359,57 @@ public class DefaultManager implements Manager {
         Logging.debug("Manager.getSpotPriceHistory() startDate: " + startDate + ". endDate: " + endDate);
         return null;
     }
+
+
+    public SpotANRequestInfo requestSpotANInstances(SpotANCreateRequest req, Caller caller) {
+
+        Logging.debug("Manager.requestSpotANInstances() -- caller '" + caller + "', " +
+                "request:" + req);
+
+        return null;
+    }
+
+    public Double getSpotANPrice() {
+
+        Logging.debug("Manager.getSpotANPrice()'");
+
+        return null;
+    }
+
+    public SpotANRequestInfo getSpotANRequest(String id, Caller caller) throws DoesNotExistException,
+            ManageException {
+        Logging.debug("Manager.getSpotANRequest() -- caller '" + caller + "', " +
+                "id:" + id);
+
+        return null;
+    }
+
+
+    public SpotANRequestInfo[] getSpotANRequestsByCaller(Caller caller)
+            throws ManageException {
+        Logging.debug("Manager.getSpotANRequestsByCaller() -- caller '" + caller + "'");
+
+        return null;
+    }
+
+
+    public SpotANRequestInfo[] cancelSpotANInstanceRequests(String[] ids, Caller caller) {
+        Logging.debug("Manager.cancelSpotANInstanceRequests() -- caller '" + caller + "', " +
+                "ids:" + Arrays.toString(ids));
+
+        return null;
+    }
+
+
+    public SpotANRequestInfo[] getSpotANRequests(String[] ids, Caller caller)
+            throws DoesNotExistException, ManageException,
+            AuthorizationException {
+        Logging.debug("Manager.getSpotANRequest() -- caller '" + caller + "', " +
+                "ids:" + Arrays.toString(ids));
+
+        return null;
+    }
+
 
     public RequestInfo addBackfillRequest(AsyncCreateRequest req, Caller caller)
             throws AuthorizationException, CoSchedulingException,

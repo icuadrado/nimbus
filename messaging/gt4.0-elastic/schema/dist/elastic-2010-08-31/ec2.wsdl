@@ -2096,6 +2096,7 @@
         </xs:sequence>
       </xs:complexType>
       <xs:element name="RequestSpotInstances" type="tns:RequestSpotInstancesType"/>
+      <xs:element name="RequestSpotANInstances" type="tns:RequestSpotANInstancesType"/>
       <xs:element name="RequestSpotInstancesResponse" type="tns:RequestSpotInstancesResponseType"/>
       <xs:element name="DescribeSpotInstanceRequests" type="tns:DescribeSpotInstanceRequestsType"/>
       <xs:element name="DescribeSpotInstanceRequestsResponse" type="tns:DescribeSpotInstanceRequestsResponseType"/>
@@ -2112,6 +2113,18 @@
       <xs:complexType name="RequestSpotInstancesType">
         <xs:sequence>
           <xs:element name="spotPrice" type="xs:string"/>
+          <xs:element name="instanceCount" type="xs:integer" minOccurs="0"/>
+          <xs:element name="type" type="xs:string" minOccurs="0"/>
+          <xs:element name="validFrom" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="validUntil" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="launchGroup" type="xs:string" minOccurs="0"/>
+          <xs:element name="availabilityZoneGroup" type="xs:string" minOccurs="0"/>
+          <xs:element name="launchSpecification" type="tns:LaunchSpecificationRequestType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="RequestSpotANInstancesType">
+        <xs:sequence>
+          <xs:element name="advanceNotice" type="xs:string"/>
           <xs:element name="instanceCount" type="xs:integer" minOccurs="0"/>
           <xs:element name="type" type="xs:string" minOccurs="0"/>
           <xs:element name="validFrom" type="xs:dateTime" minOccurs="0"/>

@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.TreeSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -676,20 +677,47 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         return aliveRequests;
     }    
 
-    public void calculatePreemptionIfNeeded(Vector<Double> window){
+    public boolean willBePreempted(Vector<Double> window, int time){
+	Integer expectedRequests;
+        Integer needToPreempt;
+        Double result;
+        Calendar destructionTime = Calendar.getInstance();
+
+        time = 3;
+
+        result = predictPreemptionLinearRegression (window, time);
+        expectedRequests = Math.round(result.intValue());
+
+        List<AsyncRequest> aliveRequests = getAliveBackfillRequests();
+
+        List<AsyncRequest> activeRequests = getActiveRequests(aliveRequests);
+
+        Integer availableVMs = Math.max(this.getMaxVMs() - expectedRequests, 0);
+
+        Integer allocatedVMs = 0;
+
+        for (AsyncRequest aliveRequest : aliveRequests) {
+            allocatedVMs += aliveRequest.getAllocatedInstances();
+        }
+
+        //TODO if there are enough spots, stop
+   //     if(allocatedVMs == availableVMs){
+     //       return;
+     //   }
+
+        if(allocatedVMs > availableVMs){
+            return true;
+        }
+	return false;
+    }
+
+    public void calculatePreemptionIfNeeded(Vector<Double> window, TreeSet timeSet){
 	Integer time, expectedRequests;
 	Integer needToPreempt;
 	Double result;
 	Calendar destructionTime = Calendar.getInstance();
 
-        /* 
-	* Dear Pierre This is a test just to see if it worked, but I still have to finish it tomorrow, 
-	* So I will recollect data during 10 seconds and predict in the future.
-	* The size of the window and the time to predict ahead we will need to obtain them through
-	* experimentation.
-	* Best regards, Ismael
-	*/
-        time = 3;
+        time = (Integer) timeSet.last();
 
         result = predictPreemptionLinearRegression (window, time);
         expectedRequests = Math.round(result.intValue());

@@ -27,6 +27,7 @@
         <lookup-method name="_newShutdownTasks" bean="nimbus-repr.ShutdownTasks"/>
         <lookup-method name="_newUsage" bean="nimbus-repr.Usage"/>
         <lookup-method name="_newSpotRequestInfo" bean="nimbus-repr.SpotRequestInfo" />
+        <lookup-method name="_newSpotANRequestInfo" bean="nimbus-repr.SpotANRequestInfo" />
         <lookup-method name="_newSpotPriceEntry" bean="nimbus-repr.SpotPriceEntry" />
 
         <!-- vm package, writable: -->
@@ -71,6 +72,9 @@
 
    <bean id="nimbus-repr.SpotRequestInfo" scope="prototype"
           class="org.nimbustools.api.defaults.repr.DefaultSpotRequestInfo" />
+
+   <bean id="nimbus-repr.SpotANRequestInfo" scope="prototype"
+          class="org.nimbustools.api.defaults.repr.DefaultSpotANRequestInfo" />
 
    <bean id="nimbus-repr.SpotPriceEntry" scope="prototype"
           class="org.nimbustools.api.defaults.repr.DefaultSpotPriceEntry" />

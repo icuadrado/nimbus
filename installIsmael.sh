@@ -2,7 +2,7 @@
 
 eval "export NIMBUS_HOME=/Users/ismaelcuadradocordero/Desktop/nimbus"
 
-eval "sudo rm -rf ../Desktop/nimbus"
+eval "sudo rm -rf /Users/ismaelcuadradocordero/Desktop/nimbus"
 
 aux=$(ps -ef | grep nimbus | awk '{ print $2}')
 
@@ -18,11 +18,11 @@ eval "rm -rf /tmp/newuser/usercert.pem"
 
 eval "rm -rf /tmp/newuser/userkey.pem"
 
-eval "./install ../Desktop/nimbus/"
+eval "./install /Users/ismaelcuadradocordero/Desktop/nimbus/"
 
-eval "cp -R ec2-api-tools-1.3-57419 ../Desktop/nimbus/"
+eval "cp -R ec2-api-tools-1.3-57419 /Users/ismaelcuadradocordero/Desktop/nimbus/"
 
-# eval "export GLOBUS_LOCATION=../Desktop/nimbus/services"
+# eval "export GLOBUS_LOCATION=/Users/ismaelcuadradocordero/Desktop/nimbus/services"
 
 # eval "./scripts/jars-build-and-install.sh"
 

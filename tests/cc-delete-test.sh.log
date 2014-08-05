@@ -1,0 +1,9 @@
+usage: mktemp [-d] [-q] [-t prefix] [-u] template ...
+       mktemp [-d] [-q] [-u] -t prefix 
+usage: rm [-f | -i] [-dPRrvW] file ...
+       unlink file
+./cc-delete-test.sh: line 6: ./bin/grid-proxy-init.sh: No such file or directory
+./cc-delete-test.sh: line 7: ./bin/cloud-client.sh: No such file or directory
+usage: rm [-f | -i] [-dPRrvW] file ...
+       unlink file
+upload failed

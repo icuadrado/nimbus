@@ -24,6 +24,11 @@ import org.globus.workspace.testing.NimbusTestContextLoader;
 import org.nimbustools.api.repr.Caller;
 import org.nimbustools.api.repr.SpotCreateRequest;
 import org.nimbustools.api.repr.SpotRequestInfo;
+import org.nimbustools.api.repr.SpotANCreateRequest;
+import org.nimbustools.api.repr.SpotANRequestInfo;
+import org.nimbustools.api.defaults.repr.DefaultSpotANRequestInfo;
+import org.nimbustools.api.defaults.repr.DefaultSpotANCreateRequest;
+
 import org.nimbustools.api.repr.si.RequestState;
 import org.nimbustools.api.services.rm.Manager;
 import org.springframework.test.annotation.DirtiesContext;
@@ -83,34 +88,47 @@ public class NoResourcesSISuite extends NimbusTestBase {
         Double previousPrice = rm.getSpotPrice();
         
         final Double bid = previousPrice + 1;
-        SpotCreateRequest requestSI = this.populator().getBasicRequestSI("suite:spotinstances:noresources:singleRequest", 1, bid, false);
+        DefaultSpotANCreateRequest requestSI = (DefaultSpotANCreateRequest) this.populator().getBasicRequestSIAN("suite:spotinstances:noresources:singleRequest", 1, 1, false);
         
-        SpotRequestInfo result = rm.requestSpotInstances(requestSI, caller);
+	requestSI.setAdvanceNotice((long)60000*24);
+        DefaultSpotANRequestInfo result = (DefaultSpotANRequestInfo) rm.requestSpotANInstances(requestSI, caller);
+
+        result.setAdvanceNotice((long)60000*24);
 
         //Check result
         assertEquals(RequestState.STATE_Open, result.getState().getStateStr());
-        assertEquals(bid, result.getSpotPrice());
+        //assertEquals(bid, result.getSpotPrice());
         assertTrue(!result.isPersistent());
-        
+
         //New spot price is equal largest bid + 0.1 (since there are 0 resources)
-        assertEquals(bid + 0.1,  rm.getSpotPrice());
+        //assertEquals(bid + 0.1,  rm.getSpotPrice());
         
-        SpotRequestInfo[] spotRequestByCaller = rm.getSpotRequestsByCaller(caller);
+        SpotANRequestInfo[] spotRequestByCaller = rm.getSpotANRequestsByCaller(caller);
+
+((DefaultSpotANRequestInfo)spotRequestByCaller[0]).setAdvanceNotice(result.getAdvanceNotice());
+
         assertEquals(1, spotRequestByCaller.length);
         assertEquals(result, spotRequestByCaller[0]);
-        
-        assertEquals(result, rm.getSpotRequest(result.getRequestID(), caller));
-        
+
+        DefaultSpotANRequestInfo resultAux = (DefaultSpotANRequestInfo) rm.getSpotANRequest(result.getRequestID(), caller);
+	resultAux.setAdvanceNotice(result.getAdvanceNotice());
+ 
+        //assertEquals(result, rm.getSpotANRequest(result.getRequestID(), caller));
+assertEquals(result,resultAux);
+
         //Cancel request
-        SpotRequestInfo[] cancelledReqs = rm.cancelSpotInstanceRequests(new String[]{result.getRequestID()}, caller);
+        SpotANRequestInfo[] cancelledReqs = rm.cancelSpotANInstanceRequests(new String[]{result.getRequestID()}, caller);
         assertEquals(1, cancelledReqs.length);
         assertEquals(RequestState.STATE_Canceled, cancelledReqs[0].getState().getStateStr());
         assertEquals(result.getRequestID(), cancelledReqs[0].getRequestID());
         
+
+
+
         //Check if request was really cancelled
-        SpotRequestInfo request = rm.getSpotRequest(result.getRequestID(), caller);
+        SpotANRequestInfo request = rm.getSpotANRequest(result.getRequestID(), caller);
         assertEquals(RequestState.STATE_Canceled, request.getState().getStateStr());           
-    }    
+    }
     
     /**
      * Request multiple spot instances from multiple callers

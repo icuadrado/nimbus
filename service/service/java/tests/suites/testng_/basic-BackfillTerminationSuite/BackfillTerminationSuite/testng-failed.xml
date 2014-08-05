@@ -8,6 +8,7 @@
           <include name="springTestContextAfterTestClass"/>
           <include name="springTestContextBeforeTestClass"/>
           <include name="springTestContextPrepareTestInstance"/>
+          <include name="backfillWontDie"/>
           <include name="suiteTeardown"/>
           <include name="springTestContextAfterTestMethod"/>
           <include name="springTestContextBeforeTestMethod"/>

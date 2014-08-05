@@ -24,6 +24,7 @@ import org.nimbustools.api._repr._CreateRequest;
 import org.nimbustools.api._repr._AsyncCreateRequest;
 import org.nimbustools.api._repr._ShutdownTasks;
 import org.nimbustools.api._repr._SpotCreateRequest;
+import org.nimbustools.api._repr._SpotANCreateRequest;
 import org.nimbustools.api._repr.vm._NIC;
 import org.nimbustools.api._repr.vm._RequiredVMM;
 import org.nimbustools.api._repr.vm._ResourceAllocation;
@@ -35,6 +36,7 @@ import org.nimbustools.api.repr.ReprFactory;
 import org.nimbustools.api.repr.AsyncCreateRequest;
 import org.nimbustools.api.repr.ShutdownTasks;
 import org.nimbustools.api.repr.SpotCreateRequest;
+import org.nimbustools.api.repr.SpotANCreateRequest;
 import org.nimbustools.api.repr.si.SIConstants;
 import org.nimbustools.api.repr.vm.NIC;
 import org.nimbustools.api.repr.vm.ResourceAllocation;
@@ -165,6 +167,7 @@ public class ReprPopulator {
     
     public SpotCreateRequest getBasicRequestSI(String name, int numNodes, Double spotPrice, boolean persistent) throws Exception {
         final _SpotCreateRequest reqSI = this.repr._newSpotCreateRequest();
+
         reqSI.setInstanceType(SIConstants.SI_TYPE_BASIC);
         reqSI.setSpotPrice(spotPrice);
         reqSI.setPersistent(persistent);        
@@ -172,6 +175,18 @@ public class ReprPopulator {
         populate(reqSI, 500, name, SIConstants.SI_TYPE_BASIC_MEM, numNodes, true, null, null, null);
         
         return reqSI;
+    }
+
+    public SpotANCreateRequest getBasicRequestSIAN(String name, int numNodes, long advanceNotice, boolean persistent) throws Exception {
+        final _SpotANCreateRequest reqSI = this.repr._newSpotANCreateRequest();
+        reqSI.setInstanceType(SIConstants.SI_TYPE_BASIC);
+
+        reqSI.setAdvanceNotice(advanceNotice);
+        reqSI.setPersistent(persistent);
+
+        populate(reqSI, 500, name, SIConstants.SI_TYPE_BASIC_MEM, numNodes, true, null, null, null);
+
+        return (SpotANCreateRequest) reqSI;
     }
 
     public AsyncCreateRequest getBackfillRequest(String name, int numNodes) throws Exception {

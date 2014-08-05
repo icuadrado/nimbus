@@ -2,22 +2,42 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/authzdb//authzdb.iml" filepath="$PROJECT_DIR$/.idea-modules/authzdb//authzdb.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/service-suites/basic.iml" filepath="$PROJECT_DIR$/.idea-modules/service-suites/basic.iml" group="service-suites" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/cloud-client/cloud-client.iml" filepath="$PROJECT_DIR$/.idea-modules/cloud-client/cloud-client.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/protocol-common/common.iml" filepath="$PROJECT_DIR$/.idea-modules/protocol-common/common.iml" group="protocols" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/ctx/contextualization.iml" filepath="$PROJECT_DIR$/.idea-modules/ctx/contextualization.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/docs/docs.iml" filepath="$PROJECT_DIR$/.idea-modules/docs/docs.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/query/ec2query.iml" filepath="$PROJECT_DIR$/.idea-modules/query/ec2query.iml" group="protocols" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/ec2soap/ec2soap.iml" filepath="$PROJECT_DIR$/.idea-modules/ec2soap/ec2soap.iml" group="protocols" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/service-suites/failure.iml" filepath="$PROJECT_DIR$/.idea-modules/service-suites/failure.iml" group="service-suites" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/installer/installer.iml" filepath="$PROJECT_DIR$/.idea-modules/installer/installer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/query-general//query-general.iml" filepath="$PROJECT_DIR$/.idea-modules/query-general//query-general.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/rm-api/rm-api.iml" filepath="$PROJECT_DIR$/.idea-modules/rm-api/rm-api.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/service-suites//spotinstances.iml" filepath="$PROJECT_DIR$/.idea-modules/service-suites//spotinstances.iml" group="service-suites" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/service-suites/tests-common.iml" filepath="$PROJECT_DIR$/.idea-modules/service-suites/tests-common.iml" group="service-suites" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/wrksp-svc/workspace-service.iml" filepath="$PROJECT_DIR$/.idea-modules/wrksp-svc/workspace-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea-modules/wsrf/wsrf.iml" filepath="$PROJECT_DIR$/.idea-modules/wsrf/wsrf.iml" group="protocols" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/authzdb/authzdb.iml" filepath="$PROJECT_DIR$/tests/nimbus/authzdb/authzdb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/authzdb/authzdb1.iml" filepath="$PROJECT_DIR$/authzdb/authzdb1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/autocommon/autocommon.iml" filepath="$PROJECT_DIR$/tests/nimbus/autocommon/autocommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/autocommon/autocommon1.iml" filepath="$PROJECT_DIR$/autocommon/autocommon1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/autoconfiguration/autoconfiguration.iml" filepath="$PROJECT_DIR$/autoconfiguration/autoconfiguration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/autoconfiguration/autoconfiguration1.iml" filepath="$PROJECT_DIR$/tests/nimbus/autoconfiguration/autoconfiguration1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/service/java/tests/suites/basic/basic.iml" filepath="$PROJECT_DIR$/service/service/java/tests/suites/basic/basic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/service/service/java/tests/suites/basic/basic1.iml" filepath="$PROJECT_DIR$/tests/nimbus/service/service/java/tests/suites/basic/basic1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/service/client/java/source/client.iml" filepath="$PROJECT_DIR$/tests/nimbus/service/client/java/source/client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/client/java/source/client1.iml" filepath="$PROJECT_DIR$/service/client/java/source/client1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/service/java/tests/suites/common/common.iml" filepath="$PROJECT_DIR$/service/service/java/tests/suites/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/messaging/gt4.0/java/common/common1.iml" filepath="$PROJECT_DIR$/tests/nimbus/messaging/gt4.0/java/common/common1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/messaging/gt4.0/java/common/common2.iml" filepath="$PROJECT_DIR$/messaging/gt4.0/java/common/common2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/service/service/java/tests/suites/common/common3.iml" filepath="$PROJECT_DIR$/tests/nimbus/service/service/java/tests/suites/common/common3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/ctx-broker/ctx-broker.iml" filepath="$PROJECT_DIR$/tests/nimbus/ctx-broker/ctx-broker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ctx-broker/ctx-broker1.iml" filepath="$PROJECT_DIR$/ctx-broker/ctx-broker1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/service/service/java/tests/suites/failure/failure.iml" filepath="$PROJECT_DIR$/tests/nimbus/service/service/java/tests/suites/failure/failure.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/service/java/tests/suites/failure/failure1.iml" filepath="$PROJECT_DIR$/service/service/java/tests/suites/failure/failure1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/metadata/java/source/metadata.iml" filepath="$PROJECT_DIR$/metadata/java/source/metadata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/metadata/java/source/metadata1.iml" filepath="$PROJECT_DIR$/tests/nimbus/metadata/java/source/metadata1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/messaging/gt4.0/java/msgbridge/msgbridge.iml" filepath="$PROJECT_DIR$/messaging/gt4.0/java/msgbridge/msgbridge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/messaging/gt4.0/java/msgbridge/msgbridge1.iml" filepath="$PROJECT_DIR$/tests/nimbus/messaging/gt4.0/java/msgbridge/msgbridge1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/messaging/gt4.0-elastic/java/msgbridge/msgbridge2.iml" filepath="$PROJECT_DIR$/messaging/gt4.0-elastic/java/msgbridge/msgbridge2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/messaging/gt4.0-elastic/java/msgbridge/msgbridge3.iml" filepath="$PROJECT_DIR$/tests/nimbus/messaging/gt4.0-elastic/java/msgbridge/msgbridge3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/query/query.iml" filepath="$PROJECT_DIR$/query/query.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/messaging/query/java/source/query1.iml" filepath="$PROJECT_DIR$/tests/nimbus/messaging/query/java/source/query1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/messaging/query/java/source/query2.iml" filepath="$PROJECT_DIR$/messaging/query/java/source/query2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/query/query3.iml" filepath="$PROJECT_DIR$/tests/nimbus/query/query3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/service/service/java/source/service.iml" filepath="$PROJECT_DIR$/tests/nimbus/service/service/java/source/service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/service-api/java/source/service-api.iml" filepath="$PROJECT_DIR$/tests/nimbus/service-api/java/source/service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-api/java/source/service-api1.iml" filepath="$PROJECT_DIR$/service-api/java/source/service-api1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/service/java/source/service1.iml" filepath="$PROJECT_DIR$/service/service/java/source/service1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/service/java/tests/suites/spotinstances/spotinstances.iml" filepath="$PROJECT_DIR$/service/service/java/tests/suites/spotinstances/spotinstances.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/service/service/java/tests/suites/spotinstances/spotinstances1.iml" filepath="$PROJECT_DIR$/tests/nimbus/service/service/java/tests/suites/spotinstances/spotinstances1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/service/java/tests/tests.iml" filepath="$PROJECT_DIR$/service/service/java/tests/tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/nimbus/service/service/java/tests/tests1.iml" filepath="$PROJECT_DIR$/tests/nimbus/service/service/java/tests/tests1.iml" />
     </modules>
   </component>
 </project>

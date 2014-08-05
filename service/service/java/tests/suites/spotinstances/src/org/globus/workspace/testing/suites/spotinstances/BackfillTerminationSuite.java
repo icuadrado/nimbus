@@ -21,8 +21,6 @@ import java.util.Calendar;
 
 import org.nimbustools.api.services.metadata.MetadataServer;
 import org.nimbustools.metadataserver.defaults.DefaultMetadataServer;
-import net.sf.ehcache.CacheManager;
-
 
 import com.google.gson.Gson;
 import org.apache.commons.logging.Log;
@@ -180,8 +178,8 @@ public class BackfillTerminationSuite extends NimbusTestBase {
         MetadataServerState mdState = new MetadataServerState(backfillRequestsByCaller, superuser, server);
         mdState.start();
 
-        RequestInfoState riState = new RequestInfoState(backfillRequestsByCaller);
-        riState.start();
+//        RequestInfoState riState = new RequestInfoState(backfillRequestsByCaller);
+//        riState.start();
 
         // Set the shutdown task to not work
         MockShutdownTrash.resetFailCount();
@@ -190,24 +188,35 @@ public class BackfillTerminationSuite extends NimbusTestBase {
 
         // One regular VM that needs all the 512 RAM will preempt
         Caller caller = this.populator().getCaller();
-        CreateRequest req = this.populator().getCreateRequest("regular", 1200, 512 , 1);
+        CreateRequest req = this.populator().getCreateRequest("regular", 1200, 256 , 1);
+        CreateRequest req2 = this.populator().getCreateRequest("regular", 1200, 256 , 1);
 
         // In 10 seconds, trigger the shutdown task to start succeeding
         this.suiteExecutor.submit(new DestroyEnableFutureTask(10));
 
         final long startMs = System.currentTimeMillis();
         final CreateResult result = rm.create(req, caller);
+        final CreateResult result2 = rm.create(req2, caller);
 
         final long endMs = System.currentTimeMillis();
         final long totalSeconds = (endMs - startMs) / 1000;
         logger.info("Total seconds: " + totalSeconds);
 
         final VM[] vms = result.getVMs();
+        final VM[] vms2 = result2.getVMs();
+
         assertEquals(1, vms.length);
         assertNotNull(vms[0]);
         logger.info("Leased vm '" + vms[0].getID() + '\'');
 
         assertTrue(rm.exists(vms[0].getID(), Manager.INSTANCE));
+
+        assertEquals(1, vms2.length);
+        assertNotNull(vms2[0]);
+        logger.info("Leased vm2 '" + vms2[0].getID() + '\'');
+
+        assertTrue(rm.exists(vms2[0].getID(), Manager.INSTANCE));
+
 
         // That should have only waited around ~10 seconds (+/- 2 seconds for sweeper)
         assertTrue(totalSeconds > 9);

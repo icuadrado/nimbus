@@ -1,0 +1,8 @@
+usage: mktemp [-d] [-q] [-t prefix] [-u] template ...
+       mktemp [-d] [-q] [-u] -t prefix 
+usage: cp [-R [-H | -L | -P]] [-fi | -n] [-apvX] source_file target_file
+       cp [-R [-H | -L | -P]] [-fi | -n] [-apvX] source_file ... target_directory
+setting up nimbus to use the cp propagation adapter
+sed -i s^scp^cp^ /services/etc/nimbus/workspace-service/other/authz-callout-ACTIVE.xml
+sed: 1: "/services/etc/nimbus/wo ...": invalid command code e
+./cp-prop-test.sh: line 33: /bin/nimbusctl: No such file or directory

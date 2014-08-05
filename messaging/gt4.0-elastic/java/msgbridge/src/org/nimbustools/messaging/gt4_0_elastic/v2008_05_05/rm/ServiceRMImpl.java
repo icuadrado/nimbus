@@ -69,7 +69,10 @@ public class ServiceRMImpl extends UnimplementedOperations
     protected final CancelSI cancelSI;
     protected final DescribeSI describeSI;
     protected final DescribeSpotPriceHistory priceHistory;
-    
+   
+//    protected final RequestSIAN reqSIAN;
+//    protected final CancelSIAN cancelSIAN;
+//    protected final DescribeSIAN describeSIAN;
     
     // -------------------------------------------------------------------------
     // CONSTRUCTORS
@@ -293,5 +296,43 @@ public class ServiceRMImpl extends UnimplementedOperations
             throw new RemoteException("DescribeSpotPriceHistoryType request is missing");
         }
         return this.priceHistory.describeSpotPriceHistory(req, manager);   
-    }    
+    }   
+
+    // -------------------------------------------------------------------------
+    // SIAN OPERATIONS
+    // -------------------------------------------------------------------------
+
+    public RequestSpotInstancesResponseType requestSpotANInstances(
+                        RequestSpotInstancesType req)
+            throws RemoteException {
+
+        if (req == null) {
+            throw new RemoteException("requestSpotANInstances request is missing");
+        }
+
+        final Caller caller = this.container.getCaller();
+
+        return this.reqSI.requestSpotInstances(req, caller, this.manager);
+    }
+   
+    public CancelSpotInstanceRequestsResponseType cancelSpotANInstanceRequests(
+            CancelSpotInstanceRequestsType req)
+            throws RemoteException {
+
+        if (req == null) {
+            throw new RemoteException("CancelSpotInstanceRequestsType request is missing");
+        }
+        final Caller caller = this.container.getCaller();
+        return this.cancelSI.cancelSIRequests(req, caller, this.manager);
+    }
+
+    public DescribeSpotInstanceRequestsResponseType describeSpotANInstanceRequests(
+            DescribeSpotInstanceRequestsType req)
+            throws RemoteException {
+        if (req == null) {
+            throw new RemoteException("CancelSpotInstanceRequestsType request is missing");
+        }
+        final Caller caller = this.container.getCaller();
+        return this.describeSI.describeSIRequests(req, caller, manager);
+    }
 }

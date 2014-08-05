@@ -28,9 +28,11 @@
         <lookup-method name="_newUsage" bean="nimbus-repr.Usage"/>
         <lookup-method name="_newRequestInfo" bean="nimbus-repr.RequestInfo" />        
         <lookup-method name="_newSpotRequestInfo" bean="nimbus-repr.SpotRequestInfo" />
+        <lookup-method name="_newSpotANRequestInfo" bean="nimbus-repr.SpotANRequestInfo" />
         <lookup-method name="_newSpotPriceEntry" bean="nimbus-repr.SpotPriceEntry" />
         <lookup-method name="_newSpotCreateRequest" bean="nimbus-repr.SpotCreateRequest" />
         <lookup-method name="_newBackfillRequest" bean="nimbus-repr.BackfillRequest" />
+        <lookup-method name="_newSpotANCreateRequest" bean="nimbus-repr.SpotANCreateRequest" />
 
         <!-- vm package, writable: -->
 
@@ -78,6 +80,9 @@
    <bean id="nimbus-repr.SpotRequestInfo" scope="prototype"
           class="org.nimbustools.api.defaults.repr.DefaultSpotRequestInfo" />
 
+   <bean id="nimbus-repr.SpotANRequestInfo" scope="prototype"
+          class="org.nimbustools.api.defaults.repr.DefaultSpotANRequestInfo" />
+
    <bean id="nimbus-repr.SpotPriceEntry" scope="prototype"
           class="org.nimbustools.api.defaults.repr.DefaultSpotPriceEntry" />
 
@@ -86,6 +91,9 @@
 
    <bean id="nimbus-repr.SpotCreateRequest" scope="prototype"
           class="org.nimbustools.api.defaults.repr.DefaultSpotCreateRequest" />
+
+   <bean id="nimbus-repr.SpotANCreateRequest" scope="prototype"
+          class="org.nimbustools.api.defaults.repr.DefaultSpotANCreateRequest" />
 
     <!-- vm package beans: -->
 

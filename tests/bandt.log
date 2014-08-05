@@ -1,0 +1,81 @@
+home directory in use is /Users/ismaelcuadradocordero
+Going to use git
+Checking out nimbus from git://github.com/nimbusproject/nimbus.git
+=========================================
+Installing nimbus
+=========================================
+-rw-r--r--  1 ismaelcuadradocordero  staff  463 Jul 31 21:58 /nimbus/tests/install-nim.py
+total 664
+-rw-r--r--   1 ismaelcuadradocordero  staff   2387 Jul 31 21:58 README.txt
+-rw-r--r--   1 ismaelcuadradocordero  staff   1005 Jul 31 21:58 autoconfig-decisions.sh.in
+-rw-r--r--   1 ismaelcuadradocordero  staff    330 Aug  1 21:20 bandt.log
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1116 Jul 31 21:58 bt-fetch.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   2042 Jul 31 21:58 bt-nimbus.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    916 Jul 31 21:58 bt-release.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    947 Jul 31 21:58 bt-tests.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1836 Jul 31 21:58 cc-1000-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    550 Jul 31 21:58 cc-delete-test.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1453 Jul 31 21:58 cc-download-common-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   2292 Jul 31 21:58 cc-download-user-common-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    625 Jul 31 21:58 cc-ec2-get-image-test.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   2414 Jul 31 21:58 cc-ec2-get-image-wrapt.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1109 Jul 31 21:58 cc-list-common-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1377 Jul 31 21:58 cc-list-desc-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1139 Jul 31 21:58 cc-list-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1331 Jul 31 21:58 cc-nimbusAdmin-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   4629 Aug  1 21:13 cc-nimbusAdminAN-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   3946 Jul 31 21:58 cc-nimbusAdminList-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   4629 Jul 31 21:58 cc-nimbusAdminShutdown-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   2185 Jul 31 21:58 cc-nimbusNodesAlloc-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1279 Jul 31 21:58 cc-no-spinner-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1728 Jul 31 21:58 cc-prop-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1807 Jul 31 21:58 cc-prop2-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1098 Jul 31 21:58 cc-propsamename-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    843 Jul 31 21:58 cc-simple-network-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    683 Jul 31 21:58 cc-simple-security-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1481 Jul 31 21:58 cc-simple-status-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    668 Jul 31 21:58 cc-submit-bad-kernel-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   2105 Jul 31 21:58 cc-submit-common-save-exists-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1978 Jul 31 21:58 cc-submit-common-save-submit-own.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1396 Jul 31 21:58 cc-submit-common-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1507 Jul 31 21:58 cc-submit-common-twice-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   2214 Jul 31 21:58 cc-submit-common-unprop-size-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1525 Jul 31 21:58 cc-submit-dash-common-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1046 Jul 31 21:58 cc-submit-kernel-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1029 Jul 31 21:58 cc-submit-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   3570 Jul 31 21:58 cc-unprop-md5test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   2030 Jul 31 21:58 cc-unprop-readwrite-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   2273 Jul 31 21:58 cc-unprop-size-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1931 Jul 31 21:58 cc-xfer-report-modified-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1192 Jul 31 21:58 cc-xfer-report-readwrite-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1502 Jul 31 21:58 cc-xfer-report-size-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1682 Jul 31 21:58 cc-xfer-report-test.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    622 Jul 31 21:58 cc-xfer-test.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff     69 Jul 31 21:58 cc1-test.sh
+drwxr-xr-x   6 ismaelcuadradocordero  staff    204 Jul 31 21:58 conf
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1055 Jul 31 21:58 cp-prop-test.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    117 Jul 31 21:58 cumulus-test.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    621 Jul 31 21:58 ec2-boto-misc-test.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    621 Jul 31 21:58 ec2-boto-repo-test.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    623 Jul 31 21:58 ec2-boto-submit-test.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    643 Jul 31 21:58 ec2-common-test.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   3966 Jul 31 21:58 ec2_common_image_nose_tests.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   3086 Jul 31 21:58 ec2_misc_tests.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   3287 Jul 31 21:58 ec2_repo_tests.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff  19158 Jul 31 21:58 ec2_si_tests.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   2374 Jul 31 21:58 ec2_submit_many.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff  10753 Jul 31 21:58 ec2_submit_tests.py
+-rw-r--r--   1 ismaelcuadradocordero  staff    463 Jul 31 21:58 install-nim.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   8702 Jul 31 21:58 make-test-env.sh
+drwxr-xr-x  31 ismaelcuadradocordero  staff   1054 Aug  1 21:20 nimbus
+-rwxr-xr-x   1 ismaelcuadradocordero  staff     75 Jul 31 21:58 nimbus-nodes.sh
+-rw-r--r--   1 ismaelcuadradocordero  staff   2413 Jul 31 21:58 public
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1933 Jul 31 21:58 reset_tests.py
+-rw-r--r--   1 ismaelcuadradocordero  staff    998 Jul 31 21:58 s3cfg.in
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    595 Jul 31 21:58 si-tests-setup.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    616 Jul 31 21:58 si-tests.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   1232 Jul 31 21:58 ssh.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff    791 Jul 31 21:58 user-test.sh
+-rwxr-xr-x   1 ismaelcuadradocordero  staff   2852 Jul 31 21:58 user_failures_tests.py
+-rwxr-xr-x   1 ismaelcuadradocordero  staff  16335 Jul 31 21:58 user_tests.py
+nimbus install failed

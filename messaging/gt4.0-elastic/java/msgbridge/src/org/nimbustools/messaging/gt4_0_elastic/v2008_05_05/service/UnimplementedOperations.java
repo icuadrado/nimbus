@@ -55,33 +55,54 @@ public class UnimplementedOperations implements ServiceAll {
     }
 
     // -------------------------------------------------------------------------
-    // SI OPERATIONS
+    // SIAN OPERATIONS
     // -------------------------------------------------------------------------  
     
+    public RequestSpotInstancesResponseType requestSpotANInstances(
+                        RequestSpotInstancesType requestSpotANInstancesMsg)
+            throws RemoteException {
+        throw new RemoteException(UNIMPLEMENTED + "requestSpotANInstances");
+    }
+    
+    public CancelSpotInstanceRequestsResponseType cancelSpotANInstanceRequests(
+            CancelSpotInstanceRequestsType cancelSpotInstancesMsg)
+            throws RemoteException {
+        throw new RemoteException(UNIMPLEMENTED + "cancelSpotANInstanceRequests");                
+    }
+
+    public DescribeSpotInstanceRequestsResponseType describeSpotANInstanceRequests(
+            DescribeSpotInstanceRequestsType describeSpotInstancesMsg)
+            throws RemoteException {
+        throw new RemoteException(UNIMPLEMENTED + "describeSpotInstanceRequests");        
+    }
+    
+    // -------------------------------------------------------------------------
+    // SI OPERATIONS
+    // -------------------------------------------------------------------------
+
     public RequestSpotInstancesResponseType requestSpotInstances(
                         RequestSpotInstancesType requestSpotInstancesMsg)
             throws RemoteException {
         throw new RemoteException(UNIMPLEMENTED + "requestSpotInstances");
     }
-    
+   
     public CancelSpotInstanceRequestsResponseType cancelSpotInstanceRequests(
             CancelSpotInstanceRequestsType cancelSpotInstancesMsg)
             throws RemoteException {
-        throw new RemoteException(UNIMPLEMENTED + "cancelSpotInstanceRequests");                
+        throw new RemoteException(UNIMPLEMENTED + "cancelSpotInstanceRequests");
     }
 
     public DescribeSpotInstanceRequestsResponseType describeSpotInstanceRequests(
             DescribeSpotInstanceRequestsType describeSpotInstancesMsg)
             throws RemoteException {
-        throw new RemoteException(UNIMPLEMENTED + "describeSpotInstanceRequests");        
+        throw new RemoteException(UNIMPLEMENTED + "describeSpotInstanceRequests");
     }
 
     public DescribeSpotPriceHistoryResponseType describeSpotPriceHistory(
             DescribeSpotPriceHistoryType describeSpotPriceHistoryType)
             throws RemoteException {
         throw new RemoteException(UNIMPLEMENTED + "describeSpotPriceHistoryResponseType");
-    }
-    
+    } 
     // -------------------------------------------------------------------------
     // IMAGE RELATED
     // -------------------------------------------------------------------------

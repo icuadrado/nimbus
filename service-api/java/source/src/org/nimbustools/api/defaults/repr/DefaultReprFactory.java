@@ -27,6 +27,8 @@ import org.nimbustools.api._repr._ShutdownTasks;
 import org.nimbustools.api._repr._SpotCreateRequest;
 import org.nimbustools.api._repr._SpotPriceEntry;
 import org.nimbustools.api._repr._SpotRequestInfo;
+import org.nimbustools.api._repr._SpotANCreateRequest;
+import org.nimbustools.api._repr._SpotANRequestInfo;
 import org.nimbustools.api._repr._Usage;
 import org.nimbustools.api._repr.ctx._Context;
 import org.nimbustools.api._repr.vm._Kernel;
@@ -68,7 +70,11 @@ public abstract class DefaultReprFactory implements ReprFactory {
     public abstract _SpotPriceEntry _newSpotPriceEntry();
     public abstract _AsyncCreateRequest _newBackfillRequest();
     public abstract _SpotCreateRequest _newSpotCreateRequest(); 
-    
+   
+    public abstract _SpotANRequestInfo _newSpotANRequestInfo();
+    public abstract _SpotANCreateRequest _newSpotANCreateRequest();
+
+ 
     // vm package
     public abstract _Kernel _newKernel();
     public abstract _NIC _newNIC();
