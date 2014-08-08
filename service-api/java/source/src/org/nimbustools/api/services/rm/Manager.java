@@ -18,6 +18,9 @@ package org.nimbustools.api.services.rm;
 
 import java.util.Calendar;
 
+import org.nimbustools.api.brain.ModuleLocator;
+
+
 import org.nimbustools.api.NimbusModule;
 import org.nimbustools.api.repr.Advertised;
 import org.nimbustools.api.repr.AsyncCreateRequest;
@@ -33,6 +36,8 @@ import org.nimbustools.api.repr.SpotANCreateRequest;
 import org.nimbustools.api.repr.SpotANRequestInfo;
 import org.nimbustools.api.repr.Usage;
 import org.nimbustools.api.repr.vm.VM;
+import org.nimbustools.api.repr.CannotTranslateException;
+import org.nimbustools.api.services.rm.DoesNotExistException;
 
 /**
  * <p><img src="http://www.nimbusproject.org/images/sh.png" alt="[Start here] " /> 
@@ -261,7 +266,18 @@ public interface Manager extends NimbusModule {
                    MetadataException,
                    ResourceRequestDeniedException,
                    SchedulingException;     
-    
+   
+    public SpotANRequestInfo requestSpotANInstances(long advanceNotice, boolean persistent, String callerDN)
+            throws AuthorizationException,
+                   CoSchedulingException,
+                   CreationException,
+                   MetadataException,
+                   ResourceRequestDeniedException,
+                   SchedulingException,
+		   ManageException,
+		   CannotTranslateException,
+		   DoesNotExistException;
+ 
     public SpotANRequestInfo getSpotANRequest(String requestID, Caller caller)
             throws DoesNotExistException, ManageException, AuthorizationException;
     

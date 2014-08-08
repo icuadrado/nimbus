@@ -15,12 +15,16 @@
  */
 package org.globus.workspace.remoting.admin.client;
 
+import org.nimbustools.api.brain.ModuleLocator;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.globus.workspace.remoting.admin.VMTranslation;
 import org.nimbustools.api.services.admin.RemoteAdminToolsManagement;
+import org.nimbustools.api._repr._SpotANCreateRequest;
+
+import org.nimbustools.api.repr.ctx.Context;
 
 import java.io.*;
 import java.rmi.RemoteException;
@@ -46,10 +50,11 @@ public class RemoteAdminToolsMain extends RMIConfig {
     private static final String FIELD_MEMORY = "memory";
     private static final String FIELD_CPU_COUNT = "cpu count";
     private static final String FIELD_URI = "uri";
+    private static final String FIELD_ADVANCE_NOTIFICATION = "advance_notification";
 
     final static String[] ADMIN_FIELDS = new String[] {
             FIELD_ID, FIELD_NODE, FIELD_GROUP_ID, FIELD_GROUP_NAME, FIELD_CREATOR, FIELD_STATE, FIELD_START,
-                FIELD_END, FIELD_MEMORY, FIELD_CPU_COUNT, FIELD_URI};
+                FIELD_END, FIELD_MEMORY, FIELD_CPU_COUNT, FIELD_URI, FIELD_ADVANCE_NOTIFICATION};
 
     final static String[] NODE_LIST_FIELDS = new String[] {
             FIELD_NODE, FIELD_ID
@@ -68,6 +73,10 @@ public class RemoteAdminToolsMain extends RMIConfig {
     private List<String> userList;
     private List<String> DNList;
     private List<String> gidList;
+    private long an;
+    private String name;
+    private boolean persistent;
+    private int numNodes;
     private List<String> gnameList;
     private List<String> hostList;
     private boolean allVMs = false;
@@ -145,6 +154,41 @@ public class RemoteAdminToolsMain extends RMIConfig {
             case ShutdownVMs:
                 shutdownVM();
                 break;
+	    case CreateLease:
+		createLease();
+		break;
+        }
+    }
+
+    private void createLease(){
+        try {
+            String result = "";
+            String feedback;
+            if(numOpts != 5) {
+                result = "You must select advance notice, name, numNodes and persistence";
+                System.err.println(result);
+                return;
+            }
+
+	    if(an != 0)
+		 if(name != null) 
+			if (numNodes != 0) {
+                		feedback = this.remoteAdminToolsManagement.createLease(an, persistent, this.vmIDs.get(0)); 
+                		if(feedback != null)
+                			result += feedback + "\n";
+			}
+			else
+		                result = "Create requires a NUM_NODES option";
+            	else 
+	                result = "Create requires a NAME option";
+            else
+                result = "Create requires an AN option";
+            
+            if(result != null && !result.isEmpty())
+                System.err.println(result);
+        }
+        catch (RemoteException e) {
+            System.err.println(e.getMessage());
         }
     }
 
@@ -297,8 +341,47 @@ public class RemoteAdminToolsMain extends RMIConfig {
                     }
                     this.seconds = seconds;
                 }
-        }
+        } else if(this.action == ToolAction.CreateLease) {
+		if(line.hasOption(Opts.ADVANCE_NOTIFICATION)) {
+                    final String an = line.getOptionValue(Opts.ADVANCE_NOTIFICATION);
+                    if(an == null || an.trim().length() == 0) 
+                        throw new ParameterProblem("Advance notification value is empty");
+		    final long anTranslation = Long.parseLong(an);
+		    this.an = anTranslation;
+                    numOpts++;
+                }
+                if(line.hasOption(Opts.ID)) {
+                    final String id = line.getOptionValue(Opts.ID);
+                    if(id == null || id.trim().length() == 0)
+                        throw new ParameterProblem("Advance notification value is empty");
+                    this.vmIDs = parseValues(id);
+    		    numOpts++;
+                }
+		if(line.hasOption(Opts.NAME)) {
+                    final String name = line.getOptionValue(Opts.NAME);
+                    if(name == null || name.trim().length() == 0) 
+                        throw new ParameterProblem("Name value is empty");
+                    this.name = name;
+                    numOpts++;
+                }
+		if(line.hasOption(Opts.PERSISTENCE)) {
+                    final String persistent = line.getOptionValue(Opts.PERSISTENCE);
+                    if(persistent == null || persistent.trim().length() == 0) 
+                        throw new ParameterProblem("Persistence value is empty");
+                    this.persistent = Boolean.parseBoolean(persistent);
+                    numOpts++;
+                }
+                if(line.hasOption(Opts.NUM_NODES)) {
+                    final String numNodes = line.getOptionValue(Opts.NUM_NODES);
+                    if(numNodes == null || numNodes.trim().length() == 0) 
+                        throw new ParameterProblem("numNodes value is empty");
+                    final int numNodesTranslation = Integer.parseInt(numNodes);
+                    this.numNodes = numNodesTranslation;
+                    numOpts++;
+                }
 
+	}    
+	
         //finally everything else
         if (!line.hasOption(Opts.CONFIG)) {
             throw new ParameterProblem(Opts.CONFIG_LONG + " option is required");
@@ -616,6 +699,7 @@ public class RemoteAdminToolsMain extends RMIConfig {
         map.put(FIELD_MEMORY, vmt.getMemory());
         map.put(FIELD_CPU_COUNT, vmt.getCpuCount());
         map.put(FIELD_URI, vmt.getUri());
+        map.put(FIELD_ADVANCE_NOTIFICATION, ""+vmt.getAdvanceNotice());
         return map;
     }
 
@@ -664,6 +748,7 @@ enum ToolAction implements AdminEnum {
     ListVMs(Opts.LIST_VMS, RemoteAdminToolsMain.ADMIN_FIELDS),
     ListNodes(Opts.NODE_LIST, RemoteAdminToolsMain.NODE_LIST_FIELDS),
     ShutdownVMs(Opts.SHUTDOWN_VMS, null),
+    CreateLease(Opts.CREATE, null),
     Help(Opts.HELP, null);
 
     private final String option;

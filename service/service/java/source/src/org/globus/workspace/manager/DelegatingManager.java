@@ -38,6 +38,7 @@ import org.globus.workspace.service.WorkspaceHome;
 import org.nimbustools.api._repr._Caller;
 import org.nimbustools.api._repr._CreateResult;
 import org.nimbustools.api._repr.vm._VM;
+import org.nimbustools.api._repr._SpotANCreateRequest;
 import org.nimbustools.api.repr.Advertised;
 import org.nimbustools.api.repr.Caller;
 import org.nimbustools.api.repr.CannotTranslateException;
@@ -55,6 +56,8 @@ import org.nimbustools.api.repr.SpotANRequestInfo;
 import org.nimbustools.api.repr.Usage;
 import org.nimbustools.api.repr.vm.VM;
 import org.nimbustools.api.repr.vm.VMConstants;
+import org.nimbustools.api.repr.vm.State;
+import org.nimbustools.api.repr.vm.RequiredVMM;
 import org.nimbustools.api.repr.vm.ResourceAllocation;
 import org.nimbustools.api.services.rm.AuthorizationException;
 import org.nimbustools.api.services.rm.CoSchedulingException;
@@ -914,7 +917,7 @@ public class DelegatingManager implements Manager {
             throw new MetadataException("Could not translate request from internal representation to RM API representation.", e);
         }
     }
-   
+  
     public Double getSpotPrice() {
         return asyncHome.getSpotPrice();
     }
@@ -1053,9 +1056,55 @@ public class DelegatingManager implements Manager {
         }
     }     
     
-    public Double getSpotANPrice() {
-        return asyncHome.getSpotPrice();
-    }
+    public SpotANRequestInfo requestSpotANInstances(long advanceNotice, boolean persistent, String VMID)
+            throws AuthorizationException,
+                   CreationException,
+                   MetadataException,
+                   ResourceRequestDeniedException,
+                   SchedulingException,
+		   ManageException,
+		   CannotTranslateException,
+		   DoesNotExistException {
+//AQUI
+//        if (!asyncHome.willBePreempted(window, time))
+//          throw new ResourceRequestDeniedException("Cannot run for as long as needed");
+
+        final Caller caller = this.getVM(this.home.find(VMID)).getCreator();
+
+        final _SpotANCreateRequest screq = this.repr._newSpotANCreateRequest();
+
+        screq.setContext(null);
+        screq.setCoScheduleDone(false);
+        screq.setCoScheduleID(null);
+        screq.setCoScheduleMember(false);
+        //screq.setCustomizationRequests(custRequests);
+        screq.setInitialStateRequest(State.STATE_Running);
+        screq.setName(VMID);
+        screq.setRequestedKernel(null); // todo
+        //screq.setRequestedNics(nics);
+        //screq.setRequestedRA(ra);
+        screq.setRequestedSchedule(null); // ask for default
+        screq.setRequiredVMM(repr._newRequiredVMM());
+        screq.setShutdownType(CreateRequest.SHUTDOWN_TYPE_TRASH);
+        //screq.setVMFiles(files);
+        //screq.setMdUserData(userData);
+        //screq.setSshKeyName(keyname);
+
+        screq.setPersistent(persistent);
+        screq.setAdvanceNotice(advanceNotice);
+
+        AsyncRequest siRequest = this.creation.addAsyncRequest(screq, caller);
+
+        try {
+                return dataConvert.getSpotANRequest(siRequest);
+        } catch (CannotTranslateException e) {
+            throw new MetadataException("Could not translate request from internal representation to RM API representation.", e);
+        }
+    } 
+ 
+//    public Double getSpotANPrice() {
+//        return asyncHome.getSpotPrice();
+//    }
 
 
     public SpotANRequestInfo getSpotANRequest(String requestID, Caller caller)

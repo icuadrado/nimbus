@@ -225,10 +225,30 @@ public class Opts {
     //*************************************************************************
     // LEASES MANAGEMENT
     //*************************************************************************
-//    public static final String CREATE = "C";
-//    public static final String CREATE_LONG = "create";
-//    public final Option CREATE_OPT =
-//                OptionBuilder.withLongOpt(CREATE_LONG).hasArg().create(CREATE);
+    public static final String CREATE = "cr";
+    public static final String CREATE_LONG = "create";
+    public final Option CREATE_OPT =
+                OptionBuilder.withLongOpt(CREATE_LONG).hasOptionalArg().create(CREATE);
+
+    public static final String ADVANCE_NOTIFICATION = "an";
+    public static final String ADVANCE_NOTIFICATION_LONG = "notice";
+    public final Option ADVANCE_NOTIFICATION_OPT =
+                OptionBuilder.withLongOpt(ADVANCE_NOTIFICATION_LONG).hasOptionalArg().create(ADVANCE_NOTIFICATION);
+
+    public static final String NAME = "nm";
+    public static final String NAME_LONG = "name";
+    public final Option NAME_OPT =
+                OptionBuilder.withLongOpt(NAME_LONG).hasOptionalArg().create(NAME);
+
+    public static final String PERSISTENCE = "per";
+    public static final String PERSISTENCE_LONG = "persistent";
+    public final Option PERSISTENCE_OPT =
+                OptionBuilder.withLongOpt(PERSISTENCE_LONG).hasOptionalArg().create(PERSISTENCE);
+
+    public static final String NUM_NODES = "nn";
+    public static final String NUM_NODES_LONG = "numnodes";
+    public final Option NUM_NODES_OPT =
+                OptionBuilder.withLongOpt(NUM_NODES_LONG).hasOptionalArg().create(NUM_NODES);
 
     public final Option[] ALL_ENABLED_OPTIONS = {
             HELP_OPT, DEBUG_OPT, CONFIG_OPT, FORCE_OPT, BATCH_OPT, DELIMITER_OPT,
@@ -237,7 +257,7 @@ public class Opts {
             ACTIVE_OPT, INACTIVE_OPT, CLEANUP_VMS_OPT, LIST_VMS_OPT, SHUTDOWN_VMS_OPT, USER_OPT, ID_OPT,
             SECONDS_OPT, ALL_VMS_OPT, HOST_OPT, DN_OPT, GROUP_ID_OPT,
             GROUP_NAME_OPT, FREE_OPT, USED_OPT, NODE_LIST_OPT, STATE_OPT
-//	    , CREATE_OPT
+	    , ADVANCE_NOTIFICATION_OPT, CREATE_OPT, NAME_OPT, PERSISTENCE_OPT, NUM_NODES_OPT
 	    };
 
 }

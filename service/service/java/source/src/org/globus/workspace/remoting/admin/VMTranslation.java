@@ -31,6 +31,7 @@ public class VMTranslation {
     private String memory;
     private String cpuCount;
     private String uri;
+    private long advanceNotice;
 
     //Used by Gson
     public VMTranslation() {}
@@ -49,6 +50,23 @@ public class VMTranslation {
         this.memory = memory;
         this.cpuCount = cpuCount;
         this.uri = uri;
+    }
+
+    public VMTranslation(String id, String node, String callerIdentity, String groupId, String groupName,
+                         String state, String startTime, String endTime, String memory, String cpuCount,
+                         String uri, long advanceNotice) {
+        this.id = id;
+        this.node = node;
+        this.callerIdentity = callerIdentity;
+        this.groupId = groupId;
+        this.groupName = groupName;
+        this.state = state;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.memory = memory;
+        this.cpuCount = cpuCount;
+        this.uri = uri;
+	this.advanceNotice = advanceNotice;
     }
 
     public String getId() {
@@ -83,5 +101,8 @@ public class VMTranslation {
     }
     public String getUri() {
         return uri;
+    }
+    public long getAdvanceNotice() {
+	return advanceNotice;
     }
 }

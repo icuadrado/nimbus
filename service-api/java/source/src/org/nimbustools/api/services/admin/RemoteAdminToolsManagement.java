@@ -22,6 +22,8 @@ import java.rmi.RemoteException;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.nimbustools.api.repr.SpotANCreateRequest;
+
 /**
  * This interface handles all the work done by RemoteAdminToolsMain and is mapped to the service over rmi
  */
@@ -53,4 +55,6 @@ public interface RemoteAdminToolsManagement extends Remote {
     public Hashtable<String, String[]> showVMsForAllHosts() throws RemoteException;
     public String shutdown(int type, String typeID, String seconds, boolean force) throws RemoteException;
     public String cleanup(int type, String typeID) throws RemoteException;
+
+    public String createLease(long an, boolean persistent, String callerDN) throws RemoteException;
 }

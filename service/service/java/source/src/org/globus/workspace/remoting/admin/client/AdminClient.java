@@ -161,6 +161,9 @@ public class AdminClient extends RMIConfig {
             case PoolAvailability:
                 run_poolAvail();
                 break;
+	    case CreateLease:
+		run_createLease();
+		break;
         }
     }
 
@@ -294,6 +297,11 @@ public class AdminClient extends RMIConfig {
         }
     }
 
+    private void run_createLease() { 
+	//throws ExecutionProblem {
+       	//throw new ExecutionProblem("Entering Create Lease " );
+	System.out.println("ENTERING CREATE LEASE");
+    }
 
     private void loadAdminClientConfig() throws ParameterProblem, ExecutionProblem {
 
@@ -421,7 +429,9 @@ public class AdminClient extends RMIConfig {
             if(line.hasOption(Opts.USED)) {
                 this.inUse = RemoteNodeManagement.USED_ENTRIES;
             }
-        }
+        } else if (theAction == AdminAction.CreateLease) {
+		throw new ParameterProblem(Opts.CONFIG_LONG + " Create Lease");
+	}
 
         //finally everything else
         if (!line.hasOption(Opts.CONFIG)) {
@@ -597,6 +607,7 @@ enum AdminAction implements AdminEnum {
     RemoveNodes(Opts.REMOVE_NODES, AdminClient.NODE_REPORT_FIELDS_SHORT),
     UpdateNodes(Opts.UPDATE_NODES, AdminClient.NODE_REPORT_FIELDS),
     PoolAvailability(Opts.POOL_AVAILABILITY, AdminClient.NODE_ALLOCATION_FIELDS),
+    CreateLease(Opts.CREATE, AdminClient.NODE_REPORT_FIELDS),
     Help(Opts.HELP, null);
 
     private final String option;

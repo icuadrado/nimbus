@@ -366,4 +366,9 @@ public class DefaultRemoteNodeManagement implements RemoteNodeManagement {
         vmm.setMemRemain(entry.getMemCurrent());
         return vmm;
     }
+
+    public String createLease(String nodeJson) throws RemoteException {
+
+        return "Create Lease arrival";
+    }
 }

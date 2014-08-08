@@ -29,13 +29,22 @@ import org.nimbus.authz.AuthzDBException;
 import org.nimbus.authz.UserAlias;
 import org.nimbustools.api._repr._Caller;
 import org.nimbustools.api.repr.Caller;
+import org.nimbustools.api.repr.CannotTranslateException;
+import org.nimbustools.api.repr.SpotANCreateRequest;
+import org.nimbustools.api.repr.SpotANRequestInfo;
 import org.nimbustools.api.repr.ReprFactory;
 import org.nimbustools.api.repr.vm.ResourceAllocation;
 import org.nimbustools.api.repr.vm.VM;
 import org.nimbustools.api.services.admin.RemoteAdminToolsManagement;
+import org.nimbustools.api.services.rm.AuthorizationException;
+import org.nimbustools.api.services.rm.CreationException;
+import org.nimbustools.api.services.rm.CoSchedulingException;
 import org.nimbustools.api.services.rm.DoesNotExistException;
 import org.nimbustools.api.services.rm.ManageException;
 import org.nimbustools.api.services.rm.Manager;
+import org.nimbustools.api.services.rm.MetadataException;
+import org.nimbustools.api.services.rm.ResourceRequestDeniedException;
+import org.nimbustools.api.services.rm.SchedulingException;
 import org.nimbus.authz.AuthzDBAdapter;
 import org.nimbustools.api.services.rm.OperationDisabledException;
 
@@ -588,5 +597,39 @@ public class DefaultRemoteAdminToolsMgmt implements RemoteAdminToolsManagement {
 
     public void setAuthzCallout(CreationAuthorizationCallout authzCallout) {
         this.authzCallout = authzCallout;
+    }
+
+    public String createLease(long an, boolean persistence, String callerDN) throws RemoteException {
+	try{
+		SpotANRequestInfo requestInfo = manager.requestSpotANInstances(an, persistence, callerDN);
+		return requestInfo.toString();
+        }
+        catch (ManageException e) {
+            throw new RemoteException(e.getMessage());
+        }
+        catch (DoesNotExistException e) {
+            throw new RemoteException(e.getMessage());
+        }
+        catch (AuthorizationException e) {
+            throw new RemoteException(e.getMessage());
+        }
+	catch (CoSchedulingException e) {
+            throw new RemoteException(e.getMessage());
+        }
+        catch (CreationException e) {
+            throw new RemoteException(e.getMessage());
+        }
+        catch (MetadataException e) {
+            throw new RemoteException(e.getMessage());
+        }
+        catch (ResourceRequestDeniedException e) {
+            throw new RemoteException(e.getMessage());
+        }
+        catch (SchedulingException e) {
+            throw new RemoteException(e.getMessage());
+        }
+	catch (CannotTranslateException e) {
+            throw new RemoteException(e.getMessage());
+        }
     }
 }
