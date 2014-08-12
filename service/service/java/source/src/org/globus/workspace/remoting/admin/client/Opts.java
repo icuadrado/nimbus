@@ -230,6 +230,21 @@ public class Opts {
     public final Option CREATE_OPT =
                 OptionBuilder.withLongOpt(CREATE_LONG).hasOptionalArg().create(CREATE);
 
+    public static final String LIST_LEASES = "lr";
+    public static final String LIST_LEASES_LONG = "leases";
+    public final Option LIST_LEASES_OPT =
+                OptionBuilder.withLongOpt(LIST_LEASES_LONG).hasOptionalArg().create(LIST_LEASES);
+
+    public static final String CANCEL_LEASE = "cl";
+    public static final String CANCEL_LEASE_LONG = "clease";
+    public final Option CANCEL_LEASE_OPT =
+                OptionBuilder.withLongOpt(CANCEL_LEASE_LONG).hasOptionalArg().create(CANCEL_LEASE);
+
+    public static final String LEASE_ID = "lid";
+    public static final String LEASE_ID_LONG = "leaseid";
+    public final Option LEASE_ID_OPT =
+                OptionBuilder.withLongOpt(LEASE_ID_LONG).hasOptionalArg().create(LEASE_ID);
+
     public static final String ADVANCE_NOTIFICATION = "an";
     public static final String ADVANCE_NOTIFICATION_LONG = "notice";
     public final Option ADVANCE_NOTIFICATION_OPT =
@@ -258,6 +273,7 @@ public class Opts {
             SECONDS_OPT, ALL_VMS_OPT, HOST_OPT, DN_OPT, GROUP_ID_OPT,
             GROUP_NAME_OPT, FREE_OPT, USED_OPT, NODE_LIST_OPT, STATE_OPT
 	    , ADVANCE_NOTIFICATION_OPT, CREATE_OPT, NAME_OPT, PERSISTENCE_OPT, NUM_NODES_OPT
+            , LIST_LEASES_OPT, CANCEL_LEASE_OPT, LEASE_ID_OPT
 	    };
 
 }

@@ -20,6 +20,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 
+import org.nimbus.authz.RepositoryImageLocator;
+import java.net.URI;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.globus.workspace.Lager;
@@ -1048,7 +1051,6 @@ public class DelegatingManager implements Manager {
 //          throw new ResourceRequestDeniedException("Cannot run for as long as needed");
 
         AsyncRequest siRequest = this.creation.addAsyncRequest(req, caller);
-
         try {
 	    	return dataConvert.getSpotANRequest(siRequest);
         } catch (CannotTranslateException e) {
@@ -1056,7 +1058,7 @@ public class DelegatingManager implements Manager {
         }
     }     
     
-    public SpotANRequestInfo requestSpotANInstances(long advanceNotice, boolean persistent, String VMID)
+    public SpotANRequestInfo requestSpotANInstances(long advanceNotice, boolean persistent, String callerDN)
             throws AuthorizationException,
                    CreationException,
                    MetadataException,
@@ -1065,48 +1067,49 @@ public class DelegatingManager implements Manager {
 		   ManageException,
 		   CannotTranslateException,
 		   DoesNotExistException {
-//AQUI
-//        if (!asyncHome.willBePreempted(window, time))
-//          throw new ResourceRequestDeniedException("Cannot run for as long as needed");
 
-        final Caller caller = this.getVM(this.home.find(VMID)).getCreator();
+	RepositoryImageLocator imageLocator = backfill.getImageLocator();
 
         final _SpotANCreateRequest screq = this.repr._newSpotANCreateRequest();
 
-        screq.setContext(null);
-        screq.setCoScheduleDone(false);
-        screq.setCoScheduleID(null);
-        screq.setCoScheduleMember(false);
-        //screq.setCustomizationRequests(custRequests);
-        screq.setInitialStateRequest(State.STATE_Running);
-        screq.setName(VMID);
-        screq.setRequestedKernel(null); // todo
-        //screq.setRequestedNics(nics);
-        //screq.setRequestedRA(ra);
+        final _Caller caller = this.repr._newCaller();
+        caller.setIdentity(callerDN);
+        //caller.setSubject(IdentityUtil.discoverSubject());
+
+	final URI imageURI;
+        try {
+		String URI = imageLocator.getImageLocation(backfill.getRepoUser(), backfill.getDiskImage()) + "/" + backfill.getDiskImage();
+		imageURI=new URI(URI);
+	} catch (Exception e) {
+            throw new CreationException(e.getMessage(), e);
+        }
+
+	AsyncCreateRequest req =
+                    backfill.getBackfillRequest(1, "SPOTAN-" + 1, imageURI);
+
+        screq.setContext(req.getContext());
+        //screq.setCoScheduleDone(req.getCoScheduleDone());
+        //screq.setCoScheduleID(req.getCoScheduleID());
+        //screq.setCoScheduleMember(req.getCoScheduleMember());
+        screq.setCustomizationRequests(req.getCustomizationRequests());
+        screq.setInitialStateRequest(req.getInitialStateRequest());
+        screq.setName(callerDN+"1");
+        screq.setRequestedKernel(req.getRequestedKernel()); // todo
+        screq.setRequestedNics(req.getRequestedNics());
+        screq.setRequestedRA(req.getRequestedRA());
         screq.setRequestedSchedule(null); // ask for default
-        screq.setRequiredVMM(repr._newRequiredVMM());
+        screq.setRequiredVMM(req.getRequiredVMM());
         screq.setShutdownType(CreateRequest.SHUTDOWN_TYPE_TRASH);
-        //screq.setVMFiles(files);
-        //screq.setMdUserData(userData);
-        //screq.setSshKeyName(keyname);
+        screq.setVMFiles(req.getVMFiles());
+        screq.setMdUserData(req.getMdUserData());
+        screq.setSshKeyName(req.getSshKeyName());
 
         screq.setPersistent(persistent);
         screq.setAdvanceNotice(advanceNotice);
 
-        AsyncRequest siRequest = this.creation.addAsyncRequest(screq, caller);
-
-        try {
-                return dataConvert.getSpotANRequest(siRequest);
-        } catch (CannotTranslateException e) {
-            throw new MetadataException("Could not translate request from internal representation to RM API representation.", e);
-        }
+	return requestSpotANInstances(screq, caller);
     } 
  
-//    public Double getSpotANPrice() {
-//        return asyncHome.getSpotPrice();
-//    }
-
-
     public SpotANRequestInfo getSpotANRequest(String requestID, Caller caller)
             throws DoesNotExistException, ManageException, AuthorizationException {
         return this.getSpotANRequests(new String[]{requestID}, caller)[0];
@@ -1131,15 +1134,29 @@ public class DelegatingManager implements Manager {
 
     public SpotANRequestInfo[] getSpotANRequestsByCaller(Caller caller)
             throws ManageException {
-        
+
         return this.getSpotANRequests(asyncHome.getRequests(caller, true));
     }
 
+    public SpotANRequestInfo[] getSpotANRequestsByCallerDN(String callerDN)
+            throws ManageException {
 
+        final _Caller caller = this.repr._newCaller();
+        caller.setIdentity(callerDN);
+        //caller.setSubject(IdentityUtil.discoverSubject());
+        
+	AsyncRequest[] requestAux = asyncHome.getRequests(caller, true);
+
+	logger.info("Prueba Retrieving requests from caller: " + requestAux.length + ".");
+	
+        return this.getSpotANRequests(requestAux);
+    }
+        
     public SpotANRequestInfo[] cancelSpotANInstanceRequests(String[] ids, Caller caller) 
             throws DoesNotExistException, AuthorizationException, ManageException {
-        SpotANRequestInfo[] result = new SpotANRequestInfo[ids.length];
         
+        SpotANRequestInfo[] result = new SpotANRequestInfo[ids.length];
+ 
         for (int i = 0; i < ids.length; i++) {
             AsyncRequest siReq = asyncHome.getRequest(ids[i]);
             

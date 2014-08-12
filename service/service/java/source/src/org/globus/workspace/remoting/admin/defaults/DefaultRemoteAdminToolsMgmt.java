@@ -599,6 +599,42 @@ public class DefaultRemoteAdminToolsMgmt implements RemoteAdminToolsManagement {
         this.authzCallout = authzCallout;
     }
 
+    public String listLeases(String dn) throws RemoteException {
+ 	try{
+		String result = "";
+                SpotANRequestInfo[] requestInfo = manager.getSpotANRequestsByCallerDN(dn);
+		for (SpotANRequestInfo screq:requestInfo)
+			result += screq.getRequestID()+"\n"+screq.getCreator()+"\n"+screq;
+                return result;
+	}
+        catch (ManageException e) {
+            throw new RemoteException(e.getMessage());
+        }
+    }
+
+    public String cancelLease(String id, String dn) throws RemoteException {
+        try{
+                String result="";
+		String[] aux = new String[1];
+		aux[0] = id;
+
+                SpotANRequestInfo[] requestInfo = manager.getSpotANRequestsByCallerDN(dn); 
+                logger.info("Prueba     " + requestInfo.length);
+
+                result = manager.cancelSpotANInstanceRequests(aux, requestInfo[0].getCreator()).toString();
+                return result;
+        }
+        catch (ManageException e) {
+            throw new RemoteException(e.getMessage());
+        }
+	catch (DoesNotExistException e) {
+            throw new RemoteException(e.getMessage());
+        } 
+	catch (AuthorizationException e) {
+            throw new RemoteException(e.getMessage());
+        }
+    }
+
     public String createLease(long an, boolean persistence, String callerDN) throws RemoteException {
 	try{
 		SpotANRequestInfo requestInfo = manager.requestSpotANInstances(an, persistence, callerDN);

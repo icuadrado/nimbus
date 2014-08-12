@@ -83,6 +83,10 @@ public class Backfill {
         this.imageLocator = imageLocator;
     }
 
+    public RepositoryImageLocator getImageLocator(){
+	return imageLocator;
+    }
+
     public void setManager(Manager manager) {
         this.manager = manager;
     }
@@ -375,7 +379,7 @@ public class Backfill {
         file.setMountAs(this.rootFileMountAs);
         file.setDiskPerms(VMFile.DISKPERMS_ReadWrite);
         req.setVMFiles(new _VMFile[]{file});
-
+ 
         return req;
     }
 

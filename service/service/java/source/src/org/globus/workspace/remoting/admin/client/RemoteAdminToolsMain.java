@@ -50,11 +50,10 @@ public class RemoteAdminToolsMain extends RMIConfig {
     private static final String FIELD_MEMORY = "memory";
     private static final String FIELD_CPU_COUNT = "cpu count";
     private static final String FIELD_URI = "uri";
-    private static final String FIELD_ADVANCE_NOTIFICATION = "advance_notification";
 
     final static String[] ADMIN_FIELDS = new String[] {
             FIELD_ID, FIELD_NODE, FIELD_GROUP_ID, FIELD_GROUP_NAME, FIELD_CREATOR, FIELD_STATE, FIELD_START,
-                FIELD_END, FIELD_MEMORY, FIELD_CPU_COUNT, FIELD_URI, FIELD_ADVANCE_NOTIFICATION};
+                FIELD_END, FIELD_MEMORY, FIELD_CPU_COUNT, FIELD_URI};
 
     final static String[] NODE_LIST_FIELDS = new String[] {
             FIELD_NODE, FIELD_ID
@@ -62,6 +61,7 @@ public class RemoteAdminToolsMain extends RMIConfig {
 
     private ToolAction action;
     private RemoteAdminToolsManagement remoteAdminToolsManagement;
+    private String leaseID;
     private String user;
     private String userDN;
     private String groupId;
@@ -157,6 +157,12 @@ public class RemoteAdminToolsMain extends RMIConfig {
 	    case CreateLease:
 		createLease();
 		break;
+	    case ListLeases:
+		listLeases();
+		break;
+	    case CancelLease:
+		cancelLease();
+		break;
         }
     }
 
@@ -169,12 +175,12 @@ public class RemoteAdminToolsMain extends RMIConfig {
                 System.err.println(result);
                 return;
             }
-
-	    if(an != 0)
+	    
+	if(an != 0)
 		 if(name != null) 
 			if (numNodes != 0) {
-                		feedback = this.remoteAdminToolsManagement.createLease(an, persistent, this.vmIDs.get(0)); 
-                		if(feedback != null)
+	        		feedback = this.remoteAdminToolsManagement.createLease(an, persistent, this.vmIDs.get(0)); 
+				if(feedback != null)
                 			result += feedback + "\n";
 			}
 			else
@@ -186,8 +192,54 @@ public class RemoteAdminToolsMain extends RMIConfig {
             
             if(result != null && !result.isEmpty())
                 System.err.println(result);
+
         }
         catch (RemoteException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void listLeases(){
+	try{
+
+            String result = "";
+            String feedback;
+            if(numOpts > 1) {
+                result = "You must select only one option";
+                System.err.println(result);
+                return;
+            }
+
+            feedback = this.remoteAdminToolsManagement.listLeases(userDN);
+            if(feedback != null)
+                result += feedback + "\n";
+
+            if(result != null && !result.isEmpty())
+                System.err.println(result);
+
+        } catch (RemoteException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void cancelLease(){
+	try{
+            String result = "";
+            String feedback;
+            if(numOpts != 2) {
+                result = "You must select two option";
+                System.err.println(result);
+                return;
+            }
+
+            feedback = this.remoteAdminToolsManagement.cancelLease(leaseID, userDN);
+            if(feedback != null)
+                result += feedback + "\n";
+
+            if(result != null && !result.isEmpty())
+                System.err.println(result);
+
+	} catch (RemoteException e) {
             System.err.println(e.getMessage());
         }
     }
@@ -379,9 +431,34 @@ public class RemoteAdminToolsMain extends RMIConfig {
                     this.numNodes = numNodesTranslation;
                     numOpts++;
                 }
+	} else if(this.action == ToolAction.ListLeases) {
+		if(line.hasOption(Opts.DN)) {
+                    final String dn = line.getOptionValue(Opts.DN);
+                    if(dn == null || dn.trim().length() == 0) {
+                        throw new ParameterProblem("User DN value is empty");
+                    }
+                    this.userDN = dn;
+                    numOpts++;
+                }
+	} else if(this.action == ToolAction.CancelLease) {
+		if(line.hasOption(Opts.LEASE_ID)) {
+                    final String lid = line.getOptionValue(Opts.LEASE_ID);
+                    if(lid == null || lid.trim().length() == 0) {
+                        throw new ParameterProblem("Lease ID value is empty");
+                    }
+                    this.leaseID = lid;
+                    numOpts++;
+                }
+                if(line.hasOption(Opts.DN)) {
+                    final String dn = line.getOptionValue(Opts.DN);
+                    if(dn == null || dn.trim().length() == 0) {
+                        throw new ParameterProblem("User DN value is empty");
+                    }
+                    this.userDN = dn;
+                    numOpts++;
+                }
+        }
 
-	}    
-	
         //finally everything else
         if (!line.hasOption(Opts.CONFIG)) {
             throw new ParameterProblem(Opts.CONFIG_LONG + " option is required");
@@ -699,7 +776,6 @@ public class RemoteAdminToolsMain extends RMIConfig {
         map.put(FIELD_MEMORY, vmt.getMemory());
         map.put(FIELD_CPU_COUNT, vmt.getCpuCount());
         map.put(FIELD_URI, vmt.getUri());
-        map.put(FIELD_ADVANCE_NOTIFICATION, ""+vmt.getAdvanceNotice());
         return map;
     }
 
@@ -749,6 +825,8 @@ enum ToolAction implements AdminEnum {
     ListNodes(Opts.NODE_LIST, RemoteAdminToolsMain.NODE_LIST_FIELDS),
     ShutdownVMs(Opts.SHUTDOWN_VMS, null),
     CreateLease(Opts.CREATE, null),
+    ListLeases(Opts.LIST_LEASES, null),
+    CancelLease(Opts.CANCEL_LEASE, null),
     Help(Opts.HELP, null);
 
     private final String option;

@@ -57,4 +57,8 @@ public interface RemoteAdminToolsManagement extends Remote {
     public String cleanup(int type, String typeID) throws RemoteException;
 
     public String createLease(long an, boolean persistent, String callerDN) throws RemoteException;
+
+    public String listLeases(String callerDN) throws RemoteException;
+
+    public String cancelLease(String id, String callerDN) throws RemoteException;
 }

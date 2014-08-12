@@ -286,11 +286,12 @@ public interface Manager extends NimbusModule {
     
     public SpotANRequestInfo[] getSpotANRequestsByCaller(Caller caller)
             throws ManageException;    
-    
+
+    public SpotANRequestInfo[] getSpotANRequestsByCallerDN(String callerDN)
+            throws ManageException;
+ 
     public SpotANRequestInfo[] cancelSpotANInstanceRequests(String[] ids,
                                                     Caller caller)
             throws DoesNotExistException, AuthorizationException, ManageException;
     
-    //public Double getSpotANPrice();
-   
 }

@@ -367,8 +367,4 @@ public class DefaultRemoteNodeManagement implements RemoteNodeManagement {
         return vmm;
     }
 
-    public String createLease(String nodeJson) throws RemoteException {
-
-        return "Create Lease arrival";
-    }
 }

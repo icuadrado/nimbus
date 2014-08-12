@@ -251,7 +251,6 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
      * @return an array of asynchronous requests from this caller
      */   
     public AsyncRequest[] getRequests(Caller caller, boolean spot) {
-        logger.debug("Retrieving requests from caller: " + caller.getIdentity() + ".");
         ArrayList<AsyncRequest> requestsByCaller = new ArrayList<AsyncRequest>();
         for (AsyncRequest request : this.asyncRequestMap.getAll()) {
             if(request.isSpotRequest() == spot && request.getCaller().equals(caller)){
