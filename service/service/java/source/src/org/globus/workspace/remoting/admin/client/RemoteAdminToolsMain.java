@@ -170,24 +170,28 @@ public class RemoteAdminToolsMain extends RMIConfig {
         try {
             String result = "";
             String feedback;
-            if(numOpts != 5) {
-                result = "You must select advance notice, name, numNodes and persistence";
+            if(numOpts != 4) {
+                result = "You must select advance notice, dn, numNodes and persistence";
                 System.err.println(result);
                 return;
             }
 	    
 	if(an != 0)
-		 if(name != null) 
+	//	 if(name != null)
+		if(userDN != null) 
 			if (numNodes != 0) {
-	        		feedback = this.remoteAdminToolsManagement.createLease(an, persistent, this.vmIDs.get(0)); 
-				if(feedback != null)
+	        		feedback = this.remoteAdminToolsManagement.createLease(an, persistent, userDN); 
+				if(feedback != null){
                 			result += feedback + "\n";
+				}
 			}
 			else
 		                result = "Create requires a NUM_NODES option";
-            	else 
-	                result = "Create requires a NAME option";
-            else
+        //    	else 
+	//                result = "Create requires a NAME option";
+            	else
+			result = "Create requires a DN option";
+	    else
                 result = "Create requires an AN option";
             
             if(result != null && !result.isEmpty())
@@ -402,20 +406,28 @@ public class RemoteAdminToolsMain extends RMIConfig {
 		    this.an = anTranslation;
                     numOpts++;
                 }
-                if(line.hasOption(Opts.ID)) {
-                    final String id = line.getOptionValue(Opts.ID);
-                    if(id == null || id.trim().length() == 0)
-                        throw new ParameterProblem("Advance notification value is empty");
-                    this.vmIDs = parseValues(id);
-    		    numOpts++;
-                }
-		if(line.hasOption(Opts.NAME)) {
-                    final String name = line.getOptionValue(Opts.NAME);
-                    if(name == null || name.trim().length() == 0) 
-                        throw new ParameterProblem("Name value is empty");
-                    this.name = name;
+                //if(line.hasOption(Opts.ID)) {
+                //    final String id = line.getOptionValue(Opts.ID);
+                 //   if(id == null || id.trim().length() == 0)
+                //        throw new ParameterProblem("Advance notification value is empty");
+                //    this.vmIDs = parseValues(id);
+    		//    numOpts++;
+                //}
+		//if(line.hasOption(Opts.NAME)) {
+                //    final String name = line.getOptionValue(Opts.NAME);
+                //    if(name == null || name.trim().length() == 0) 
+                //        throw new ParameterProblem("Name value is empty");
+                //    this.name = name;
+                //    numOpts++;
+                //}
+	 	if(line.hasOption(Opts.DN)) {
+                    final String dn = line.getOptionValue(Opts.DN);
+                    if(dn == null || dn.trim().length() == 0) {
+                        throw new ParameterProblem("User DN value is empty");
+                    }
+                    this.userDN = dn;
                     numOpts++;
-                }
+                }	
 		if(line.hasOption(Opts.PERSISTENCE)) {
                     final String persistent = line.getOptionValue(Opts.PERSISTENCE);
                     if(persistent == null || persistent.trim().length() == 0) 

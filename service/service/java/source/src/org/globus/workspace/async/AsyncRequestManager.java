@@ -45,5 +45,7 @@ public interface AsyncRequestManager extends AsyncRequestHome, PreemptableSpaceM
      */
     public void calculatePreemptionIfNeeded(Vector<Double> window, TreeSet timeSet);
 
-    public boolean willBePreempted(Vector<Double> window, int time);
+    public boolean willBePreempted(Vector<Double> window, long time);
+
+    public void setWindow(Vector<Double> window);
 }

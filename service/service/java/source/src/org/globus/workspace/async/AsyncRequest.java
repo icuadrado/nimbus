@@ -80,7 +80,7 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
     public AsyncRequest(String id, boolean persistent, long advanceNotice,
             Caller caller, String groupID, VirtualMachine[] bindings, Context context,
             NIC[] requestedNics, String sshKeyName, Calendar creationTime) {
-        this(id, true, null, persistent, caller, groupID, bindings, context, requestedNics, sshKeyName, creationTime);
+        this(id, false, null, persistent, caller, groupID, bindings, context, requestedNics, sshKeyName, creationTime);
 	this.advanceNotice = new Long(advanceNotice);
 	spotAN = true;
     }

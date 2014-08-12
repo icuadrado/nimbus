@@ -270,6 +270,7 @@ public class DelegatingManager implements Manager {
 			window.add((double)requests);
 			requests = 0;
 
+                        asyncHome.setWindow(window);
 			asyncHome.calculatePreemptionIfNeeded(window, advanceNotificationTime);
 		}
        }
@@ -1046,9 +1047,9 @@ public class DelegatingManager implements Manager {
                    MetadataException,
                    ResourceRequestDeniedException,
                    SchedulingException {
-//AQUI
-//        if (!asyncHome.willBePreempted(window, time))
-//          throw new ResourceRequestDeniedException("Cannot run for as long as needed");
+
+        if (asyncHome.willBePreempted(window, req.getAdvanceNotice()))
+          throw new ResourceRequestDeniedException("Cannot run for as long as needed");
 
         AsyncRequest siRequest = this.creation.addAsyncRequest(req, caller);
         try {
@@ -1145,7 +1146,7 @@ public class DelegatingManager implements Manager {
         caller.setIdentity(callerDN);
         //caller.setSubject(IdentityUtil.discoverSubject());
         
-	AsyncRequest[] requestAux = asyncHome.getRequests(caller, true);
+	AsyncRequest[] requestAux = asyncHome.getRequests(caller, false);
 
 	logger.info("Prueba Retrieving requests from caller: " + requestAux.length + ".");
 	

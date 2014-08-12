@@ -28,6 +28,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
@@ -80,6 +86,8 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
     
     protected InternalCreationManager creationManager;
     private Double minPrice;    
+
+    protected static Vector<Double> window = null;
 
     public AsyncRequestManagerImpl(PersistenceAdapter persistenceAdapterImpl,
                                     Lager lagerImpl,
@@ -654,13 +662,39 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
             if(!asyncRequest.needsMoreInstances()){
                 iterator.remove();
             }
+	    if(asyncRequest.isSpotAN()){
+		if(willBePreempted(window, asyncRequest.getAdvanceNotice())){
+			iterator.remove();
+			logger.info(asyncRequest.toString()+" cannot run for the minimum time defined in the Advance Notification atribute in this moment");
+		}  else {
+			//AQUI
+                	BufferedWriter out = null;
+                
+                	try
+                	{
+                        	FileWriter fstream = new FileWriter("startRunning.txt", true); //true tells to append data.
+                        	out = new BufferedWriter(fstream);
+                        	java.util.Date date= new java.util.Date();
+                       		out.write("\n"+asyncRequest.getId()+" - "+date+" - "+ new Timestamp(date.getTime()));
+                	        out.close();
+                	}
+                	catch (IOException e)
+                	{
+        	                System.err.println("Error: " + e.getMessage());
+	                }
+	        }
+	    }
         }
         
         Collections.sort(aliveRequests, getAllocationComparator());
         
         return aliveRequests;
     }
-    
+
+    public void setWindow(Vector<Double> window){
+	this.window = (Vector<Double>) window.clone();
+    }
+
     private List<AsyncRequest> getActiveRequests(
             List<AsyncRequest> aliveRequests) {
         
@@ -676,13 +710,11 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         return aliveRequests;
     }    
 
-    public boolean willBePreempted(Vector<Double> window, int time){
+    public boolean willBePreempted(Vector<Double> window, long time){
 	Integer expectedRequests;
         Integer needToPreempt;
         Double result;
         Calendar destructionTime = Calendar.getInstance();
-
-        time = 3;
 
         result = predictPreemptionLinearRegression (window, time);
         expectedRequests = Math.round(result.intValue());
@@ -699,12 +731,8 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
             allocatedVMs += aliveRequest.getAllocatedInstances();
         }
 
-        //TODO if there are enough spots, stop
-   //     if(allocatedVMs == availableVMs){
-     //       return;
-     //   }
-
-        if(allocatedVMs > availableVMs){
+        if(allocatedVMs >= availableVMs){
+	    logger.info("Prueba" +allocatedVMs + "   " + availableVMs);
             return true;
         }
 	return false;
@@ -862,7 +890,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
     }
 
     // Predict using LR
-    private double predictPreemptionLinearRegression (Vector<Double> window, Integer time)
+    private double predictPreemptionLinearRegression (Vector<Double> window, long time)
     {
         double meanWindow = 0;
         Integer length = window.size();
@@ -1032,6 +1060,22 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
                 request.preemptAll();
                 this.asyncRequestMap.addOrReplace(request);
                 ghome.destroy(request.getGroupID());
+		//AQUI
+                BufferedWriter out = null;
+                
+                try
+                {
+                        FileWriter fstream = new FileWriter("finish.txt", true); //true tells to append data.
+                        out = new BufferedWriter(fstream);
+                        java.util.Date date= new java.util.Date();
+                        out.write("\n"+request.getId()+" - "+date+" - "+ new Timestamp(date.getTime()));
+                        out.close();
+                }
+                catch (IOException e)
+                {
+                        System.err.println("Error: " + e.getMessage());
+                }
+
             } else {
                 int[] preemptionList = request.getAllocatedVMs(quantity);
 

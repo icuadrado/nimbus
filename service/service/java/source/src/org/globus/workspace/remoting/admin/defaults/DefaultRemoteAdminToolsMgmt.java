@@ -48,6 +48,12 @@ import org.nimbustools.api.services.rm.SchedulingException;
 import org.nimbus.authz.AuthzDBAdapter;
 import org.nimbustools.api.services.rm.OperationDisabledException;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.sql.DataSource;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -638,6 +644,22 @@ public class DefaultRemoteAdminToolsMgmt implements RemoteAdminToolsManagement {
     public String createLease(long an, boolean persistence, String callerDN) throws RemoteException {
 	try{
 		SpotANRequestInfo requestInfo = manager.requestSpotANInstances(an, persistence, callerDN);
+
+		//AQUI
+                BufferedWriter out = null;
+
+                try
+                {
+                        FileWriter fstream = new FileWriter("income.txt", true); //true tells to append data.
+                        out = new BufferedWriter(fstream);
+                        java.util.Date date= new java.util.Date();
+                        out.write("\n"+requestInfo.getRequestID()+" - "+date+" - "+ new Timestamp(date.getTime()));
+                	out.close();
+                }
+                catch (IOException e)
+                {
+                        System.err.println("Error: " + e.getMessage());
+                }
 		return requestInfo.toString();
         }
         catch (ManageException e) {
