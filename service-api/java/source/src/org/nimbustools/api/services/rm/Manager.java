@@ -267,7 +267,7 @@ public interface Manager extends NimbusModule {
                    ResourceRequestDeniedException,
                    SchedulingException;     
    
-    public SpotANRequestInfo requestSpotANInstances(long advanceNotice, boolean persistent, String callerDN)
+    public SpotANRequestInfo requestSpotANInstances(int second, int nodes, long advanceNotice, boolean persistent, String callerDN)
             throws AuthorizationException,
                    CoSchedulingException,
                    CreationException,

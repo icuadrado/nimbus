@@ -23,6 +23,12 @@ import java.util.Vector;
 import org.nimbus.authz.RepositoryImageLocator;
 import java.net.URI;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.globus.workspace.Lager;
@@ -40,8 +46,10 @@ import org.globus.workspace.service.WorkspaceGroupHome;
 import org.globus.workspace.service.WorkspaceHome;
 import org.nimbustools.api._repr._Caller;
 import org.nimbustools.api._repr._CreateResult;
+import org.nimbustools.api._repr.vm._Schedule;
 import org.nimbustools.api._repr.vm._VM;
 import org.nimbustools.api._repr._SpotANCreateRequest;
+import org.nimbustools.api._repr.vm._ResourceAllocation;
 import org.nimbustools.api.repr.Advertised;
 import org.nimbustools.api.repr.Caller;
 import org.nimbustools.api.repr.CannotTranslateException;
@@ -60,6 +68,7 @@ import org.nimbustools.api.repr.Usage;
 import org.nimbustools.api.repr.vm.VM;
 import org.nimbustools.api.repr.vm.VMConstants;
 import org.nimbustools.api.repr.vm.State;
+import org.nimbustools.api.repr.vm.Schedule;
 import org.nimbustools.api.repr.vm.RequiredVMM;
 import org.nimbustools.api.repr.vm.ResourceAllocation;
 import org.nimbustools.api.services.rm.AuthorizationException;
@@ -119,6 +128,10 @@ public class DelegatingManager implements Manager {
     protected AccountingReaderAdapter accounting;
 
     protected static int requests = 0;
+
+    protected static int deniedRequests = 0;
+
+    protected static int currentNumNodes = 0;
 
     private static TreeSet advanceNotificationTime;
     
@@ -250,6 +263,17 @@ public class DelegatingManager implements Manager {
     public class PredictionDaemon extends Thread {
         public void run() {
 		window = new Vector<Double>(100);
+		try{
+                        FileWriter fstream = new FileWriter("utilization.txt", true);
+                       
+        		BufferedWriter out = null;
+			out = new BufferedWriter(fstream);
+                        out.write("\n - New denied OD. Total sum: "+ currentNumNodes);
+                        out.close();
+		} 
+		catch (IOException e) {
+			logger.error("Error in file writing" + e.getMessage());
+		}
 
 		for (int i = 0; i < window.capacity(); i++){
 			 window.add(i, (double)0);
@@ -315,11 +339,26 @@ public class DelegatingManager implements Manager {
 	    numberVMs = getInstances(resources).length;
             result.setVMs(getInstances(resources));
         } catch (CannotTranslateException e) {
+	    //AQUI
+	    DelegatingManager.increaseDeniedRequests();
+            BufferedWriter out = null;
+
+            try
+            {
+                FileWriter fstream = new FileWriter("deniedOD.txt", true);
+                out = new BufferedWriter(fstream);
+                out.write("\n - New denied OD. Total sum: "+ deniedRequests);
+            	out.close();
+            }
+            catch (IOException ex)
+            {
+            	System.err.println("Error: " + ex.getMessage());
+            }
             throw new MetadataException(e.getMessage(), e);
         }
 	
-        DelegatingManager.setRequests(requests + numberVMs);
-        
+        DelegatingManager.setRequests(requests + 1);
+        DelegatingManager.setCurrentNumNodes(numberVMs); 
         return result;
     }
 
@@ -356,6 +395,14 @@ public class DelegatingManager implements Manager {
 
     private static void setRequests(int request){
 	requests = request;
+    }
+
+    private static void increaseDeniedRequests(){
+	deniedRequests++;
+    }
+
+    private static void setCurrentNumNodes(int numNodes){
+	currentNumNodes += numNodes;
     }
 
     public void setDestructionTime(String id, int type, Calendar time)
@@ -398,6 +445,8 @@ public class DelegatingManager implements Manager {
                    OperationDisabledException {
 
         this.opIntake("SHUTDOWN", id, type, caller);
+
+	setCurrentNumNodes(currentNumNodes - 1);
 
         switch (type) {
             case INSTANCE: this.home.find(id).shutdown(tasks); break;
@@ -1059,7 +1108,7 @@ public class DelegatingManager implements Manager {
         }
     }     
     
-    public SpotANRequestInfo requestSpotANInstances(long advanceNotice, boolean persistent, String callerDN)
+    public SpotANRequestInfo requestSpotANInstances(int duration, int nodes, long advanceNotice, boolean persistent, String callerDN)
             throws AuthorizationException,
                    CreationException,
                    MetadataException,
@@ -1097,8 +1146,16 @@ public class DelegatingManager implements Manager {
         screq.setName(callerDN+"1");
         screq.setRequestedKernel(req.getRequestedKernel()); // todo
         screq.setRequestedNics(req.getRequestedNics());
-        screq.setRequestedRA(req.getRequestedRA());
-        screq.setRequestedSchedule(null); // ask for default
+
+	_ResourceAllocation ra = (_ResourceAllocation) req.getRequestedRA();
+	ra.setNodeNumber(nodes);
+
+        screq.setRequestedRA((ResourceAllocation)ra);
+
+	_Schedule scheduleAux = this.repr._newSchedule();
+	scheduleAux.setDurationSeconds(duration);
+
+        screq.setRequestedSchedule(scheduleAux); // ask for default
         screq.setRequiredVMM(req.getRequiredVMM());
         screq.setShutdownType(CreateRequest.SHUTDOWN_TYPE_TRASH);
         screq.setVMFiles(req.getVMFiles());
@@ -1107,6 +1164,8 @@ public class DelegatingManager implements Manager {
 
         screq.setPersistent(persistent);
         screq.setAdvanceNotice(advanceNotice);
+
+        DelegatingManager.setCurrentNumNodes(nodes);
 
 	return requestSpotANInstances(screq, caller);
     } 

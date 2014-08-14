@@ -170,17 +170,17 @@ public class RemoteAdminToolsMain extends RMIConfig {
         try {
             String result = "";
             String feedback;
-            if(numOpts != 4) {
+            if(numOpts != 5) {
                 result = "You must select advance notice, dn, numNodes and persistence";
                 System.err.println(result);
                 return;
             }
 	    
 	if(an != 0)
-	//	 if(name != null)
+	    if(seconds != null)
 		if(userDN != null) 
 			if (numNodes != 0) {
-	        		feedback = this.remoteAdminToolsManagement.createLease(an, persistent, userDN); 
+	        		feedback = this.remoteAdminToolsManagement.createLease(Integer.parseInt(seconds), numNodes, an, persistent, userDN); 
 				if(feedback != null){
                 			result += feedback + "\n";
 				}
@@ -405,6 +405,13 @@ public class RemoteAdminToolsMain extends RMIConfig {
 		    final long anTranslation = Long.parseLong(an);
 		    this.an = anTranslation;
                     numOpts++;
+                }
+                if(line.hasOption(Opts.SECONDS)) {
+                    final String seconds = line.getOptionValue(Opts.SECONDS);
+                    if(seconds == null || seconds.trim().length() == 0) {
+                        throw new ParameterProblem("Seconds value is empty");
+                    }
+                    this.seconds = seconds;
                 }
                 //if(line.hasOption(Opts.ID)) {
                 //    final String id = line.getOptionValue(Opts.ID);

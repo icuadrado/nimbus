@@ -641,9 +641,9 @@ public class DefaultRemoteAdminToolsMgmt implements RemoteAdminToolsManagement {
         }
     }
 
-    public String createLease(long an, boolean persistence, String callerDN) throws RemoteException {
+    public String createLease(int seconds, int nodes, long an, boolean persistence, String callerDN) throws RemoteException {
 	try{
-		SpotANRequestInfo requestInfo = manager.requestSpotANInstances(an, persistence, callerDN);
+		SpotANRequestInfo requestInfo = manager.requestSpotANInstances(seconds, nodes, an, persistence, callerDN);
 
 		//AQUI
                 BufferedWriter out = null;
@@ -653,7 +653,7 @@ public class DefaultRemoteAdminToolsMgmt implements RemoteAdminToolsManagement {
                         FileWriter fstream = new FileWriter("income.txt", true); //true tells to append data.
                         out = new BufferedWriter(fstream);
                         java.util.Date date= new java.util.Date();
-                        out.write("\n"+requestInfo.getRequestID()+" - "+date+" - "+ new Timestamp(date.getTime()));
+                        out.write("\n"+requestInfo.getRequestID()+" - "+date+" - "+ new Timestamp(date.getTime()) + " - charge "  );
                 	out.close();
                 }
                 catch (IOException e)

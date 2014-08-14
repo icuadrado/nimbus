@@ -778,30 +778,36 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 	communicatePreemption(activeRequests, needToPreempt, allocatedVMs, destructionTime);
     }
 
-    /**
-     * Pre-empts requests more-or-less proportional
-     * to the number of allocations that the request currently has.
-     *
-     * NOTE: Each ACTIVE request must have at least one
-     * VM pre-empted in order to ensure the needed
-     * quantity will be pre-empted.
-     *
-     * Example:
-     *
-     * Req A: 3 allocations (33.33%)
-     * Req B: 1 allocation (11.11%)
-     * Req C: 5 allocations (55.55%)
-     *
-     * If 6 machines needs to be pre-empted, the pre-emptions will be:
-     *
-     * Req A: 2 pre-emptions (~33.33%)
-     * Req B: 1 pre-emption (~11.11%)
-     * Req C: 3 pre-emptions (~55.55%)
-     *
-     * @param activeRequests ACTIVE requests with bid equal to the current spot price
-     * @param needToPreempt the number of VMs that needs to be pre-empted
-     * @param allocatedVMs the number of currently allocated VMs in <b>activeRequests</b>
-     */
+    public class PreemptDaemon extends Thread {
+	AsyncRequest request;
+	public PreemptDaemon (AsyncRequest req){
+	        this.request = req;
+        }
+
+        public void run() {
+                try {
+                	Thread.sleep(request.getDestructionTime().getTimeInMillis());
+                } catch (InterruptedException e) {
+                        logger.error("Cannot sleep");
+                } catch (Exception e) {
+                        logger.error("Cannot sleep");
+                }
+
+                try{
+                        FileWriter fstream = new FileWriter("Preempt.txt", true);
+
+                        BufferedWriter out = null;
+                        out = new BufferedWriter(fstream);
+                        out.write("\n - New preempted AN. "+ request.getId());
+                        out.close();
+                }
+                catch (IOException e) {
+                        logger.error("Error in file writing" + e.getMessage());
+                }
+		
+		preempt(request, request.getAllocatedInstances());
+       }
+    }
 
      private void communicatePreemption(List<AsyncRequest> activeRequests, Integer needToPreempt, Integer allocatedVMs, Calendar destructionTime) {
 
@@ -811,6 +817,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
         while(iterator.hasNext() && stillToPreempt > 0){
             AsyncRequest request = iterator.next();
+
             Double allocatedProportion = (double)request.getAllocatedInstances()/allocatedVMs;
 
             //Minimum deserved pre-emption is 1
@@ -819,7 +826,28 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
             Integer realPreemption = Math.min(deservedPreemption, stillToPreempt);
 
             try{
-                request.setDestructionTime(destructionTime);
+		if (request.isSpotAN()){
+                	request.setDestructionTime(destructionTime);
+		//AQUI
+                	BufferedWriter out = null;
+
+                	try
+                	{
+                        	FileWriter fstream = new FileWriter("prediction.txt", true); //true tells to append data.
+                        	out = new BufferedWriter(fstream);
+                       		java.util.Date date= new java.util.Date();
+                        	out.write("\n"+request.getId()+" - "+ request.getDestructionTime());
+                        	out.close();
+				PreemptDaemon preemptDaemon = new PreemptDaemon(request);
+        			preemptDaemon.setDaemon(false);
+        			preemptDaemon.start();
+                	}
+                	catch (IOException e)
+                	{
+                        	System.err.println("Error: " + e.getMessage());
+                	}
+
+		}
             }
             catch (IllegalArgumentException e){
                 logger.error("Exception while writting destruction time for request "+e.getMessage());
