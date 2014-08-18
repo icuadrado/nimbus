@@ -171,11 +171,10 @@ public class RemoteAdminToolsMain extends RMIConfig {
             String result = "";
             String feedback;
             if(numOpts != 5) {
-                result = "You must select advance notice, dn, numNodes and persistence";
+                result = "You must select advance notice, dn, numNodes, seconds and persistence"+numOpts;
                 System.err.println(result);
                 return;
             }
-	    
 	if(an != 0)
 	    if(seconds != null)
 		if(userDN != null) 
@@ -412,6 +411,8 @@ public class RemoteAdminToolsMain extends RMIConfig {
                         throw new ParameterProblem("Seconds value is empty");
                     }
                     this.seconds = seconds;
+                    numOpts++;
+
                 }
                 //if(line.hasOption(Opts.ID)) {
                 //    final String id = line.getOptionValue(Opts.ID);

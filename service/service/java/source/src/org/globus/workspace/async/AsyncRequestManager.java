@@ -43,9 +43,13 @@ public interface AsyncRequestManager extends AsyncRequestHome, PreemptableSpaceM
     /**
      * Calculates a future preemption of Backfill instances
      */
-    public void calculatePreemptionIfNeeded(Vector<Double> window, TreeSet timeSet);
+    public void calculatePreemptionIfNeeded(Vector<Double> window, TreeSet<Long> timeSet);
 
     public boolean willBePreempted(Vector<Double> window, long time);
 
     public void setWindow(Vector<Double> window);
+    
+    public int getNumNodes();
+
+    public int getAliveCharge();
 }

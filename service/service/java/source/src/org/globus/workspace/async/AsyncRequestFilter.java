@@ -91,6 +91,7 @@ public class AsyncRequestFilter {
 
     public static List<AsyncRequest> filterAliveBackfillRequests(
             Collection<AsyncRequest> allRequests) {
+
         List<AsyncRequest> activeRequests = new ArrayList<AsyncRequest>();
         
         for (AsyncRequest siRequest : allRequests) {

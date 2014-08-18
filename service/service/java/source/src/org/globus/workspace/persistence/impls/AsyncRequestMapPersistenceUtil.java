@@ -37,6 +37,7 @@ import org.nimbustools.api.repr.vm.NIC;
 import org.nimbustools.api.services.rm.ManageException;
 import org.springframework.scheduling.annotation.Async;
 
+import java.lang.Math;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -297,7 +298,12 @@ public class AsyncRequestMapPersistenceUtil
 
         //public AsyncRequest(String id, boolean spotinstances, Double spotPrice, boolean persistent, Caller caller, String groupID, VirtualMachine[] bindings, Context context, NIC[] requestedNics, String sshKeyName, Calendar creationTime) {
         //AsyncRequest testRequest = new AsyncRequest(testID, testSpotinstances, testMaxBid, false, null, testGroupID, null, null, null, null, null);
-        AsyncRequest asyncRequest = new AsyncRequest(id, isSpotInstance, maxBid, isPersistent, caller, groupID, null, context, nics, sshKeyName, creationTime);
+	AsyncRequest asyncRequest;
+	
+	if (maxBid < -10)
+	        asyncRequest = new AsyncRequest(id, isPersistent, Math.abs((long)Math.round(maxBid)), caller, groupID, null, context, nics, sshKeyName, creationTime);
+	else
+        	asyncRequest = new AsyncRequest(id, isSpotInstance, maxBid, isPersistent, caller, groupID, null, context, nics, sshKeyName, creationTime);
 
         asyncRequest.setStatus(status);
         return asyncRequest;

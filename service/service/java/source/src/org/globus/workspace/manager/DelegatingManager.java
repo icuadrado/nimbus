@@ -133,7 +133,7 @@ public class DelegatingManager implements Manager {
 
     protected static int currentNumNodes = 0;
 
-    private static TreeSet advanceNotificationTime;
+    private static TreeSet<Long> advanceNotificationTime;
     
     // -------------------------------------------------------------------------
     // CONSTRUCTOR
@@ -149,7 +149,7 @@ public class DelegatingManager implements Manager {
                              Lager lagerImpl,
                              AsyncRequestManager siManagerImpl) {
         
-	advanceNotificationTime = new TreeSet();
+	advanceNotificationTime = new TreeSet<Long>();
 
         if (pathConfigs == null) {
             throw new IllegalArgumentException("pathConfigs may not be null");
@@ -263,17 +263,6 @@ public class DelegatingManager implements Manager {
     public class PredictionDaemon extends Thread {
         public void run() {
 		window = new Vector<Double>(100);
-		try{
-                        FileWriter fstream = new FileWriter("utilization.txt", true);
-                       
-        		BufferedWriter out = null;
-			out = new BufferedWriter(fstream);
-                        out.write("\n - New denied OD. Total sum: "+ currentNumNodes);
-                        out.close();
-		} 
-		catch (IOException e) {
-			logger.error("Error in file writing" + e.getMessage());
-		}
 
 		for (int i = 0; i < window.capacity(); i++){
 			 window.add(i, (double)0);
@@ -281,7 +270,7 @@ public class DelegatingManager implements Manager {
 
 		while(true){
 			try {
-                    		Thread.sleep(60000);
+                    		Thread.sleep(1000);
                 	} catch (InterruptedException e) {
                     		logger.error("Cannot sleep");
                     		break;
@@ -289,7 +278,6 @@ public class DelegatingManager implements Manager {
                                 logger.error("Cannot sleep");
                                 break;
 			}
-		
 			Object removed = window.remove(0);
 			window.add((double)requests);
 			requests = 0;
@@ -323,6 +311,21 @@ public class DelegatingManager implements Manager {
 	try{
        		resources = this.creation.create(req, caller);
         }catch(ResourceRequestDeniedException e){
+//AQUI
+            DelegatingManager.increaseDeniedRequests();
+            BufferedWriter out = null;
+
+            try
+            {
+                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/deniedOD.txt", true);
+                out = new BufferedWriter(fstream);
+                out.write("\n - New denied OD. Total sum: "+ deniedRequests);
+                out.close();
+            }
+            catch (IOException ex)
+            {
+                System.err.println("Error: " + ex.getMessage());
+            }
                 if(policyConflicts(e.getMessage(), req))
 			resources = this.creation.create(req, caller);
 	}
@@ -338,22 +341,23 @@ public class DelegatingManager implements Manager {
         try {
 	    numberVMs = getInstances(resources).length;
             result.setVMs(getInstances(resources));
-        } catch (CannotTranslateException e) {
-	    //AQUI
-	    DelegatingManager.increaseDeniedRequests();
+ 
+	//AQUI
             BufferedWriter out = null;
 
             try
             {
-                FileWriter fstream = new FileWriter("deniedOD.txt", true);
+                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/acceptedOD.txt", true);
                 out = new BufferedWriter(fstream);
-                out.write("\n - New denied OD. Total sum: "+ deniedRequests);
-            	out.close();
+                out.write("\n - New accepted OD : "+ req.getName() + "  - "+ Calendar.getInstance().getTimeInMillis());
+                out.close();
             }
             catch (IOException ex)
             {
-            	System.err.println("Error: " + ex.getMessage());
+                System.err.println("Error: " + ex.getMessage());
             }
+
+        } catch (CannotTranslateException e) {
             throw new MetadataException(e.getMessage(), e);
         }
 	
@@ -1083,7 +1087,7 @@ public class DelegatingManager implements Manager {
     // -------------------------------------------------------------------------        
 
     public void addRequestNotification(long time){
-	advanceNotificationTime.add(time);
+	advanceNotificationTime.add(new Long(time));
     }
 
     public void removeRequestNotification(long time){
@@ -1097,10 +1101,11 @@ public class DelegatingManager implements Manager {
                    ResourceRequestDeniedException,
                    SchedulingException {
 
-        if (asyncHome.willBePreempted(window, req.getAdvanceNotice()))
-          throw new ResourceRequestDeniedException("Cannot run for as long as needed");
+//        if (asyncHome.willBePreempted(window, req.getAdvanceNotice()))
+//          throw new ResourceRequestDeniedException("Cannot run for as long as needed");
 
         AsyncRequest siRequest = this.creation.addAsyncRequest(req, caller);
+addRequestNotification(req.getAdvanceNotice());
         try {
 	    	return dataConvert.getSpotANRequest(siRequest);
         } catch (CannotTranslateException e) {
@@ -1164,8 +1169,6 @@ public class DelegatingManager implements Manager {
 
         screq.setPersistent(persistent);
         screq.setAdvanceNotice(advanceNotice);
-
-        DelegatingManager.setCurrentNumNodes(nodes);
 
 	return requestSpotANInstances(screq, caller);
     } 

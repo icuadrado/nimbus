@@ -18,7 +18,7 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
  
     private String id;
     private boolean spot;
-    private boolean spotAN = false;   
+    private boolean spotAN;   
 
     private Double maxBid;
     private boolean persistent;
@@ -80,9 +80,9 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
     public AsyncRequest(String id, boolean persistent, long advanceNotice,
             Caller caller, String groupID, VirtualMachine[] bindings, Context context,
             NIC[] requestedNics, String sshKeyName, Calendar creationTime) {
-        this(id, false, null, persistent, caller, groupID, bindings, context, requestedNics, sshKeyName, creationTime);
+        this(id, false, (new Long(0-advanceNotice)).doubleValue(), persistent, caller, groupID, bindings, context, requestedNics, sshKeyName, creationTime);
 	this.advanceNotice = new Long(advanceNotice);
-	spotAN = true;
+	this.spotAN = true;
     }
  
     /**
@@ -266,7 +266,10 @@ public class AsyncRequest implements Comparable<AsyncRequest>, Serializable {
         return "SIRequest [id " + id + ", status= " + status + ", requestedInstances="
                 + getRequestedInstances() + ", allocatedInstances=" + getAllocatedInstances()
                 + ", maxBid=" + maxBid + ", persistent=" + persistent 
-                + ", caller=" + caller + "]";
+                + ", caller=" + caller 
+		+ ", isSpot="+isSpotRequest()
+		+ ", isSpotAN="+spotAN
+		+ ", AdvanceNotice="+advanceNotice+"]";
     }
 
     public boolean finishVM(int vmid) {
