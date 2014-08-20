@@ -20,6 +20,7 @@ import org.nimbustools.api.brain.Logging;
 import org.nimbustools.api.repr.Advertised;
 import org.nimbustools.api.repr.AsyncCreateRequest;
 import org.nimbustools.api.repr.Caller;
+import org.nimbustools.api.repr.CannotTranslateException;
 import org.nimbustools.api.repr.CreateRequest;
 import org.nimbustools.api.repr.CreateResult;
 import org.nimbustools.api.repr.ReprFactory;
@@ -369,6 +370,22 @@ public class DefaultManager implements Manager {
         return null;
     }
 
+    public SpotANRequestInfo requestSpotANInstances(int second, int nodes, long advanceNotice, boolean persistent, String callerDN)
+            throws AuthorizationException,
+                   CoSchedulingException,
+                   CreationException,
+                   MetadataException,
+                   ResourceRequestDeniedException,
+                   SchedulingException,
+                   ManageException,
+                   CannotTranslateException,
+                   DoesNotExistException {
+
+        Logging.debug("Manager.requestSpotANInstances() -- seconds "+ second +" --nodes "+nodes+" -- advanceNotice "+advanceNotice+" -- persistent "+persistent+" -- callerDN "+callerDN);
+
+        return null;
+    }
+
     public Double getSpotANPrice() {
 
         Logging.debug("Manager.getSpotANPrice()'");
@@ -389,6 +406,12 @@ public class DefaultManager implements Manager {
             throws ManageException {
         Logging.debug("Manager.getSpotANRequestsByCaller() -- caller '" + caller + "'");
 
+        return null;
+    }
+
+    public SpotANRequestInfo[] getSpotANRequestsByCallerDN(String callerDN)
+            throws ManageException{
+        Logging.debug("Manager.getSpotANRequestsByCallerDN() -- callerDN '" + callerDN + "'");
         return null;
     }
 
