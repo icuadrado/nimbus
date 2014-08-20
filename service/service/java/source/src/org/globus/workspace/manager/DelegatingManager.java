@@ -131,7 +131,7 @@ public class DelegatingManager implements Manager {
 
     protected static int deniedRequests = 0;
 
-    protected static int currentNumNodes = 0;
+    protected static int currentNumNodes;
 
     private static TreeSet<Long> advanceNotificationTime;
     
@@ -197,6 +197,8 @@ public class DelegatingManager implements Manager {
         this.asyncHome = siManagerImpl;
 
 	this.requests = 0;
+
+	DelegatingManager.currentNumNodes = 0;
     }
 
 
@@ -297,7 +299,7 @@ public class DelegatingManager implements Manager {
                                out = new BufferedWriter(fstream);
 			       int allocatedVMs = 0;
 			       allocatedVMs = asyncHome.getAliveCharge();
-                               out.write("\n - Backfill : "+ allocatedVMs + "  Available nodes: "+ currentNumNodes);
+                               out.write("\n - Backfill : "+ allocatedVMs + "  Available nodes: "+ DelegatingManager.currentNumNodes);
                                out.close();
         }
         catch (IOException e) {
@@ -361,9 +363,11 @@ public class DelegatingManager implements Manager {
         try {
 	    numberVMs = getInstances(resources).length;
             result.setVMs(getInstances(resources));
-        DelegatingManager.setRequests(requests + numberVMs);
-        DelegatingManager.setCurrentNumNodes(currentNumNodes + numberVMs); 
-	//AQUI
+            DelegatingManager.setRequests(requests + numberVMs);
+	    int aux = DelegatingManager.currentNumNodes + numberVMs;
+            DelegatingManager.setCurrentNumNodes(aux); 
+
+    	    //AQUI
             BufferedWriter out = null;
 
             try
@@ -425,7 +429,7 @@ public class DelegatingManager implements Manager {
     }
 
     private static void setCurrentNumNodes(int numNodes){
-	currentNumNodes += numNodes;
+	currentNumNodes = numNodes;
     }
 
     public void setDestructionTime(String id, int type, Calendar time)
@@ -437,8 +441,10 @@ public class DelegatingManager implements Manager {
             throws DoesNotExistException, ManageException {
 
         this.opIntake("TRASH", id, type, caller);
-        setCurrentNumNodes(currentNumNodes - 1);
-        
+
+	int aux = DelegatingManager.currentNumNodes -1;
+	DelegatingManager.setCurrentNumNodes(aux);
+
         switch (type) {
             case INSTANCE: this.home.destroy(id); break;
             case GROUP: this.ghome.destroy(id); break;
@@ -467,7 +473,6 @@ public class DelegatingManager implements Manager {
             throws DoesNotExistException,
                    ManageException,
                    OperationDisabledException {
-
         this.opIntake("SHUTDOWN", id, type, caller);
 
         switch (type) {
@@ -512,7 +517,7 @@ public class DelegatingManager implements Manager {
                    OperationDisabledException {
 
         this.opIntake("PAUSE", id, type, caller);
-        
+ 
         switch (type) {
             case INSTANCE: this.home.find(id).pause(tasks); break;
             case GROUP: this.ghome.find(id).pause(tasks); break;
