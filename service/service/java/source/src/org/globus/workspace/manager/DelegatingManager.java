@@ -127,7 +127,7 @@ public class DelegatingManager implements Manager {
 
     protected AccountingReaderAdapter accounting;
 
-    protected static int requests = 0;
+    protected static int requests;
 
     protected static int deniedRequests = 0;
 
@@ -196,6 +196,7 @@ public class DelegatingManager implements Manager {
         }
         this.asyncHome = siManagerImpl;
 
+	this.requests = 0;
     }
 
 
@@ -269,8 +270,10 @@ public class DelegatingManager implements Manager {
 		}
 
 		while(true){
+                                logger.info("Prueba");
+
 			try {
-                    		Thread.sleep(1000);
+                    		Thread.sleep(30000);
                 	} catch (InterruptedException e) {
                     		logger.error("Cannot sleep");
                     		break;
@@ -278,12 +281,29 @@ public class DelegatingManager implements Manager {
                                 logger.error("Cannot sleep");
                                 break;
 			}
+
 			Object removed = window.remove(0);
-			window.add((double)requests);
-			requests = 0;
+			window.add((double)DelegatingManager.requests);
+			DelegatingManager.requests = 0;
 
                         asyncHome.setWindow(window);
 			asyncHome.calculatePreemptionIfNeeded(window, advanceNotificationTime);
+
+
+	try{
+                               FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/utilization.txt", true);
+
+                               BufferedWriter out = null;
+                               out = new BufferedWriter(fstream);
+			       int allocatedVMs = 0;
+			       allocatedVMs = asyncHome.getAliveCharge();
+                               out.write("\n - Backfill : "+ allocatedVMs + "  Available nodes: "+ currentNumNodes);
+                               out.close();
+        }
+        catch (IOException e) {
+                                logger.error("Error in file writing" + e.getMessage());
+        }
+
 		}
        }
     }
@@ -341,7 +361,8 @@ public class DelegatingManager implements Manager {
         try {
 	    numberVMs = getInstances(resources).length;
             result.setVMs(getInstances(resources));
- 
+        DelegatingManager.setRequests(requests + numberVMs);
+        DelegatingManager.setCurrentNumNodes(currentNumNodes + numberVMs); 
 	//AQUI
             BufferedWriter out = null;
 
@@ -361,8 +382,6 @@ public class DelegatingManager implements Manager {
             throw new MetadataException(e.getMessage(), e);
         }
 	
-        DelegatingManager.setRequests(requests + 1);
-        DelegatingManager.setCurrentNumNodes(numberVMs); 
         return result;
     }
 
@@ -418,6 +437,7 @@ public class DelegatingManager implements Manager {
             throws DoesNotExistException, ManageException {
 
         this.opIntake("TRASH", id, type, caller);
+        setCurrentNumNodes(currentNumNodes - 1);
         
         switch (type) {
             case INSTANCE: this.home.destroy(id); break;
@@ -449,8 +469,6 @@ public class DelegatingManager implements Manager {
                    OperationDisabledException {
 
         this.opIntake("SHUTDOWN", id, type, caller);
-
-	setCurrentNumNodes(currentNumNodes - 1);
 
         switch (type) {
             case INSTANCE: this.home.find(id).shutdown(tasks); break;
@@ -1101,9 +1119,6 @@ public class DelegatingManager implements Manager {
                    ResourceRequestDeniedException,
                    SchedulingException {
 
-//        if (asyncHome.willBePreempted(window, req.getAdvanceNotice()))
-//          throw new ResourceRequestDeniedException("Cannot run for as long as needed");
-
         AsyncRequest siRequest = this.creation.addAsyncRequest(req, caller);
 addRequestNotification(req.getAdvanceNotice());
         try {
@@ -1134,6 +1149,7 @@ addRequestNotification(req.getAdvanceNotice());
 	final URI imageURI;
         try {
 		String URI = imageLocator.getImageLocation(backfill.getRepoUser(), backfill.getDiskImage()) + "/" + backfill.getDiskImage();
+		logger.info("PRUEBA "+URI);
 		imageURI=new URI(URI);
 	} catch (Exception e) {
             throw new CreationException(e.getMessage(), e);
@@ -1210,8 +1226,6 @@ addRequestNotification(req.getAdvanceNotice());
         
 	AsyncRequest[] requestAux = asyncHome.getRequests(caller, false);
 
-	logger.info("Prueba Retrieving requests from caller: " + requestAux.length + ".");
-	
         return this.getSpotANRequests(requestAux);
     }
         

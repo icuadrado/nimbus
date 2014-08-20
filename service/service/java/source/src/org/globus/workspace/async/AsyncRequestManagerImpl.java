@@ -556,8 +556,22 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
                 logger.info(Lager.ev(-1) + "No more resources for " + requestType + " requests. " +
                                            "Pre-empting " + needToPreempt + " VMs.");   
             }
+
             List<AsyncRequest> activeRequests = getActiveRequests(aliveRequests);
             preemptProportionaly(activeRequests, needToPreempt, allocatedVMs);            
+             try{
+                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/Preempt.txt", true);
+
+                        BufferedWriter out = null;
+                        out = new BufferedWriter(fstream);
+                        out.write("\n - No more resources for " + requestType + " requests. " +
+                                           "Pre-empting " + needToPreempt + " VMs.");
+                        out.close();
+                 
+                } catch (IOException e) {
+                        logger.error("Error in file writing" + e.getMessage());
+                }
+
         } else {
             availableVMs -= allocatedVMs;
             List<AsyncRequest> hungryRequests = getHungryRequests(aliveRequests);
@@ -696,6 +710,19 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 		if(willBePreempted(window, asyncRequest.getAdvanceNotice())){
 			iterator.remove();
 			logger.info(Calendar.getInstance().getTimeInMillis()+"    -   "+asyncRequest.toString()+" cannot run for the minimum time defined in the Advance Notification atribute in this moment");
+                        try{
+                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/willBePreempted.txt", true); //true tells to append data.
+                                                        BufferedWriter out = null;
+out = new BufferedWriter(fstream);
+                                java.util.Date date= new java.util.Date();
+                                out.write("\n"+Calendar.getInstance().getTimeInMillis()+"    -   "+asyncRequest.toString()+" cannot run for the minimum time defined in the Advance Notification atribute in this moment");
+                                out.close();
+                        }
+                        catch (IOException e)
+                        {
+                                System.err.println("Error: " + e.getMessage());
+                        }
+
 		}
 		else {
                         logger.info(asyncRequest.toString()+" Everything went alright. Added to be run.");
@@ -788,18 +815,6 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
             allocatedVMs += aliveRequest.getAllocatedInstances();
         }
 
-	try{
-                               FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/utilization.txt", true);
-
-                               BufferedWriter out = null;
-                               out = new BufferedWriter(fstream);
-                               out.write("\n - CurrentNumUsedNodes : "+ allocatedVMs + "  Available nodes: "+ availableVMs);
-                               out.close();
-        }
-        catch (IOException e) {
-                                logger.error("Error in file writing" + e.getMessage());
-        }
-
         if((allocatedVMs+expectedRequests) > availableVMs){
             needToPreempt = allocatedVMs + expectedRequests - availableVMs;
             if (this.lager.eventLog) {
@@ -809,6 +824,20 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         } else {
 	    needToPreempt = 0;
 	}
+
+                        try
+                        {
+                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/calcprediction.txt", true); //true tells to append data.
+                                                        BufferedWriter out = null;
+out = new BufferedWriter(fstream);
+                                java.util.Date date= new java.util.Date();
+                                out.write("\n"+time+" - "+ needToPreempt);
+                                out.close();
+                        }
+                        catch (IOException e)
+                        {
+                                System.err.println("Error: " + e.getMessage());
+                        }
 	communicatePreemption(activeRequests, needToPreempt, allocatedVMs, destructionTime);
 	}
     }
@@ -829,7 +858,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
                 }
 
                 try{
-                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/Preempt.txt", true);
+                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/PreemptAN.txt", true);
 
                         BufferedWriter out = null;
                         out = new BufferedWriter(fstream);
@@ -1125,6 +1154,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
                     logger.info(Lager.ev(-1) + "All VMs from asynchronous request '" + request.getId() + 
                             "' will be destroyed. Destroying group: " + request.getGroupID());
                 }
+
                 request.preemptAll();
                 this.asyncRequestMap.addOrReplace(request);
                 ghome.destroy(request.getGroupID());
@@ -1470,10 +1500,9 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
     public int getAliveCharge(){
 	int charge = 0;
-	for (AsyncRequest async:getAliveBackfillRequests()){
-		if (async.getStatus().isActive())
-			charge++;
-	}
+        for (AsyncRequest aliveRequest : getAliveBackfillRequests()) {
+            charge += aliveRequest.getAllocatedInstances();
+        }
 	return charge;
     }
     
