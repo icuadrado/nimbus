@@ -51,5 +51,7 @@ public interface AsyncRequestManager extends AsyncRequestHome, PreemptableSpaceM
     
     public int getNumNodes();
 
+    public int getAliveAsyncCharge();
+
     public int getAliveCharge();
 }

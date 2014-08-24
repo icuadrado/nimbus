@@ -559,18 +559,6 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
             List<AsyncRequest> activeRequests = getActiveRequests(aliveRequests);
             preemptProportionaly(activeRequests, needToPreempt, allocatedVMs);            
-             try{
-                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/Preempt.txt", true);
-
-                        BufferedWriter out = null;
-                        out = new BufferedWriter(fstream);
-                        out.write("\n - No more resources for " + requestType + " requests. " +
-                                           "Pre-empting " + needToPreempt + " VMs.");
-                        out.close();
-                 
-                } catch (IOException e) {
-                        logger.error("Error in file writing" + e.getMessage());
-                }
 
         } else {
             availableVMs -= allocatedVMs;
@@ -705,8 +693,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
             AsyncRequest asyncRequest = iterator.next();
             if(!asyncRequest.needsMoreInstances()){
                 iterator.remove();
-            }
-	    if(asyncRequest.isSpotAN()){
+            }else if(asyncRequest.isSpotAN()){
 		if(willBePreempted(window, asyncRequest.getAdvanceNotice())){
 			iterator.remove();
 			logger.info(Calendar.getInstance().getTimeInMillis()+"    -   "+asyncRequest.toString()+" cannot run for the minimum time defined in the Advance Notification atribute in this moment");
@@ -763,13 +750,16 @@ out = new BufferedWriter(fstream);
     }    
 
     public boolean willBePreempted(Vector<Double> window, long time){
-	Integer expectedRequests;
+	//Integer expectedRequests;
+	Integer expectedCharge;
+
         Integer needToPreempt;
         Double result;
         Calendar destructionTime = Calendar.getInstance();
 
         result = predictPreemptionLinearRegression (window, time);
-        expectedRequests = Math.round(result.intValue());
+        //expectedRequests = Math.round(result.intValue());
+	expectedCharge = Math.round(result.intValue());
 
         List<AsyncRequest> aliveRequests = getAliveBackfillRequests();
 
@@ -783,62 +773,78 @@ out = new BufferedWriter(fstream);
             allocatedVMs += aliveRequest.getAllocatedInstances();
         }
 
-        if(allocatedVMs + expectedRequests >= availableVMs){
-            return true;
-        }
+        //if(allocatedVMs + expectedRequests >= availableVMs)
+	try{
+		if (getAliveCharge() + expectedCharge >= persistence.getTotalAvailableMemory(instanceMem)) 
+	            return true;
+	} catch (WorkspaceDatabaseException e){
+		logger.error("Cannot obtain Total Available Memory.");
+		return true;
+	}
+        
 	return false;
     }
 
     public void calculatePreemptionIfNeeded(Vector<Double> window, TreeSet<Long> timeSet){
-	Integer expectedRequests;
+	//Integer expectedRequests;
+	Integer expectedCharge;
         long time;
-	Integer needToPreempt;
+	Integer needToPreempt = 0;
 	Double result;
 	Calendar destructionTime = Calendar.getInstance();
+
+	long auxCalendar = destructionTime.getTimeInMillis();
 
 	Iterator<Long> it = timeSet.iterator();
 	while (it.hasNext()){
 		time = (Long) it.next();
 
-        result = predictPreemptionLinearRegression (window, time);
-        expectedRequests = Math.round(result.intValue());
+	        result = predictPreemptionLinearRegression (window, time);
 
-	List<AsyncRequest> aliveRequests = getAliveBackfillRequests();
+        	//expectedRequests = Math.round(result.intValue());
+		expectedCharge = Math.round(result.intValue());
+	
+		List<AsyncRequest> aliveRequests = getAliveBackfillRequests();
+	
+	        List<AsyncRequest> activeRequests = getActiveRequests(aliveRequests);
+	
+		Integer availableVMs = Math.max(this.getMaxVMs(), 0);
 
-        List<AsyncRequest> activeRequests = getActiveRequests(aliveRequests);
+      		Integer allocatedVMs = 0;
+	
+	        for (AsyncRequest aliveRequest : aliveRequests) {
+	            allocatedVMs += aliveRequest.getAllocatedInstances();
+	        }
 
-	Integer availableVMs = Math.max(this.getMaxVMs(), 0);
-
-        Integer allocatedVMs = 0;
-
-        for (AsyncRequest aliveRequest : aliveRequests) {
-            allocatedVMs += aliveRequest.getAllocatedInstances();
-        }
-
-        if((allocatedVMs+expectedRequests) > availableVMs){
-            needToPreempt = allocatedVMs + expectedRequests - availableVMs;
-            if (this.lager.eventLog) {
-                logger.info(Lager.ev(-1) + "No more resources for backfill requests. " +
+	        //if((allocatedVMs+expectedRequests) > availableVMs)
+		try{
+	        	if (getAliveAsyncCharge() + expectedCharge > persistence.getTotalAvailableMemory(instanceMem)){
+		    	//needToPreempt = allocatedVMs + expectedRequests - availableVMs;
+		    	needToPreempt = allocatedVMs + expectedCharge/instanceMem - availableVMs;
+	            	if (this.lager.eventLog) {
+	                	logger.info(Lager.ev(-1) + "No more resources for backfill requests. " +
                                            "Pre-empting " + needToPreempt + " VMs.");
-            }
-        } else {
-	    needToPreempt = 0;
-	}
-
-                        try
-                        {
-                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/calcprediction.txt", true); //true tells to append data.
-                                                        BufferedWriter out = null;
-out = new BufferedWriter(fstream);
-                                java.util.Date date= new java.util.Date();
-                                out.write("\n"+time+" - "+ needToPreempt);
-                                out.close();
-                        }
-                        catch (IOException e)
-                        {
-                                System.err.println("Error: " + e.getMessage());
-                        }
-	communicatePreemption(activeRequests, needToPreempt, allocatedVMs, destructionTime);
+	            	}
+			}
+		} catch (WorkspaceDatabaseException e){
+			logger.error("Cannot access database " + e.getMessage());
+		}
+	        try
+	        {
+	        	FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/calcprediction.txt", true); //true tells to append data.
+	                BufferedWriter out = null;
+			out = new BufferedWriter(fstream);
+	                java.util.Date date= new java.util.Date();
+	                out.write("\n"+time+" - "+ needToPreempt);
+	                out.close();
+	        }
+	        catch (IOException e)
+	        {
+	        	System.err.println("Error: " + e.getMessage());
+	        }
+	
+        	destructionTime.setTimeInMillis(time*1000 + auxCalendar);
+		communicatePreemption(activeRequests, needToPreempt, allocatedVMs, destructionTime);
 	}
     }
 
@@ -890,11 +896,11 @@ out = new BufferedWriter(fstream);
             Integer realPreemption = Math.min(deservedPreemption, stillToPreempt);
 
             try{
-//		if (request.isSpotAN()){
-//			if (request.getAdvanceNotice() <= ((destructionTime.getTimeInMillis() - (Calendar.getInstance()).getTimeInMillis())/60000)){
+		if (request.isSpotAN()){
+			if (request.getAdvanceNotice() <= ((destructionTime.getTimeInMillis() )/60000)){
 
                 		request.setDestructionTime(destructionTime);
-//			}
+			}
 		//AQUI  
                 	BufferedWriter out = null;
 
@@ -903,7 +909,7 @@ out = new BufferedWriter(fstream);
                         	FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/prediction.txt", true); //true tells to append data.
                         	out = new BufferedWriter(fstream);
                        		java.util.Date date= new java.util.Date();
-                        	out.write("\n"+request.getId()+" - "+ destructionTime);
+                        	out.write("\n"+request.getId()+" - "+ (destructionTime.getTimeInMillis()/1000 +request.getAdvanceNotice())+ "      _     " + Calendar.getInstance().getTimeInMillis()/1000);
                         	out.close();
 				PreemptDaemon preemptDaemon = new PreemptDaemon(request);
         			preemptDaemon.setDaemon(false);
@@ -915,7 +921,7 @@ out = new BufferedWriter(fstream);
                 	}
 			
 
-//		}
+		}
             }
             catch (IllegalArgumentException e){
                 logger.error("Exception while writting destruction time for request "+e.getMessage());
@@ -993,7 +999,9 @@ out = new BufferedWriter(fstream);
         Integer length = window.size();
         Vector<Double> windowAux = (Vector) window.clone();
 	SimpleRegression regression = new SimpleRegression();
-        
+       
+	logger.info("Mean window PLR: "+ windowAux.toString());
+ 
 	for(int count = 0; count < time; count++){
 		meanWindow = 0;
 		int i;
@@ -1051,14 +1059,13 @@ out = new BufferedWriter(fstream);
 
             try{
                 request.setDestructionTime(Calendar.getInstance());
-            }
-            catch (IllegalArgumentException e){
+             
+            }catch (IllegalArgumentException e){
                 logger.error("Exception while writting destruction time for request "+e.getMessage());
             }
             catch (Exception e){
                 logger.error("Exception "+e.getMessage());
             }
-
             preempt(request, realPreemption);
             stillToPreempt -= realPreemption;
         }
@@ -1169,7 +1176,17 @@ out = new BufferedWriter(fstream);
                     }
                     logger.info(logStr.trim());
                 }
+		try{
+                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/Preempt.txt", true);
 
+                        BufferedWriter out = null;
+                        out = new BufferedWriter(fstream);
+                        out.write("\n - Pre-empting VMs. in " + request.getId()+"    -   "+ "     -      "+Calendar.getInstance().getTimeInMillis()/1000);
+                        out.close();
+
+                } catch (IOException e) {
+                        logger.error("Error in file writing" + e.getMessage());
+                }
                 request.preempt(preemptionList);
                 this.asyncRequestMap.addOrReplace(request);
 
@@ -1495,17 +1512,34 @@ out = new BufferedWriter(fstream);
      * @return list of alive backfill requests
      */
     private List<AsyncRequest> getAliveBackfillRequests(){
+	Iterator it = this.asyncRequestMap.getAll().iterator();
+	while (it.hasNext())
+		logger.info("PRUEBA"+it.next());
         return AsyncRequestFilter.filterAliveBackfillRequests(this.asyncRequestMap.getAll());
     }     
 
-    public int getAliveCharge(){
+    public int getAliveAsyncCharge(){
 	int charge = 0;
-        for (AsyncRequest aliveRequest : getAliveBackfillRequests()) {
+	int maxCharge = this.getMaxVMs()*instanceMem;
+        
+	for (AsyncRequest aliveRequest : getAliveBackfillRequests()) {
             charge += aliveRequest.getAllocatedInstances();
         }
-	return charge;
+	
+	logger.info("Charge: " +charge + "   -    "+this.getMaxVMs() + "      -      "+getAliveBackfillRequests().size() + "      -      "+getAliveSpotRequests().size() + "-----" +         this.getMaxVMs()*instanceMem);
+	
+	return charge*instanceMem;
     }
     
+    public int getAliveCharge(){
+	try{
+		return persistence.getUsedNonPreemptableMemory();
+	} catch (WorkspaceDatabaseException e) {
+		logger.error("Cannot obtain current charge");
+		return 0;
+	}
+    }
+
     /**
      * Retrieves alive spot instance requests
      * @return list of alive requests

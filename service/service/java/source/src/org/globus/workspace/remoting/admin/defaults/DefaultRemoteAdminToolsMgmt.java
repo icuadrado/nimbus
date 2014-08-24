@@ -625,20 +625,23 @@ public class DefaultRemoteAdminToolsMgmt implements RemoteAdminToolsManagement {
 		aux[0] = id;
 
                 SpotANRequestInfo[] requestInfo = manager.getSpotANRequestsByCallerDN(dn); 
-                logger.info("Prueba     " + requestInfo.length);
 
-                result = manager.cancelSpotANInstanceRequests(aux, requestInfo[0].getCreator()).toString();
+                try{
+			result = manager.cancelSpotANInstanceRequests(aux, requestInfo[0].getCreator()).toString();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
                 return result;
         }
         catch (ManageException e) {
             throw new RemoteException(e.getMessage());
         }
-	catch (DoesNotExistException e) {
-            throw new RemoteException(e.getMessage());
-        } 
-	catch (AuthorizationException e) {
-            throw new RemoteException(e.getMessage());
-        }
+	//catch (DoesNotExistException e) {
+        //    throw new RemoteException(e.getMessage());
+        //} 
+	//catch (AuthorizationException e) {
+        //    throw new RemoteException(e.getMessage());
+        //}
     }
 
     public String createLease(int seconds, int nodes, long an, boolean persistence, String callerDN) throws RemoteException {

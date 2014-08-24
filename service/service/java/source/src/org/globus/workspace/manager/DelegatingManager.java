@@ -127,8 +127,6 @@ public class DelegatingManager implements Manager {
 
     protected AccountingReaderAdapter accounting;
 
-    protected static int requests;
-
     protected static int deniedRequests = 0;
 
     protected static int currentNumNodes;
@@ -196,9 +194,8 @@ public class DelegatingManager implements Manager {
         }
         this.asyncHome = siManagerImpl;
 
-	this.requests = 0;
-
 	DelegatingManager.currentNumNodes = 0;
+
     }
 
 
@@ -272,10 +269,8 @@ public class DelegatingManager implements Manager {
 		}
 
 		while(true){
-                                logger.info("Prueba");
-
 			try {
-                    		Thread.sleep(30000);
+                    		Thread.sleep(15000);
                 	} catch (InterruptedException e) {
                     		logger.error("Cannot sleep");
                     		break;
@@ -285,27 +280,27 @@ public class DelegatingManager implements Manager {
 			}
 
 			Object removed = window.remove(0);
-			window.add((double)DelegatingManager.requests);
-			DelegatingManager.requests = 0;
+			//window.add((double)DelegatingManager.currentNumNodes);
+			window.add((double) asyncHome.getAliveCharge());
+			logger.info("Usage window: "+window.toString());
 
                         asyncHome.setWindow(window);
 			asyncHome.calculatePreemptionIfNeeded(window, advanceNotificationTime);
 
+			try{
+                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/utilization.txt", true);
+                                BufferedWriter out = null;
+                                out = new BufferedWriter(fstream);
+			        int allocatedVMs = 0;
+			        allocatedVMs = asyncHome.getAliveAsyncCharge();
 
-	try{
-                               FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/utilization.txt", true);
+                                logger.info("UTILIZATION : Backfill : "+ allocatedVMs + " Normal: "+ asyncHome.getAliveCharge() + " - "+ Calendar.getInstance().getTimeInMillis()/1000);
 
-                               BufferedWriter out = null;
-                               out = new BufferedWriter(fstream);
-			       int allocatedVMs = 0;
-			       allocatedVMs = asyncHome.getAliveCharge();
-                               out.write("\n - Backfill : "+ allocatedVMs + "  Available nodes: "+ DelegatingManager.currentNumNodes);
-                               out.close();
-        }
-        catch (IOException e) {
+			        out.write("\n - Backfill : "+ allocatedVMs + " Normal: "+ asyncHome.getAliveCharge() + " - "+ Calendar.getInstance().getTimeInMillis()/1000);
+	                        out.close();
+        		} catch (IOException e) {
                                 logger.error("Error in file writing" + e.getMessage());
-        }
-
+        		}
 		}
        }
     }
@@ -363,9 +358,8 @@ public class DelegatingManager implements Manager {
         try {
 	    numberVMs = getInstances(resources).length;
             result.setVMs(getInstances(resources));
-            DelegatingManager.setRequests(requests + numberVMs);
-	    int aux = DelegatingManager.currentNumNodes + numberVMs;
-            DelegatingManager.setCurrentNumNodes(aux); 
+	    int newNumNodes = DelegatingManager.currentNumNodes + numberVMs;
+            DelegatingManager.setCurrentNumNodes(newNumNodes);
 
     	    //AQUI
             BufferedWriter out = null;
@@ -420,10 +414,6 @@ public class DelegatingManager implements Manager {
 	return retry;
     }
 
-    private static void setRequests(int request){
-	requests = request;
-    }
-
     private static void increaseDeniedRequests(){
 	deniedRequests++;
     }
@@ -441,9 +431,9 @@ public class DelegatingManager implements Manager {
             throws DoesNotExistException, ManageException {
 
         this.opIntake("TRASH", id, type, caller);
-
 	int aux = DelegatingManager.currentNumNodes -1;
 	DelegatingManager.setCurrentNumNodes(aux);
+        
 
         switch (type) {
             case INSTANCE: this.home.destroy(id); break;
@@ -1154,7 +1144,6 @@ addRequestNotification(req.getAdvanceNotice());
 	final URI imageURI;
         try {
 		String URI = imageLocator.getImageLocation(backfill.getRepoUser(), backfill.getDiskImage()) + "/" + backfill.getDiskImage();
-		logger.info("PRUEBA "+URI);
 		imageURI=new URI(URI);
 	} catch (Exception e) {
             throw new CreationException(e.getMessage(), e);
@@ -1242,7 +1231,7 @@ addRequestNotification(req.getAdvanceNotice());
         for (int i = 0; i < ids.length; i++) {
             AsyncRequest siReq = asyncHome.getRequest(ids[i]);
             
-            authorizeCaller(caller, siReq);
+	    //authorizeCaller(caller, siReq);
             
             result[i] = getSpotANRequest(asyncHome.cancelRequest(ids[i]));
         }
