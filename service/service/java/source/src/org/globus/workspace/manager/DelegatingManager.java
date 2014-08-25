@@ -262,7 +262,7 @@ public class DelegatingManager implements Manager {
 
     public class PredictionDaemon extends Thread {
         public void run() {
-		window = new Vector<Double>(100);
+		window = new Vector<Double>(10);
 
 		for (int i = 0; i < window.capacity(); i++){
 			 window.add(i, (double)0);

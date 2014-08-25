@@ -757,7 +757,7 @@ out = new BufferedWriter(fstream);
         Double result;
         Calendar destructionTime = Calendar.getInstance();
 
-        result = predictPreemptionLinearRegression (window, time);
+        result = predictPreemption (window, time);
         //expectedRequests = Math.round(result.intValue());
 	expectedCharge = Math.round(result.intValue());
 
@@ -799,8 +799,7 @@ out = new BufferedWriter(fstream);
 	while (it.hasNext()){
 		time = (Long) it.next();
 
-	        result = predictPreemptionLinearRegression (window, time);
-
+	        result = predictPreemption (window, time);
         	//expectedRequests = Math.round(result.intValue());
 		expectedCharge = Math.round(result.intValue());
 	
@@ -818,14 +817,14 @@ out = new BufferedWriter(fstream);
 
 	        //if((allocatedVMs+expectedRequests) > availableVMs)
 		try{
-	        	if (getAliveAsyncCharge() + expectedCharge > persistence.getTotalAvailableMemory(instanceMem)){
+	        	if (getAliveAsyncCharge() + expectedCharge >= persistence.getTotalAvailableMemory(instanceMem)){
 		    		//needToPreempt = allocatedVMs + expectedRequests - availableVMs;
 
 		    		needToPreempt = allocatedVMs + expectedCharge/instanceMem - availableVMs;
 
 	            		if (this.lager.eventLog) {
 	                		logger.info(Lager.ev(-1) + "No more resources for backfill requests. " +
-                                           "Pre-empting " + needToPreempt + " VMs.");
+                                           "Pre-empting " + needToPreempt + " VMs. " + expectedCharge + "      -       " + persistence.getTotalAvailableMemory(instanceMem));
 	            		}
 			}
 		} catch (WorkspaceDatabaseException e){
@@ -888,6 +887,7 @@ out = new BufferedWriter(fstream);
 
         Iterator<AsyncRequest> iterator = activeRequests.iterator();
 
+	logger.info(" PRUEBA " + iterator.hasNext() + stillToPreempt);
         while(iterator.hasNext() && stillToPreempt > 0){
             AsyncRequest request = iterator.next();
 
@@ -1002,10 +1002,10 @@ out = new BufferedWriter(fstream);
         Vector<Double> windowAux = (Vector) window.clone();
 	SimpleRegression regression = new SimpleRegression();
        
-	logger.info("Mean window PLR: "+ windowAux.toString());
- 
-	for(int count = 0; count < time; count++){
+	//for(int count = 0; count < time; count++){
 		meanWindow = 0;
+	  //      regression = new SimpleRegression();
+
 		int i;
 
 		for (i = 0; i < windowAux.size(); i++){
@@ -1014,9 +1014,13 @@ out = new BufferedWriter(fstream);
 
 		double d = (double) time;
                 meanWindow = regression.predict(d);
+		if (meanWindow == Double.NaN)
+			meanWindow = 0;
+	        logger.info("Mean window PLR: "+ meanWindow);
 		windowAux.remove(0);
                 windowAux.add(meanWindow);
-        }
+        //}
+
         return meanWindow;
     }
 

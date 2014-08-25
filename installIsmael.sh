@@ -56,21 +56,21 @@ eval "curl -O http://www.nimbusproject.org/downloads/nimbus-z2c.gz"
 
 eval "gunzip nimbus-z2c.gz"
 
-eval "../bin/nimbus-nodes -a vmm1 -m 4096"
+#eval "../bin/nimbus-nodes -a vmm1 -m 4096"
 
 eval "./bin/cloud-client.sh --transfer --sourcefile nimbus-z2c"
 
-eval "export EC2_HOME=/Users/ismaelcuadradocordero/Desktop/nimbus/ec2-api-tools-1.3-57419"
+#eval "export EC2_HOME=/Users/ismaelcuadradocordero/Desktop/nimbus/ec2-api-tools-1.3-57419"
 
-eval "export EC2_URL=https://localhost:8444"
+#eval "export EC2_URL=https://localhost:8444"
 
-eval "export EC2_CERT=~/.nimbus/usercert.pem"
+#eval "export EC2_CERT=~/.nimbus/usercert.pem"
 
-eval "export EC2_PRIVATEKEY=~/.nimbus/userkey.pem"
+#eval "export EC2_PRIVATEKEY=~/.nimbus/userkey.pem"
 
-eval "export MYPUBKEY=`cat ~/.ssh/id_rsa.pub`"
+#eval "export MYPUBKEY=`cat ~/.ssh/id_rsa.pub`"
 
-eval "cp ~/.ssh/id_rsa.pub ./mykey"
+#eval "cp ~/.ssh/id_rsa.pub ./mykey"
 
 aux=$(./bin/nimbus-list-users % | grep "access id" | awk '{ print $4}')
 
@@ -80,16 +80,16 @@ eval "euca-create-keypair "mykey||$MYPUBKEY""
 
 # eval "curl -O http://downloads.eucalyptus.com/software/euca2ools/3.1/source/euca2ools-3.1.0.tar.gz"
 
-eval "cp /Users/ismaelcuadradocordero/nimbus/euca2ools-3.1.0.tar.gz /Users/ismaelcuadradocordero/Desktop/nimbus/"
+#eval "cp /Users/ismaelcuadradocordero/nimbus/euca2ools-3.1.0.tar.gz /Users/ismaelcuadradocordero/Desktop/nimbus/"
 
 eval "cd /Users/ismaelcuadradocordero/Desktop/nimbus/"
 
-eval "tar xzf euca2ools-3.1.0.tar.gz"
+#eval "tar xzf euca2ools-3.1.0.tar.gz"
 
-eval "cd euca2ools-3.1.0"
+#eval "cd euca2ools-3.1.0"
 
 eval "sudo python setup.py install"
 
-eval "sudo chown -R ismaelcuadradocordero:staff ../euca2ools-3.1.0"
+#eval "sudo chown -R ismaelcuadradocordero:staff ../euca2ools-3.1.0"
 
 eval "/Users/ismaelcuadradocordero/Desktop/nimbus/bin/nimbus-list-users %"
