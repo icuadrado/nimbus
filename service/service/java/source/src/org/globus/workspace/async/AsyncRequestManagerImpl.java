@@ -819,17 +819,20 @@ out = new BufferedWriter(fstream);
 	        //if((allocatedVMs+expectedRequests) > availableVMs)
 		try{
 	        	if (getAliveAsyncCharge() + expectedCharge > persistence.getTotalAvailableMemory(instanceMem)){
-		    	//needToPreempt = allocatedVMs + expectedRequests - availableVMs;
-		    	needToPreempt = allocatedVMs + expectedCharge/instanceMem - availableVMs;
-	            	if (this.lager.eventLog) {
-	                	logger.info(Lager.ev(-1) + "No more resources for backfill requests. " +
+		    		//needToPreempt = allocatedVMs + expectedRequests - availableVMs;
+
+		    		needToPreempt = allocatedVMs + expectedCharge/instanceMem - availableVMs;
+
+	            		if (this.lager.eventLog) {
+	                		logger.info(Lager.ev(-1) + "No more resources for backfill requests. " +
                                            "Pre-empting " + needToPreempt + " VMs.");
-	            	}
+	            		}
 			}
 		} catch (WorkspaceDatabaseException e){
 			logger.error("Cannot access database " + e.getMessage());
 		}
-	        try
+	        
+		try
 	        {
 	        	FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/calcprediction.txt", true); //true tells to append data.
 	                BufferedWriter out = null;
@@ -896,10 +899,9 @@ out = new BufferedWriter(fstream);
             Integer realPreemption = Math.min(deservedPreemption, stillToPreempt);
 
             try{
-		if (request.isSpotAN()){
+		//if (request.isSpotAN()){
 			if (request.getAdvanceNotice() <= ((destructionTime.getTimeInMillis() )/60000)){
-
-                		request.setDestructionTime(destructionTime);
+				request.setDestructionTime(destructionTime);
 			}
 		//AQUI  
                 	BufferedWriter out = null;
@@ -909,7 +911,7 @@ out = new BufferedWriter(fstream);
                         	FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/prediction.txt", true); //true tells to append data.
                         	out = new BufferedWriter(fstream);
                        		java.util.Date date= new java.util.Date();
-                        	out.write("\n"+request.getId()+" - "+ (destructionTime.getTimeInMillis()/1000 +request.getAdvanceNotice())+ "      _     " + Calendar.getInstance().getTimeInMillis()/1000);
+                        	out.write("\n"+request.getId()+" - "+ (destructionTime.getTimeInMillis()/1000 +request.getAdvanceNotice())+ "      _     " + Calendar.getInstance().getTimeInMillis()/1000 + "    -   " + request.isSpotAN());
                         	out.close();
 				PreemptDaemon preemptDaemon = new PreemptDaemon(request);
         			preemptDaemon.setDaemon(false);
@@ -921,7 +923,7 @@ out = new BufferedWriter(fstream);
                 	}
 			
 
-		}
+		//}
             }
             catch (IllegalArgumentException e){
                 logger.error("Exception while writting destruction time for request "+e.getMessage());
