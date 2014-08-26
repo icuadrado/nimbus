@@ -775,7 +775,7 @@ out = new BufferedWriter(fstream);
 
         //if(allocatedVMs + expectedRequests >= availableVMs)
 	try{
-		if (getAliveCharge() + expectedCharge >= persistence.getTotalAvailableMemory(instanceMem)) 
+        	if (getAliveAsyncCharge() + expectedCharge >= (persistence.getTotalAvailableMemory(instanceMem)- 5*instanceMem))
 	            return true;
 	} catch (WorkspaceDatabaseException e){
 		logger.error("Cannot obtain Total Available Memory.");
@@ -817,7 +817,7 @@ out = new BufferedWriter(fstream);
 
 	        //if((allocatedVMs+expectedRequests) > availableVMs)
 		try{
-	        	if (getAliveAsyncCharge() + expectedCharge >= persistence.getTotalAvailableMemory(instanceMem)){
+                        if (getAliveAsyncCharge() + expectedCharge >= (persistence.getTotalAvailableMemory(instanceMem)- 5*instanceMem)){
 		    		//needToPreempt = allocatedVMs + expectedRequests - availableVMs;
 
 		    		needToPreempt = allocatedVMs + expectedCharge/instanceMem - availableVMs;

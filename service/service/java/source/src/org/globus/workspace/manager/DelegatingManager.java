@@ -270,7 +270,7 @@ public class DelegatingManager implements Manager {
 
 		while(true){
 			try {
-                    		Thread.sleep(15000);
+                    		Thread.sleep(6000);
                 	} catch (InterruptedException e) {
                     		logger.error("Cannot sleep");
                     		break;
