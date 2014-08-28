@@ -1164,6 +1164,7 @@ addRequestNotification(req.getAdvanceNotice());
 
 	_ResourceAllocation ra = (_ResourceAllocation) req.getRequestedRA();
 	ra.setNodeNumber(nodes);
+	ra.setSpotInstance(true);
 
         screq.setRequestedRA((ResourceAllocation)ra);
 

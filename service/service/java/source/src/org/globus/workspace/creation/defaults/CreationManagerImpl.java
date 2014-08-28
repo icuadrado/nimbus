@@ -326,8 +326,9 @@ public class CreationManagerImpl implements CreationManager, InternalCreationMan
         final String groupID = this.getGroupID(creatorID, bound.length);   
         
         final String reqiID = generateRequestID();
+        
         AsyncRequest asyncReq;
- 
+
         if(req instanceof SpotANCreateRequest) {
             SpotANCreateRequest spotReq = (SpotANCreateRequest)req;
             asyncReq = new AsyncRequest(reqiID, spotReq.isPersistent(), spotReq.getAdvanceNotice(),
