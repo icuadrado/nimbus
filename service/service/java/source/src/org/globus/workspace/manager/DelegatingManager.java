@@ -288,7 +288,7 @@ public class DelegatingManager implements Manager {
 			asyncHome.calculatePreemptionIfNeeded(window, advanceNotificationTime);
 
 			try{
-                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/utilization.txt", true);
+                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/utilization.txt", true);
                                 BufferedWriter out = null;
                                 out = new BufferedWriter(fstream);
 			        int allocatedVMs = 0;
@@ -334,7 +334,7 @@ public class DelegatingManager implements Manager {
 
             try
             {
-                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/deniedOD.txt", true);
+                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/deniedOD.txt", true);
                 out = new BufferedWriter(fstream);
                 out.write("\n - New denied OD. Total sum: "+ deniedRequests);
                 out.close();
@@ -366,7 +366,7 @@ public class DelegatingManager implements Manager {
 
             try
             {
-                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/acceptedOD.txt", true);
+                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/acceptedOD.txt", true);
                 out = new BufferedWriter(fstream);
                 out.write("\n - New accepted OD : "+ req.getName() + "  - "+ Calendar.getInstance().getTimeInMillis());
                 out.close();
@@ -1115,8 +1115,9 @@ public class DelegatingManager implements Manager {
                    SchedulingException {
 
         AsyncRequest siRequest = this.creation.addAsyncRequest(req, caller);
-addRequestNotification(req.getAdvanceNotice());
-        try {
+	addRequestNotification(req.getAdvanceNotice());
+        
+	try {
 	    	return dataConvert.getSpotANRequest(siRequest);
         } catch (CannotTranslateException e) {
             throw new MetadataException("Could not translate request from internal representation to RM API representation.", e);
@@ -1140,6 +1141,8 @@ addRequestNotification(req.getAdvanceNotice());
         final _Caller caller = this.repr._newCaller();
         caller.setIdentity(callerDN);
         //caller.setSubject(IdentityUtil.discoverSubject());
+	//AQUI
+        caller.setSuperUser(true);
 
 	final URI imageURI;
         try {
@@ -1164,6 +1167,7 @@ addRequestNotification(req.getAdvanceNotice());
 
 	_ResourceAllocation ra = (_ResourceAllocation) req.getRequestedRA();
 	ra.setNodeNumber(nodes);
+        ra.setSpotInstance(true);
 
         screq.setRequestedRA((ResourceAllocation)ra);
 
