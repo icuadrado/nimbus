@@ -173,7 +173,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
                         try
                         {
-                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/addRequest.txt", true); //true tells to append data.
+                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/addRequest.txt", true); //true tells to append data.
                                 out = new BufferedWriter(fstream);
                                 java.util.Date date= new java.util.Date();
                                 out.write("\n"+request.getId()+" - "+" Charge "+request.getRequestedInstances() + "  - "+Calendar.getInstance().getTimeInMillis());
@@ -644,7 +644,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
                         try
                         {
-                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/startRunning.txt", true); //true tells to append data.
+                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/startRunning.txt", true); //true tells to append data.
                                 out = new BufferedWriter(fstream);
                                 java.util.Date date= new java.util.Date();
                                 out.write("\n"+hungryRequest.getId()+" - "+date+" - "+ date.getTime() + "  - "+hungryRequest.getRequestedInstances() + "   - " + Math.max(availableInstances/hungryRequests.size(), 1));
@@ -695,10 +695,10 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
                 iterator.remove();
             }else if(asyncRequest.isSpotAN()){
 		if(willBePreempted(window, asyncRequest.getAdvanceNotice())){
-			iterator.remove();
+		//	iterator.remove();
 			logger.info(Calendar.getInstance().getTimeInMillis()+"    -   "+asyncRequest.toString()+" cannot run for the minimum time defined in the Advance Notification atribute in this moment");
                         try{
-                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/willBePreempted.txt", true); //true tells to append data.
+                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/willBePreempted.txt", true); //true tells to append data.
                                                         BufferedWriter out = null;
 out = new BufferedWriter(fstream);
                                 java.util.Date date= new java.util.Date();
@@ -757,7 +757,7 @@ out = new BufferedWriter(fstream);
         Double result;
         Calendar destructionTime = Calendar.getInstance();
 
-        result = predictPreemption (window, time);
+        result = predictPreemptionLinearRegression (window, time);
         //expectedRequests = Math.round(result.intValue());
 	expectedCharge = Math.round(result.intValue());
 
@@ -775,7 +775,7 @@ out = new BufferedWriter(fstream);
 
         //if(allocatedVMs + expectedRequests >= availableVMs)
 	try{
-		if (getAliveCharge() + expectedCharge >= persistence.getTotalAvailableMemory(instanceMem)) 
+		if (getAliveAsyncCharge() >= persistence.getTotalAvailableMemory(expectedCharge)) 
 	            return true;
 	} catch (WorkspaceDatabaseException e){
 		logger.error("Cannot obtain Total Available Memory.");
@@ -799,7 +799,7 @@ out = new BufferedWriter(fstream);
 	while (it.hasNext()){
 		time = (Long) it.next();
 
-	        result = predictPreemption (window, time);
+	        result = predictPreemptionLinearRegression (window, time);
         	//expectedRequests = Math.round(result.intValue());
 		expectedCharge = Math.round(result.intValue());
 	
@@ -817,10 +817,11 @@ out = new BufferedWriter(fstream);
 
 	        //if((allocatedVMs+expectedRequests) > availableVMs)
 		try{
-	        	if (getAliveAsyncCharge() + expectedCharge >= persistence.getTotalAvailableMemory(instanceMem)){
+	        	if (getAliveAsyncCharge() >= persistence.getTotalAvailableMemory(expectedCharge)){
 		    		//needToPreempt = allocatedVMs + expectedRequests - availableVMs;
 
-		    		needToPreempt = allocatedVMs + expectedCharge/instanceMem - availableVMs;
+//		    		needToPreempt = allocatedVMs +expectedCharge/instanceMem - availableVMs;
+                                needToPreempt = expectedCharge/instanceMem - availableVMs;
 
 	            		if (this.lager.eventLog) {
 	                		logger.info(Lager.ev(-1) + "No more resources for backfill requests. " +
@@ -833,7 +834,7 @@ out = new BufferedWriter(fstream);
 	        
 		try
 	        {
-	        	FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/calcprediction.txt", true); //true tells to append data.
+	        	FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/calcprediction.txt", true); //true tells to append data.
 	                BufferedWriter out = null;
 			out = new BufferedWriter(fstream);
 	                java.util.Date date= new java.util.Date();
@@ -858,7 +859,7 @@ out = new BufferedWriter(fstream);
 
         public void run() {
                 try {
-                	Thread.sleep(request.getDestructionTime().getTimeInMillis());
+                	Thread.sleep(request.getDestructionTime().getTimeInMillis() - Calendar.getInstance().getTimeInMillis());
                 } catch (InterruptedException e) {
                         logger.error("Cannot sleep");
                 } catch (Exception e) {
@@ -866,11 +867,11 @@ out = new BufferedWriter(fstream);
                 }
 
                 try{
-                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/PreemptAN.txt", true);
+                        FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/PreemptAN.txt", true);
 
                         BufferedWriter out = null;
                         out = new BufferedWriter(fstream);
-                        out.write("\n - New preempted AN. "+ request.getId());
+                        out.write("\n - New preempted AN. "+ request.getId() + " - " + Calendar.getInstance().getTimeInMillis());
                         out.close();
                 }
                 catch (IOException e) {
@@ -908,7 +909,7 @@ out = new BufferedWriter(fstream);
 
                 	try
                 	{
-                        	FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/prediction.txt", true); //true tells to append data.
+                        	FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/prediction.txt", true); //true tells to append data.
                         	out = new BufferedWriter(fstream);
                        		java.util.Date date= new java.util.Date();
                         	out.write("\n"+request.getId()+" - "+ (destructionTime.getTimeInMillis()/1000 +request.getAdvanceNotice())+ "      _     " + Calendar.getInstance().getTimeInMillis()/1000 + "    -   " + request.isSpotAN());
@@ -1183,7 +1184,7 @@ out = new BufferedWriter(fstream);
                     logger.info(logStr.trim());
                 }
 		try{
-                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/Preempt.txt", true);
+                        FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/Preempt.txt", true);
 
                         BufferedWriter out = null;
                         out = new BufferedWriter(fstream);
@@ -1208,7 +1209,7 @@ out = new BufferedWriter(fstream);
 
                 try
                 {
-                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/finish.txt", true); //true tells to append data.
+                        FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/finish.txt", true); //true tells to append data.
                         out = new BufferedWriter(fstream);
                         java.util.Date date= new java.util.Date();
                         out.write("\n"+request.getId()+" - "+date+" - "+ new Timestamp(date.getTime()));

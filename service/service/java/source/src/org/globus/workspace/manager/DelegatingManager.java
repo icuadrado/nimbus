@@ -270,7 +270,7 @@ public class DelegatingManager implements Manager {
 
 		while(true){
 			try {
-                    		Thread.sleep(15000);
+                    		Thread.sleep(6000);
                 	} catch (InterruptedException e) {
                     		logger.error("Cannot sleep");
                     		break;
@@ -288,7 +288,7 @@ public class DelegatingManager implements Manager {
 			asyncHome.calculatePreemptionIfNeeded(window, advanceNotificationTime);
 
 			try{
-                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/utilization.txt", true);
+                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/utilization.txt", true);
                                 BufferedWriter out = null;
                                 out = new BufferedWriter(fstream);
 			        int allocatedVMs = 0;
@@ -334,7 +334,7 @@ public class DelegatingManager implements Manager {
 
             try
             {
-                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/deniedOD.txt", true);
+                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/deniedOD.txt", true);
                 out = new BufferedWriter(fstream);
                 out.write("\n - New denied OD. Total sum: "+ deniedRequests);
                 out.close();
@@ -366,7 +366,7 @@ public class DelegatingManager implements Manager {
 
             try
             {
-                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/acceptedOD.txt", true);
+                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/acceptedOD.txt", true);
                 out = new BufferedWriter(fstream);
                 out.write("\n - New accepted OD : "+ req.getName() + "  - "+ Calendar.getInstance().getTimeInMillis());
                 out.close();

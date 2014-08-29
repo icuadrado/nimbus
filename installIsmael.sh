@@ -1,8 +1,8 @@
 #!/bin/bash
 
-eval "export NIMBUS_HOME=/Users/ismaelcuadradocordero/Desktop/nimbus"
+eval "export NIMBUS_HOME=/home/ubuntu/Desktop/nimbus"
 
-eval "sudo rm -rf /Users/ismaelcuadradocordero/Desktop/nimbus"
+eval "sudo rm -rf /home/ubuntu/Desktop/nimbus"
 
 aux=$(ps -ef | grep nimbus | awk '{ print $2}')
 
@@ -18,21 +18,21 @@ eval "rm -rf /tmp/newuser/usercert.pem"
 
 eval "rm -rf /tmp/newuser/userkey.pem"
 
-eval "./install /Users/ismaelcuadradocordero/Desktop/nimbus/"
+eval "./install /home/ubuntu/Desktop/nimbus/"
 
-eval "cp -R ec2-api-tools-1.3-57419 /Users/ismaelcuadradocordero/Desktop/nimbus/"
+eval "cp -R ec2-api-tools-1.3-57419 /home/ubuntu/Desktop/nimbus/"
 
-# eval "export GLOBUS_LOCATION=/Users/ismaelcuadradocordero/Desktop/nimbus/services"
+# eval "export GLOBUS_LOCATION=/home/ubuntu/Desktop/nimbus/services"
 
 # eval "./scripts/jars-build-and-install.sh"
 
-eval "export PATH=$PATH:/Users/ismaelcuadradocordero/Desktop/nimbus/bin"
+eval "export PATH=$PATH:/home/ubuntu/Desktop/nimbus/bin"
 
-eval "/Users/ismaelcuadradocordero/Desktop/nimbus/bin/nimbusctl start"
+eval "/home/ubuntu/Desktop/nimbus/bin/nimbusctl start"
 
-eval "cd /Users/ismaelcuadradocordero/Desktop/nimbus"
+eval "cd /home/ubuntu/Desktop/nimbus"
 
-echo "cd /Users/ismaelcuadradocordero/Desktop/nimbus"
+echo "cd /home/ubuntu/Desktop/nimbus"
 
 eval "./bin/nimbus-new-user --dn BACKFILL-SUPERUSER backfill@localhost"
 
@@ -60,7 +60,7 @@ eval "gunzip nimbus-z2c.gz"
 
 eval "./bin/cloud-client.sh --transfer --sourcefile nimbus-z2c"
 
-#eval "export EC2_HOME=/Users/ismaelcuadradocordero/Desktop/nimbus/ec2-api-tools-1.3-57419"
+#eval "export EC2_HOME=/home/ubuntu/Desktop/nimbus/ec2-api-tools-1.3-57419"
 
 #eval "export EC2_URL=https://localhost:8444"
 
@@ -80,9 +80,9 @@ eval "euca-create-keypair "mykey||$MYPUBKEY""
 
 # eval "curl -O http://downloads.eucalyptus.com/software/euca2ools/3.1/source/euca2ools-3.1.0.tar.gz"
 
-#eval "cp /Users/ismaelcuadradocordero/nimbus/euca2ools-3.1.0.tar.gz /Users/ismaelcuadradocordero/Desktop/nimbus/"
+#eval "cp /home/ubuntu/nimbus/euca2ools-3.1.0.tar.gz /Users/ismaelcuadradocordero/Desktop/nimbus/"
 
-eval "cd /Users/ismaelcuadradocordero/Desktop/nimbus/"
+eval "cd /home/ubuntu/Desktop/nimbus/"
 
 #eval "tar xzf euca2ools-3.1.0.tar.gz"
 
@@ -92,4 +92,4 @@ eval "sudo python setup.py install"
 
 #eval "sudo chown -R ismaelcuadradocordero:staff ../euca2ools-3.1.0"
 
-eval "/Users/ismaelcuadradocordero/Desktop/nimbus/bin/nimbus-list-users %"
+eval "/home/ubuntu/Desktop/nimbus/bin/nimbus-list-users %"
