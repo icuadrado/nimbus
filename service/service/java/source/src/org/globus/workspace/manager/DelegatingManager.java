@@ -1167,7 +1167,7 @@ public class DelegatingManager implements Manager {
 
 	_ResourceAllocation ra = (_ResourceAllocation) req.getRequestedRA();
 	ra.setNodeNumber(nodes);
-        ra.setSpotInstance(true);
+	ra.setSpotInstance(true);
 
         screq.setRequestedRA((ResourceAllocation)ra);
 

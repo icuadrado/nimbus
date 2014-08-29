@@ -173,7 +173,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
                         try
                         {
-                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/addRequest.txt", true); //true tells to append data.
+                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/addRequest.txt", true); //true tells to append data.
                                 out = new BufferedWriter(fstream);
                                 java.util.Date date= new java.util.Date();
                                 out.write("\n"+request.getId()+" - "+" Charge "+request.getRequestedInstances() + "  - "+Calendar.getInstance().getTimeInMillis());
@@ -644,7 +644,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
                         try
                         {
-                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/startRunning.txt", true); //true tells to append data.
+                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/startRunning.txt", true); //true tells to append data.
                                 out = new BufferedWriter(fstream);
                                 java.util.Date date= new java.util.Date();
                                 out.write("\n"+hungryRequest.getId()+" - "+date+" - "+ date.getTime() + "  - "+hungryRequest.getRequestedInstances() + "   - " + Math.max(availableInstances/hungryRequests.size(), 1));
@@ -694,13 +694,14 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
             if(!asyncRequest.needsMoreInstances()){
                 iterator.remove();
             }else if(asyncRequest.isSpotAN()){
-		if(willBePreempted(window, asyncRequest.getAdvanceNotice())){
-		//	iterator.remove();
+		if(willBePreempted(window, asyncRequest.getAdvanceNotice()) && asyncRequest.isSpotAN()){
+			iterator.remove();
 			logger.info(Calendar.getInstance().getTimeInMillis()+"    -   "+asyncRequest.toString()+" cannot run for the minimum time defined in the Advance Notification atribute in this moment");
                         try{
-                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/willBePreempted.txt", true); //true tells to append data.
-                                BufferedWriter out = null;
-				out = new BufferedWriter(fstream);
+                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/willBePreempted.txt", true); //true tells to append data.
+                                                        BufferedWriter out = null;
+out = new BufferedWriter(fstream);
+>>>>>>> b6d31b433eca459dec921afb909b57413d9b54c0
                                 java.util.Date date= new java.util.Date();
                                 out.write("\n"+Calendar.getInstance().getTimeInMillis()+"    -   "+asyncRequest.toString()+" cannot run for the minimum time defined in the Advance Notification atribute in this moment");
                                 out.close();
@@ -775,7 +776,15 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
         //if(allocatedVMs + expectedRequests >= availableVMs)
 	try{
+<<<<<<< HEAD
 		if (getAliveAsyncCharge() >= persistence.getTotalAvailableMemory(expectedCharge)) 
+=======
+<<<<<<< HEAD
+		if (getAliveAsyncCharge() >= (persistence.getTotalAvailableMemory(expectedCharge))) 
+=======
+        	if (getAliveAsyncCharge() + expectedCharge >= (persistence.getTotalAvailableMemory(instanceMem)- 5*instanceMem))
+>>>>>>> 4efa05bb63e464a2d5efb93685bc05e9faaa070a
+>>>>>>> b6d31b433eca459dec921afb909b57413d9b54c0
 	            return true;
 	} catch (WorkspaceDatabaseException e){
 		logger.error("Cannot obtain Total Available Memory.");
@@ -817,13 +826,24 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
 	        //if((allocatedVMs+expectedRequests) > availableVMs)
 		try{
+<<<<<<< HEAD
 	        	if (getAliveAsyncCharge() + expectedCharge >= persistence.getTotalMaxMemory()){
 //		    		needToPreempt = allocatedVMs +expectedCharge/instanceMem - availableVMs;
                                 needToPreempt = expectedCharge/instanceMem - availableVMs;
+=======
+<<<<<<< HEAD
+	        	if ((getAliveAsyncCharge()) >= (persistence.getTotalAvailableMemory(expectedCharge))){
+=======
+                        if (getAliveAsyncCharge() + expectedCharge >= (persistence.getTotalAvailableMemory(instanceMem)- 5*instanceMem)){
+>>>>>>> 4efa05bb63e464a2d5efb93685bc05e9faaa070a
+		    		//needToPreempt = allocatedVMs + expectedRequests - availableVMs;
+
+//		    		needToPreempt = allocatedVMs + expectedCharge/instanceMem - availableVMs;
+                                needToPreempt =  2*expectedCharge/instanceMem - availableVMs;
+>>>>>>> b6d31b433eca459dec921afb909b57413d9b54c0
 
 	            		if (this.lager.eventLog) {
-	                		logger.info(Lager.ev(-1) + "No more resources for backfill requests. " +
-                                           "Pre-empting " + needToPreempt + " VMs. " + expectedCharge + "      -       " + persistence.getTotalAvailableMemory(instanceMem));
+	                		logger.info(Lager.ev(-1) + "To pre-empt " + needToPreempt + " VMs. " + expectedCharge + " - " + persistence.getTotalAvailableMemory(instanceMem));
 	            		}
 			}
 		} catch (WorkspaceDatabaseException e){
@@ -832,11 +852,11 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 	        
 		try
 	        {
-	        	FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/calcprediction.txt", true); //true tells to append data.
+	        	FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/calcprediction.txt", true); //true tells to append data.
 	                BufferedWriter out = null;
 			out = new BufferedWriter(fstream);
 	                java.util.Date date= new java.util.Date();
-	                out.write("\n"+time+" - "+ needToPreempt);
+	                out.write("\n"+Calendar.getInstance().getTimeInMillis()+"   -  "+time+" - "+ needToPreempt);
 	                out.close();
 	        }
 	        catch (IOException e)
@@ -865,11 +885,15 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
                 }
 
                 try{
-                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/PreemptAN.txt", true);
+                        FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/PreemptAN.txt", true);
 
                         BufferedWriter out = null;
                         out = new BufferedWriter(fstream);
+<<<<<<< HEAD
                         out.write("\n - New preempted AN. "+ request.getId() + " - " + Calendar.getInstance().getTimeInMillis());
+=======
+                        out.write("\n - New preempted AN. "+ request.getId() + " - "+Calendar.getInstance().getTimeInMillis());
+>>>>>>> b6d31b433eca459dec921afb909b57413d9b54c0
                         out.close();
                 }
                 catch (IOException e) {
@@ -907,7 +931,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
                 	try
                 	{
-                        	FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/prediction.txt", true); //true tells to append data.
+                        	FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/prediction.txt", true); //true tells to append data.
                         	out = new BufferedWriter(fstream);
                        		java.util.Date date= new java.util.Date();
                         	out.write("\n"+request.getId()+" - "+ (destructionTime.getTimeInMillis()/1000 +request.getAdvanceNotice())+ "      _     " + Calendar.getInstance().getTimeInMillis()/1000 + "    -   " + request.isSpotAN());
@@ -1001,9 +1025,9 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         Vector<Double> windowAux = (Vector) window.clone();
 	SimpleRegression regression = new SimpleRegression();
        
-	//for(int count = 0; count < time; count++){
+	for(int count = 0; count < time; count++){
 		meanWindow = 0;
-	  //      regression = new SimpleRegression();
+	        regression = new SimpleRegression();
 
 		int i;
 
@@ -1011,14 +1035,14 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 			regression.addData((double)i, windowAux.elementAt(i).doubleValue());	
 		}
 
-		double d = (double) time;
+		double d = (double) window.size();
                 meanWindow = regression.predict(d);
 		if (meanWindow == Double.NaN)
 			meanWindow = 0;
 	        logger.info("Mean window PLR: "+ meanWindow);
 		windowAux.remove(0);
                 windowAux.add(meanWindow);
-        //}
+        }
 
         return meanWindow;
     }
@@ -1182,7 +1206,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
                     logger.info(logStr.trim());
                 }
 		try{
-                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/Preempt.txt", true);
+                        FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/Preempt.txt", true);
 
                         BufferedWriter out = null;
                         out = new BufferedWriter(fstream);
@@ -1207,7 +1231,7 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
 
                 try
                 {
-                        FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/finish.txt", true); //true tells to append data.
+                        FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/finish.txt", true); //true tells to append data.
                         out = new BufferedWriter(fstream);
                         java.util.Date date= new java.util.Date();
                         out.write("\n"+request.getId()+" - "+date+" - "+ new Timestamp(date.getTime()));
