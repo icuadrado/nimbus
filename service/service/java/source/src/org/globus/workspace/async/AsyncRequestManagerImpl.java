@@ -776,15 +776,7 @@ out = new BufferedWriter(fstream);
 
         //if(allocatedVMs + expectedRequests >= availableVMs)
 	try{
-<<<<<<< HEAD
-		if (getAliveAsyncCharge() >= persistence.getTotalAvailableMemory(expectedCharge)) 
-=======
-<<<<<<< HEAD
-		if (getAliveAsyncCharge() >= (persistence.getTotalAvailableMemory(expectedCharge))) 
-=======
-        	if (getAliveAsyncCharge() + expectedCharge >= (persistence.getTotalAvailableMemory(instanceMem)- 5*instanceMem))
->>>>>>> 4efa05bb63e464a2d5efb93685bc05e9faaa070a
->>>>>>> b6d31b433eca459dec921afb909b57413d9b54c0
+		if (getAliveAsyncCharge() + expectedCharge >= persistence.getTotalMaxMemory()) 
 	            return true;
 	} catch (WorkspaceDatabaseException e){
 		logger.error("Cannot obtain Total Available Memory.");
@@ -826,21 +818,11 @@ out = new BufferedWriter(fstream);
 
 	        //if((allocatedVMs+expectedRequests) > availableVMs)
 		try{
-<<<<<<< HEAD
 	        	if (getAliveAsyncCharge() + expectedCharge >= persistence.getTotalMaxMemory()){
-//		    		needToPreempt = allocatedVMs +expectedCharge/instanceMem - availableVMs;
-                                needToPreempt = expectedCharge/instanceMem - availableVMs;
-=======
-<<<<<<< HEAD
-	        	if ((getAliveAsyncCharge()) >= (persistence.getTotalAvailableMemory(expectedCharge))){
-=======
-                        if (getAliveAsyncCharge() + expectedCharge >= (persistence.getTotalAvailableMemory(instanceMem)- 5*instanceMem)){
->>>>>>> 4efa05bb63e464a2d5efb93685bc05e9faaa070a
 		    		//needToPreempt = allocatedVMs + expectedRequests - availableVMs;
 
 //		    		needToPreempt = allocatedVMs + expectedCharge/instanceMem - availableVMs;
                                 needToPreempt =  2*expectedCharge/instanceMem - availableVMs;
->>>>>>> b6d31b433eca459dec921afb909b57413d9b54c0
 
 	            		if (this.lager.eventLog) {
 	                		logger.info(Lager.ev(-1) + "To pre-empt " + needToPreempt + " VMs. " + expectedCharge + " - " + persistence.getTotalAvailableMemory(instanceMem));
@@ -889,11 +871,7 @@ out = new BufferedWriter(fstream);
 
                         BufferedWriter out = null;
                         out = new BufferedWriter(fstream);
-<<<<<<< HEAD
                         out.write("\n - New preempted AN. "+ request.getId() + " - " + Calendar.getInstance().getTimeInMillis());
-=======
-                        out.write("\n - New preempted AN. "+ request.getId() + " - "+Calendar.getInstance().getTimeInMillis());
->>>>>>> b6d31b433eca459dec921afb909b57413d9b54c0
                         out.close();
                 }
                 catch (IOException e) {
