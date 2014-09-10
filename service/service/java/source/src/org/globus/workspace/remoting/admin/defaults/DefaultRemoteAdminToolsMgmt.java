@@ -648,21 +648,6 @@ public class DefaultRemoteAdminToolsMgmt implements RemoteAdminToolsManagement {
 	try{
 		SpotANRequestInfo requestInfo = manager.requestSpotANInstances(seconds, nodes, an, persistence, callerDN);
 
-		//AQUI
-                BufferedWriter out = null;
-
-                try
-                {
-                        FileWriter fstream = new FileWriter("income.txt", true); //true tells to append data.
-                        out = new BufferedWriter(fstream);
-                        java.util.Date date= new java.util.Date();
-                        out.write("\n"+requestInfo.getRequestID()+" - "+date+" - "+ new Timestamp(date.getTime()) + " - charge " + nodes  );
-                	out.close();
-                }
-                catch (IOException e)
-                {
-                        System.err.println("Error: " + e.getMessage());
-                }
 		return requestInfo.toString();
         }
         catch (ManageException e) {

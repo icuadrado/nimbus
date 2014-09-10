@@ -129,8 +129,6 @@ public class DelegatingManager implements Manager {
 
     protected static int deniedRequests = 0;
 
-    protected static int currentNumNodes;
-
     private static TreeSet<Long> advanceNotificationTime;
     
     // -------------------------------------------------------------------------
@@ -194,8 +192,6 @@ public class DelegatingManager implements Manager {
         }
         this.asyncHome = siManagerImpl;
 
-	DelegatingManager.currentNumNodes = 0;
-
     }
 
 
@@ -255,6 +251,8 @@ public class DelegatingManager implements Manager {
         this.backfill.setManager(this);
         this.backfill.initiateBackfill();
         this.asyncHome.recalculateAvailableInstances();
+
+	// Launches the prediction Daemon for AN instances
 	PredictionDaemon predictionDaemon = new PredictionDaemon();
 	predictionDaemon.setDaemon(true);
 	predictionDaemon.start();
@@ -280,27 +278,10 @@ public class DelegatingManager implements Manager {
 			}
 
 			Object removed = window.remove(0);
-			//window.add((double)DelegatingManager.currentNumNodes);
 			window.add((double) asyncHome.getAliveCharge());
-			logger.info("Usage window: "+window.toString());
 
                         asyncHome.setWindow(window);
 			asyncHome.calculatePreemptionIfNeeded(window, advanceNotificationTime);
-
-			try{
-                                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/utilization.txt", true);
-                                BufferedWriter out = null;
-                                out = new BufferedWriter(fstream);
-			        int allocatedVMs = 0;
-			        allocatedVMs = asyncHome.getAliveAsyncCharge();
-
-                                logger.info("UTILIZATION : Backfill : "+ allocatedVMs + " Normal: "+ asyncHome.getAliveCharge() + " - "+ Calendar.getInstance().getTimeInMillis()/1000);
-
-			        out.write("\n - Backfill : "+ allocatedVMs + " Normal: "+ asyncHome.getAliveCharge() + " - "+ Calendar.getInstance().getTimeInMillis()/1000);
-	                        out.close();
-        		} catch (IOException e) {
-                                logger.error("Error in file writing" + e.getMessage());
-        		}
 		}
        }
     }
@@ -328,23 +309,10 @@ public class DelegatingManager implements Manager {
 	try{
        		resources = this.creation.create(req, caller);
         }catch(ResourceRequestDeniedException e){
-//AQUI
             DelegatingManager.increaseDeniedRequests();
-            BufferedWriter out = null;
-
-            try
-            {
-                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/deniedOD.txt", true);
-                out = new BufferedWriter(fstream);
-                out.write("\n - New denied OD. Total sum: "+ deniedRequests);
-                out.close();
-            }
-            catch (IOException ex)
-            {
-                System.err.println("Error: " + ex.getMessage());
-            }
-                if(policyConflicts(e.getMessage(), req))
-			resources = this.creation.create(req, caller);
+            
+	    if(policyConflicts(e.getMessage(), req))
+		resources = this.creation.create(req, caller);
 	}
 
 	final _CreateResult result = this.repr._newCreateResult();
@@ -358,24 +326,6 @@ public class DelegatingManager implements Manager {
         try {
 	    numberVMs = getInstances(resources).length;
             result.setVMs(getInstances(resources));
-	    int newNumNodes = DelegatingManager.currentNumNodes + numberVMs;
-            DelegatingManager.setCurrentNumNodes(newNumNodes);
-
-    	    //AQUI
-            BufferedWriter out = null;
-
-            try
-            {
-                FileWriter fstream = new FileWriter("/Users/ismaelcuadradocordero/Desktop/results/acceptedOD.txt", true);
-                out = new BufferedWriter(fstream);
-                out.write("\n - New accepted OD : "+ req.getName() + "  - "+ Calendar.getInstance().getTimeInMillis());
-                out.close();
-            }
-            catch (IOException ex)
-            {
-                System.err.println("Error: " + ex.getMessage());
-            }
-
         } catch (CannotTranslateException e) {
             throw new MetadataException(e.getMessage(), e);
         }
@@ -418,10 +368,6 @@ public class DelegatingManager implements Manager {
 	deniedRequests++;
     }
 
-    private static void setCurrentNumNodes(int numNodes){
-	currentNumNodes = numNodes;
-    }
-
     public void setDestructionTime(String id, int type, Calendar time)
             throws DoesNotExistException, ManageException {
         throw new ManageException("Not allowing remote termination changes");
@@ -431,9 +377,6 @@ public class DelegatingManager implements Manager {
             throws DoesNotExistException, ManageException {
 
         this.opIntake("TRASH", id, type, caller);
-	int aux = DelegatingManager.currentNumNodes -1;
-	DelegatingManager.setCurrentNumNodes(aux);
-        
 
         switch (type) {
             case INSTANCE: this.home.destroy(id); break;
@@ -1141,8 +1084,6 @@ public class DelegatingManager implements Manager {
         final _Caller caller = this.repr._newCaller();
         caller.setIdentity(callerDN);
         //caller.setSubject(IdentityUtil.discoverSubject());
-	//AQUI
-        caller.setSuperUser(true);
 
 	final URI imageURI;
         try {

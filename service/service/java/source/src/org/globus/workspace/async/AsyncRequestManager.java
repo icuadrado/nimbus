@@ -49,8 +49,6 @@ public interface AsyncRequestManager extends AsyncRequestHome, PreemptableSpaceM
 
     public void setWindow(Vector<Double> window);
     
-    public int getNumNodes();
-
     public int getAliveAsyncCharge();
 
     public int getAliveCharge();

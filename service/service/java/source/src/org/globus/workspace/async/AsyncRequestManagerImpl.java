@@ -168,21 +168,6 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
      * @throws ResourceRequestDeniedException If this type of request is disabled
      */
     public void addRequest(AsyncRequest request) throws ResourceRequestDeniedException {
-	//AQUI
-                        BufferedWriter out = null;
-
-                        try
-                        {
-                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/addRequest.txt", true); //true tells to append data.
-                                out = new BufferedWriter(fstream);
-                                java.util.Date date= new java.util.Date();
-                                out.write("\n"+request.getId()+" - "+" Charge "+request.getRequestedInstances() + "  - "+Calendar.getInstance().getTimeInMillis());
-                                out.close();
-                        }
-                        catch (IOException e)
-                        {
-                                System.err.println("Error: " + e.getMessage());
-                        }
         this.asyncRequestMap.addOrReplace(request);
 
         if(request.isSpotRequest()){
@@ -638,22 +623,6 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
         Map<AsyncRequest, Integer> allocations = new HashMap<AsyncRequest, Integer>();
         for (AsyncRequest hungryRequest : hungryRequests) {
             allocations.put(hungryRequest, 0);
-//AQUI
-                        BufferedWriter out = null;
-                setNumNodes(numNodes+1);
-
-                        try
-                        {
-                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/startRunning.txt", true); //true tells to append data.
-                                out = new BufferedWriter(fstream);
-                                java.util.Date date= new java.util.Date();
-                                out.write("\n"+hungryRequest.getId()+" - "+date+" - "+ date.getTime() + "  - "+hungryRequest.getRequestedInstances() + "   - " + Math.max(availableInstances/hungryRequests.size(), 1));
-                                out.close();
-                        }
-                        catch (IOException e)
-                        {
-                                System.err.println("Error: " + e.getMessage());
-                        }
         }
         
         while(availableInstances > 0 && !hungryRequests.isEmpty()){
@@ -696,24 +665,10 @@ public class AsyncRequestManagerImpl implements AsyncRequestManager {
             }else if(asyncRequest.isSpotAN()){
 		if(willBePreempted(window, asyncRequest.getAdvanceNotice()) && asyncRequest.isSpotAN()){
 			iterator.remove();
-			logger.info(Calendar.getInstance().getTimeInMillis()+"    -   "+asyncRequest.toString()+" cannot run for the minimum time defined in the Advance Notification atribute in this moment");
-                        try{
-                                FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/willBePreempted.txt", true); //true tells to append data.
-                                                        BufferedWriter out = null;
-out = new BufferedWriter(fstream);
->>>>>>> b6d31b433eca459dec921afb909b57413d9b54c0
-                                java.util.Date date= new java.util.Date();
-                                out.write("\n"+Calendar.getInstance().getTimeInMillis()+"    -   "+asyncRequest.toString()+" cannot run for the minimum time defined in the Advance Notification atribute in this moment");
-                                out.close();
-                        }
-                        catch (IOException e)
-                        {
-                                System.err.println("Error: " + e.getMessage());
-                        }
-
+			logger.info(asyncRequest.toString()+" cannot run for the minimum time defined in the Advance Notification atribute in this moment");
 		}
 		else {
-                        logger.info(asyncRequest.toString()+" Everything went alright. Added to be run.");
+                        logger.info(" Everything went alright. " + asyncRequest.toString() + " added to be run.");
 		}
 	    }
         }
@@ -721,14 +676,6 @@ out = new BufferedWriter(fstream);
         Collections.sort(aliveRequests, getAllocationComparator());
         
         return aliveRequests;
-    }
-
-    private void setNumNodes(int numNodes){
-	this.numNodes += numNodes;
-    }
-
-    public int getNumNodes(){
-	return numNodes;
     }
 
     public void setWindow(Vector<Double> window){
@@ -787,7 +734,6 @@ out = new BufferedWriter(fstream);
     }
 
     public void calculatePreemptionIfNeeded(Vector<Double> window, TreeSet<Long> timeSet){
-	//Integer expectedRequests;
 	Integer expectedCharge;
         long time;
 	Integer needToPreempt = 0;
@@ -801,7 +747,6 @@ out = new BufferedWriter(fstream);
 		time = (Long) it.next();
 
 	        result = predictPreemptionLinearRegression (window, time);
-        	//expectedRequests = Math.round(result.intValue());
 		expectedCharge = Math.round(result.intValue());
 	
 		List<AsyncRequest> aliveRequests = getAliveBackfillRequests();
@@ -816,36 +761,20 @@ out = new BufferedWriter(fstream);
 	            allocatedVMs += aliveRequest.getAllocatedInstances();
 	        }
 
-	        //if((allocatedVMs+expectedRequests) > availableVMs)
 		try{
 	        	if (getAliveAsyncCharge() + expectedCharge >= persistence.getTotalMaxMemory()){
-		    		//needToPreempt = allocatedVMs + expectedRequests - availableVMs;
-
-//		    		needToPreempt = allocatedVMs + expectedCharge/instanceMem - availableVMs;
+				//This value must be adapted to fit as best as possible the performance of the cloud. 
+				// In the experiments, \'2\' worked alright even though it proved to be a bit aggressive
                                 needToPreempt =  2*expectedCharge/instanceMem - availableVMs;
 
 	            		if (this.lager.eventLog) {
-	                		logger.info(Lager.ev(-1) + "To pre-empt " + needToPreempt + " VMs. " + expectedCharge + " - " + persistence.getTotalAvailableMemory(instanceMem));
+	                		logger.info(Lager.ev(-1) + "Predict to pre-empt " + needToPreempt + " VMs. ");
 	            		}
 			}
 		} catch (WorkspaceDatabaseException e){
 			logger.error("Cannot access database " + e.getMessage());
 		}
 	        
-		try
-	        {
-	        	FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/calcprediction.txt", true); //true tells to append data.
-	                BufferedWriter out = null;
-			out = new BufferedWriter(fstream);
-	                java.util.Date date= new java.util.Date();
-	                out.write("\n"+Calendar.getInstance().getTimeInMillis()+"   -  "+time+" - "+ needToPreempt);
-	                out.close();
-	        }
-	        catch (IOException e)
-	        {
-	        	System.err.println("Error: " + e.getMessage());
-	        }
-	
         	destructionTime.setTimeInMillis(time*1000 + auxCalendar);
 		communicatePreemption(activeRequests, needToPreempt, allocatedVMs, destructionTime);
 	}
@@ -853,6 +782,7 @@ out = new BufferedWriter(fstream);
 
     public class PreemptDaemon extends Thread {
 	AsyncRequest request;
+
 	public PreemptDaemon (AsyncRequest req){
 	        this.request = req;
         }
@@ -866,18 +796,6 @@ out = new BufferedWriter(fstream);
                         logger.error("Cannot sleep");
                 }
 
-                try{
-                        FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/PreemptAN.txt", true);
-
-                        BufferedWriter out = null;
-                        out = new BufferedWriter(fstream);
-                        out.write("\n - New preempted AN. "+ request.getId() + " - " + Calendar.getInstance().getTimeInMillis());
-                        out.close();
-                }
-                catch (IOException e) {
-                        logger.error("Error in file writing" + e.getMessage());
-                }
-		
 		preempt(request, request.getAllocatedInstances());
        }
     }
@@ -888,93 +806,91 @@ out = new BufferedWriter(fstream);
 
         Iterator<AsyncRequest> iterator = activeRequests.iterator();
 
-	logger.info(" PRUEBA " + iterator.hasNext() + stillToPreempt);
         while(iterator.hasNext() && stillToPreempt > 0){
-            AsyncRequest request = iterator.next();
+            
+	    AsyncRequest request = iterator.next();
+           
+	    //Prediction only applies to SpotAN instances 
+	    if (request.isSpotAN()){
+		//calculate how many instances will be preempted
+            	Double allocatedProportion = (double)request.getAllocatedInstances()/allocatedVMs;
 
-            Double allocatedProportion = (double)request.getAllocatedInstances()/allocatedVMs;
+            	//Minimum deserved pre-emption is 1
+            	Integer deservedPreemption = Math.max((int)Math.round(allocatedProportion*needToPreempt), 1);
 
-            //Minimum deserved pre-emption is 1
-            Integer deservedPreemption = Math.max((int)Math.round(allocatedProportion*needToPreempt), 1);
+            	Integer realPreemption = Math.min(deservedPreemption, stillToPreempt);
 
-            Integer realPreemption = Math.min(deservedPreemption, stillToPreempt);
-
-            try{
-		//if (request.isSpotAN()){
-			if (request.getAdvanceNotice() <= ((destructionTime.getTimeInMillis() )/60000)){
+            	try{
+			//It is only communicated when it is said so, not earlier, not after
+			if (request.getAdvanceNotice() <= ((destructionTime.getTimeInMillis() )/60000) && request.getDestructionTime() == null){
 				request.setDestructionTime(destructionTime);
 			}
-		//AQUI  
-                	BufferedWriter out = null;
 
-                	try
-                	{
-                        	FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/prediction.txt", true); //true tells to append data.
-                        	out = new BufferedWriter(fstream);
-                       		java.util.Date date= new java.util.Date();
-                        	out.write("\n"+request.getId()+" - "+ (destructionTime.getTimeInMillis()/1000 +request.getAdvanceNotice())+ "      _     " + Calendar.getInstance().getTimeInMillis()/1000 + "    -   " + request.isSpotAN());
-                        	out.close();
-				PreemptDaemon preemptDaemon = new PreemptDaemon(request);
-        			preemptDaemon.setDaemon(false);
-        			preemptDaemon.start();
-                	}
-                	catch (IOException e)
-                	{
-                        	System.err.println("Error: " + e.getMessage());
-                	}
-			
+			//A thread is launched to preempt the VM when it was predicted
+			PreemptDaemon preemptDaemon = new PreemptDaemon(request);
+        		preemptDaemon.setDaemon(false);
+        		preemptDaemon.start();
+            	}
+            	catch (IllegalArgumentException e){
+            	    logger.error("Exception while writting destruction time for request "+e.getMessage());
+            	}
+            	catch (Exception e){
+            	    logger.error("Exception "+e.getMessage());
+            	}
 
-		//}
-            }
-            catch (IllegalArgumentException e){
-                logger.error("Exception while writting destruction time for request "+e.getMessage());
-            }
-            catch (Exception e){
-                logger.error("Exception "+e.getMessage());
-            }
-
-            stillToPreempt -= realPreemption;
+            	stillToPreempt -= realPreemption;
+	    }
         }
 
 
-        //This may never happen. But just in case.
+        //Safety check, in case not all the needed space was checked to be preempted
         if(stillToPreempt > 0){
             logger.warn("Unable to pre-empt VMs proportionally. Still " + stillToPreempt +
                          " VMs to pre-empt. Pre-empting best-effort.");
 
             iterator = activeRequests.iterator();
             while(iterator.hasNext() && stillToPreempt > 0){
-                AsyncRequest request = iterator.next();
-                Integer allocatedInstances = request.getAllocatedInstances();
-                if(allocatedInstances > 0){
-                    if(allocatedInstances > stillToPreempt){
-                        try{
-                                request.setDestructionTime(destructionTime);
-                        }
-                        catch (IllegalArgumentException e){
-                                logger.error("Exception while writting destruction time for request "+e.getMessage());
-                        }
-                        catch (Exception e){
-                                logger.error("Exception "+e.getMessage());
-                        }
-                         stillToPreempt = 0;
-                    } else {
- 			try{
-                                request.setDestructionTime(destructionTime);
-                        }
-                        catch (IllegalArgumentException e){
-                                logger.error("Exception while writting destruction time for request "+e.getMessage());
-                        }
-                        catch (Exception e){
-                                logger.error("Exception "+e.getMessage());
-                        }
-                         stillToPreempt -= allocatedInstances;
-                    }
-                }
+	        AsyncRequest request = iterator.next();
+
+		if (request.isSpotAN()){
+                	Integer allocatedInstances = request.getAllocatedInstances();
+                
+			if(allocatedInstances > 0 && allocatedInstances > stillToPreempt){
+				//Exactly the same performance as above
+				try{
+                        		if (request.getAdvanceNotice() <= ((destructionTime.getTimeInMillis() )/60000) && request.getDestructionTime() == null){
+                                		request.setDestructionTime(destructionTime);
+                        		}
+                        		PreemptDaemon preemptDaemon = new PreemptDaemon(request);
+                        		preemptDaemon.setDaemon(false);
+                			preemptDaemon.start();
+                		} catch (IllegalArgumentException e){
+                			logger.error("Exception while writting destruction time for request "+e.getMessage());
+                		} catch (Exception e){
+                			logger.error("Exception "+e.getMessage());
+                		}
+                    	} else {
+                                //Exactly the same performance as above
+				try{
+                        		if (request.getAdvanceNotice() <= ((destructionTime.getTimeInMillis() )/60000) && request.getDestructionTime() == null){
+                        		        request.setDestructionTime(destructionTime);
+                        		}
+                        		PreemptDaemon preemptDaemon = new PreemptDaemon(request);
+                        		preemptDaemon.setDaemon(false);
+                        		preemptDaemon.start();
+                		} catch (IllegalArgumentException e){
+                    			logger.error("Exception while writting destruction time for request "+e.getMessage());
+                		} catch (Exception e){
+                    			logger.error("Exception "+e.getMessage());
+                		}
+                        	 stillToPreempt -= allocatedInstances;
+                	}
+		}
             }
         }
     }
 
+    // Moving Average Window Prediction. It has been shown to be worse estimation than LR, but the implementation is here to be used if needed    
     private double predictPreemption (Vector<Double> window, Long time)
     {
 	double meanWindow = 0; 
@@ -994,14 +910,22 @@ out = new BufferedWriter(fstream);
 	return meanWindow;
     }
 
-    // Predict using LR
+    /** 
+     * Moving Linear Regression Window Prediction.
+     * This prediction takes a window of charge (charge along a space of time) and generates a charge 
+     * prediction for the time passed as argument, using the initial window to predict next value, 
+     * and so on until it gets to the value passed as argument
+     *
+     * @param window Vector which contains the average charge for every interval of time
+     * @param timeAux time ahead to predict in the same base as the window values
+     */
     private double predictPreemptionLinearRegression (Vector<Double> window, Long timeAux)
     {
 	int time = timeAux.intValue();
         double meanWindow = 0;
         Integer length = window.size();
         Vector<Double> windowAux = (Vector) window.clone();
-	SimpleRegression regression = new SimpleRegression();
+	SimpleRegression regression;
        
 	for(int count = 0; count < time; count++){
 		meanWindow = 0;
@@ -1183,17 +1107,6 @@ out = new BufferedWriter(fstream);
                     }
                     logger.info(logStr.trim());
                 }
-		try{
-                        FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/Preempt.txt", true);
-
-                        BufferedWriter out = null;
-                        out = new BufferedWriter(fstream);
-                        out.write("\n - Pre-empting VMs. in " + request.getId()+"    -   "+ "     -      "+Calendar.getInstance().getTimeInMillis()/1000);
-                        out.close();
-
-                } catch (IOException e) {
-                        logger.error("Error in file writing" + e.getMessage());
-                }
                 request.preempt(preemptionList);
                 this.asyncRequestMap.addOrReplace(request);
 
@@ -1204,26 +1117,10 @@ out = new BufferedWriter(fstream);
                     failRequest("pre-empting", request, errorStr, null);
                 }
             }
-                //AQUI
-                BufferedWriter out = null;
-
-                try
-                {
-                        FileWriter fstream = new FileWriter("/home/ubuntu/Desktop/results/finish.txt", true); //true tells to append data.
-                        out = new BufferedWriter(fstream);
-                        java.util.Date date= new java.util.Date();
-                        out.write("\n"+request.getId()+" - "+date+" - "+ new Timestamp(date.getTime()));
-                        out.close();
-                }
-                catch (IOException e)
-                {
-                        System.err.println("Error: " + e.getMessage());
-                }            
         } catch(Exception e){
             failRequest("pre-empting", request, e.getMessage(), e);
         }
 
-        setNumNodes(numNodes-quantity);  
     }
 
     /**
@@ -1519,9 +1416,6 @@ out = new BufferedWriter(fstream);
      * @return list of alive backfill requests
      */
     private List<AsyncRequest> getAliveBackfillRequests(){
-	Iterator it = this.asyncRequestMap.getAll().iterator();
-	while (it.hasNext())
-		logger.info("PRUEBA"+it.next());
         return AsyncRequestFilter.filterAliveBackfillRequests(this.asyncRequestMap.getAll());
     }     
 
