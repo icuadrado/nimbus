@@ -644,9 +644,9 @@ public class DefaultRemoteAdminToolsMgmt implements RemoteAdminToolsManagement {
         //}
     }
 
-    public String createLease(int seconds, int nodes, long an, boolean persistence, String callerDN) throws RemoteException {
+    public String createLease(int seconds, int nodes, long an, boolean persistence, String callerDN, String userURI) throws RemoteException {
 	try{
-		SpotANRequestInfo requestInfo = manager.requestSpotANInstances(seconds, nodes, an, persistence, callerDN);
+		SpotANRequestInfo requestInfo = manager.requestSpotANInstances(seconds, nodes, an, persistence, callerDN, userURI);
 
 		return requestInfo.toString();
         }

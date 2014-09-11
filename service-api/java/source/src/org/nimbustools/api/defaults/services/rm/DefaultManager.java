@@ -370,7 +370,7 @@ public class DefaultManager implements Manager {
         return null;
     }
 
-    public SpotANRequestInfo requestSpotANInstances(int second, int nodes, long advanceNotice, boolean persistent, String callerDN)
+    public SpotANRequestInfo requestSpotANInstances(int second, int nodes, long advanceNotice, boolean persistent, String callerDN, String userURI)
             throws AuthorizationException,
                    CoSchedulingException,
                    CreationException,

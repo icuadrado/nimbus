@@ -1,0 +1,19 @@
+Types of instances available in the system:
+
+    - Base (On demand) Instance: Common "client controlled" instance. It is managed by "DelegatingManager.java" and implements the interface "Request.java"
+
+    - Backfill (batch) Instance: Asynchronous "non user controlled" instance. It is launched by the system whenever it finds enough space as to run instances from the pool. It is managed by "AsyncRequestManager.java" and implements the interface "AsyncRequest.java"
+
+    - Spot (On availability) Instance: Will run with a lower priority than the normal lease, and will be preempted when normal leases need the space. It is managed "AsyncRequestManager.java" and implements the interface "AsyncRequest.java"
+
+    - On availability Advance Notification (SpotAN) Lease: This instance allows the user to request an on availability lease (Leases that will run with a lower priority than the normal lease, and will be preempted when normal leases need the space) specifying an advance notification. The advance notification value is predicted, so it will be preempted BEFORE it's needed. The user can also specify which VM does he want to use, how long does he need it to run and how many instances (VMs). It is managed "AsyncRequestManager.java" and implements the interface "AsyncRequest.java". Most important related with this instance are:
+
+		+ DelegatingManager.java:PredictionDaemon  --------> Thread that runs the prediction system
+		+ DelegatingManager.java:requestSpotANInstances(SpotANCreateRequest req, Caller caller)  --------> Adds a SpotANRequest into the asyncManager pool, to be run as soon as possible. Returns info about the request to be treated by the client. Throws MetadataException.
+		+ DelegatingManager.java:requestSpotANInstances(int duration, int nodes, long advanceNotice, boolean persistent, String callerDN, String userURI)  --------> Creates a SpotANRequest out of the attributes passed as arguments. Used to create a request from the client side. Returns info about the request to be treated by the client. Throws AuthorizationException, CreationException, MetadataException, ResourceRequestDeniedException, SchedulingException, ManageException, CannotTranslateException and DoesNotExistException
+
+		+ AsyncRequestManager.java:calculatePreemptionIfNeeded(Vector<Double> window, TreeSet<Long> timeSet)   --------> Given a charge window and a time ahead, it calculates the prediction of the charge for the given time (in base of the sampling rate).
+		+ AsyncRequestManager.java:communicatePreemption(List<AsyncRequest> activeRequests, Integer needToPreempt, Integer allocatedVMs, Calendar destructionTime)   --------> Given a time, it communicate to all the SpotAN requests that will be preempted by that time their need to stop running before it is reached.
+		+ AsyncRequestManager.java:PreemptDaemon   --------> Thread that makes sure that a request is preempted when it predicted time has come.
+
+		+ DefaultMetadataServer.java:getDestructionTime(String requestID, Caller caller)   --------> Returns the state of the destructionTime value associated to a request. if null, then there is not prediction yet. It needs to be queried by the user.

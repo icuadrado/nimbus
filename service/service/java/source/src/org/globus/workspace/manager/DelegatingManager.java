@@ -258,8 +258,21 @@ public class DelegatingManager implements Manager {
 	predictionDaemon.start();
     }
 
+    /**
+     * Controls the route of the prediction computation
+     * 
+     * To be configured: 
+     *
+     *   - Window size: The number of instances in a window affects the prediction
+     *   - Sampling: A very low sampling will fill the window with the same value, while a very high one will
+     *   miss important information. In the experiments, it has been shown that a good sampling rate is about 
+     *   1 minute for a window of either 10 or 1000. However, it can be adapted to their best need trying to keep 
+     *   the same equivalency.
+     *  
+     */
     public class PredictionDaemon extends Thread {
         public void run() {
+		// Window
 		window = new Vector<Double>(10);
 
 		for (int i = 0; i < window.capacity(); i++){
@@ -267,8 +280,9 @@ public class DelegatingManager implements Manager {
 		}
 
 		while(true){
+			// Sampling
 			try {
-                    		Thread.sleep(6000);
+                    		Thread.sleep(60000);
                 	} catch (InterruptedException e) {
                     		logger.error("Cannot sleep");
                     		break;
@@ -1067,7 +1081,7 @@ public class DelegatingManager implements Manager {
         }
     }     
     
-    public SpotANRequestInfo requestSpotANInstances(int duration, int nodes, long advanceNotice, boolean persistent, String callerDN)
+    public SpotANRequestInfo requestSpotANInstances(int duration, int nodes, long advanceNotice, boolean persistent, String callerDN, String userURI)
             throws AuthorizationException,
                    CreationException,
                    MetadataException,
@@ -1083,11 +1097,15 @@ public class DelegatingManager implements Manager {
 
         final _Caller caller = this.repr._newCaller();
         caller.setIdentity(callerDN);
-        //caller.setSubject(IdentityUtil.discoverSubject());
 
 	final URI imageURI;
         try {
-		String URI = imageLocator.getImageLocation(backfill.getRepoUser(), backfill.getDiskImage()) + "/" + backfill.getDiskImage();
+		String URI = userURI;
+
+                // By default it uses the same image as the backfill instances, but it also accepts whichever the user wanna pass
+		if(URI == null || URI.isEmpty())
+			URI = imageLocator.getImageLocation(backfill.getRepoUser(), backfill.getDiskImage()) + "/" + backfill.getDiskImage();
+
 		imageURI=new URI(URI);
 	} catch (Exception e) {
             throw new CreationException(e.getMessage(), e);
@@ -1185,15 +1203,6 @@ public class DelegatingManager implements Manager {
     }
 
 
-//    private void authorizeCaller(Caller caller, AsyncRequest siReq)
-//            throws AuthorizationException {
-//        if(!caller.isSuperUser() && !siReq.getCaller().equals(caller)){
-//            logger.warn("Caller " + caller + " is not authorized to gather information of asynchronous request from "
-//                    + siReq.getCaller());
-//            throw new AuthorizationException("Caller is not authorized to get information about this request");
-//        }
-//    }
-    
     private SpotANRequestInfo getSpotANRequest(AsyncRequest siReq) throws ManageException {
         try {
             return dataConvert.getSpotANRequest(siReq);
@@ -1201,14 +1210,6 @@ public class DelegatingManager implements Manager {
             throw new ManageException(e.getMessage(), e);
         }
     }    
-    
-//    private RequestInfo getRequestInfo(AsyncRequest backfillReq) throws ManageException {
-//        try {
-//            return dataConvert.getRequestInfo(backfillReq);
-//        } catch (CannotTranslateException e) {
-//            throw new ManageException(e.getMessage(), e);
-//        }
-//    }    
     
     private SpotANRequestInfo[] getSpotANRequests(AsyncRequest[] requests) throws ManageException{
         SpotANRequestInfo[] result = new SpotANRequestInfo[requests.length];
@@ -1220,16 +1221,6 @@ public class DelegatingManager implements Manager {
         return result;
     }
     
-//    private RequestInfo[] getRequestInfos(AsyncRequest[] requests) throws ManageException{
-//        RequestInfo[] result = new RequestInfo[requests.length];
-//        
- //       for (int i = 0; i < requests.length; i++) {
-//            result[i] = getRequestInfo(requests[i]);
-//        }
-        
-//        return result;
-//    }    
-
     // -------------------------------------------------------------------------
     // BACKFILL ADVANCE NOTIFICATION OPERATIONS
     // -------------------------------------------------------------------------    

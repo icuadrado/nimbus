@@ -75,6 +75,7 @@ public class RemoteAdminToolsMain extends RMIConfig {
     private List<String> gidList;
     private long an;
     private String name;
+    private String userURI;
     private boolean persistent;
     private int numNodes;
     private List<String> gnameList;
@@ -175,23 +176,23 @@ public class RemoteAdminToolsMain extends RMIConfig {
                 System.err.println(result);
                 return;
             }
-	if(an != 0)
-	    if(seconds != null)
-		if(userDN != null) 
-			if (numNodes != 0) {
-	        		feedback = this.remoteAdminToolsManagement.createLease(Integer.parseInt(seconds), numNodes, an, persistent, userDN); 
-				if(feedback != null){
-                			result += feedback + "\n";
+	    if(an != 0)
+	    	if(seconds != null)
+			if(userDN != null) 
+				if (numNodes != 0) {
+	        			feedback = this.remoteAdminToolsManagement.createLease(Integer.parseInt(seconds), numNodes, an, persistent, userDN, userURI); 
+					if(feedback != null){
+                				result += feedback + "\n";
+					}
 				}
-			}
-			else
-		                result = "Create requires a NUM_NODES option";
-        //    	else 
-	//                result = "Create requires a NAME option";
-            	else
-			result = "Create requires a DN option";
+				else
+		                	result = "Create requires a NUM_NODES option";
+            		else
+				result = "Create requires a DN option";
+		else
+                	result = "Create requires a secondsoption"; 
 	    else
-                result = "Create requires an AN option";
+            	result = "Create requires an AN option";
             
             if(result != null && !result.isEmpty())
                 System.err.println(result);
@@ -421,13 +422,15 @@ public class RemoteAdminToolsMain extends RMIConfig {
                 //    this.vmIDs = parseValues(id);
     		//    numOpts++;
                 //}
-		//if(line.hasOption(Opts.NAME)) {
-                //    final String name = line.getOptionValue(Opts.NAME);
-                //    if(name == null || name.trim().length() == 0) 
-                //        throw new ParameterProblem("Name value is empty");
-                //    this.name = name;
-                //    numOpts++;
-                //}
+		if(line.hasOption(Opts.URI)) {
+                    final String userURI = line.getOptionValue(Opts.URI);
+                    this.userURI = userURI;
+                    numOpts++;
+                }
+		else {
+		    // Default URI is set later if necessary
+	            this.userURI = "";
+		}
 	 	if(line.hasOption(Opts.DN)) {
                     final String dn = line.getOptionValue(Opts.DN);
                     if(dn == null || dn.trim().length() == 0) {
