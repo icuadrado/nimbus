@@ -15,33 +15,50 @@ General
 -----------------------------------------------------------------------------
 Actions
 
-    --list (-l)          List the VMM nodes known to the Nimbus service
+    --list (-l)          	List the VMM nodes known to the Nimbus service
 
-    --add (-a) HOSTS     Add the specified VMM nodes to the pool. HOSTS is a
-                         comma-separated list of hostnames or IP addresses.
-                         Node parameters can be specified in additional
-                         arguments, see below. If a parameter is unspecified,
-                         a default will be read from the configuration file.
+    --add (-a) HOSTS     	Add the specified VMM nodes to the pool. HOSTS is a
+                         	comma-separated list of hostnames or IP addresses.
+                         	Node parameters can be specified in additional
+                         	arguments, see below. If a parameter is unspecified,
+                         	a default will be read from the configuration file.
 
-    --update (-u) HOSTS  Updates configuration values of VMM nodes. At least
-                         one node parameter must be specified in additional
-                         arguments, see below.
+    --update (-u) HOSTS  	Updates configuration values of VMM nodes. At least
+                         	one node parameter must be specified in additional
+                         	arguments, see below.
 
-    --remove (-d) HOSTS  Removes VMM nodes from the Nimbus resource pool.
-                         Nodes that are in use cannot be removed.
+    --remove (-d) HOSTS  	Removes VMM nodes from the Nimbus resource pool.
+                         	Nodes that are in use cannot be removed.
 
-    --allocation (-N)    Provides network pool allocation information.
-                         Displays ip, MAC, and other pool entry info as well
-                         as whether or not the ip is currently in use.
+    --allocation (-N)    	Provides network pool allocation information.
+                         	Displays ip, MAC, and other pool entry info as well
+                         	as whether or not the ip is currently in use.
 
-         --pool (-p)     --allocation option that provides info for specific
-                         pool name (ie. public)
+         --pool (-p)     	--allocation option that provides info for specific
+                         	pool name (ie. public)
 
-             --free      Optional --allocation argument that only lists
-                         ips that are not in use
-             --used      Optional --allocation argument that only lists
-                         ips that are in use
+             --free      	Optional --allocation argument that only lists
+                         	ips that are not in use
+             --used      	Optional --allocation argument that only lists
+	                         ips that are in use
+	
+    --create (-cr)       	Creates a new Advance Notification request
 
+         --notice (-an)  	Advance Notification (In seconds) the user needs 
+		         	to have before preemption 
+	 --persistent (-per)    Persistence of the request in the database 
+                         	"true/false" 
+	 --numnodes (-nn)	Number of VM instances the request needs to run in
+		         	paralell 
+	 --dn (-d)		DN of the user which will have the request associated.
+	 --seconds (-n)	 	Time (In seconds) the lease needs to run
+	 --image (-im)		(Optional) URI of the image to be loaded
+
+    --leases (-lr)              List the AN requests known to the Nimbus service
+	 --dn (-d)              DN of the user which will have the request associated.
+
+    --clease (-cl)              Cancel a specific AN request known to the Nimbus service
+	 --leaseid (-lid)	ID of the lease to cancel
 
 -----------------------------------------------------------------------------
 VMM Node Parameters                      Values used in adding/updating nodes

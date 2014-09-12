@@ -17,3 +17,13 @@ Types of instances available in the system:
 		+ AsyncRequestManager.java:PreemptDaemon   --------> Thread that makes sure that a request is preempted when it predicted time has come.
 
 		+ DefaultMetadataServer.java:getDestructionTime(String requestID, Caller caller)   --------> Returns the state of the destructionTime value associated to a request. if null, then there is not prediction yet. It needs to be queried by the user.
+
+
+	-On Availability Advance Notification OPTIONS:
+		+ Creation of a lease: There exist 2 ways of creating a lease: Providing an image URI or using the default one. An example of both is describe below:
+			- Using the default URI: ./bin/nimbus-admin --create --notice "ADVANCENOTICE (In seconds)" --persistent "true/false" --numnodes "VMINSTANCES" --dn "USERDN" --seconds "SECONDS"
+                        - Using an specific URI: ./bin/nimbus-admin --create --notice "ADVANCENOTICE (In seconds)" --persistent "true/false" --numnodes "VMINSTANCES" --dn "USERDN" --seconds "SECONDS" --uri "URI"
+		+ List of leases:
+			- ./bin/nimbus-admin --leases --dn "USERDN"
+		+ Cancel a lease:
+			- ./bin/nimbus-admin --clease --lid "LEASEID" --dn "USERDN"
