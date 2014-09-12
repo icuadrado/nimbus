@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="wireles-guest-16-38-161.uchicago.edu" name="org.globus.workspace.testing.suites.spotinstances.NoResourcesSISuite" tests="2" failures="0" timestamp="5 Aug 2014 18:30:49 GMT" time="10.97" errors="0">
-  <testcase name="multipleRequests" time="0.653" classname="org.globus.workspace.testing.suites.spotinstances.NoResourcesSISuite"/>
-  <testcase name="singleRequest" time="0.232" classname="org.globus.workspace.testing.suites.spotinstances.NoResourcesSISuite"/>
-</testsuite>

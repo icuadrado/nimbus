@@ -1,0 +1,20 @@
+Metadata-Version: 1.0
+Name: pycb
+Version: 0.1
+Summary: An Open Source S3 look-alike
+Home-page: http://www.nimbusproject.org/
+Author: John Bresnahan
+Author-email: bresnaha@mcs.anl.gov
+License: Apache2
+Description: 
+        Cumulus is an open source implementation of the Amazon S3 REST API.  It
+        is packaged with the Nimbus (open source cloud computing software for
+        science) however it can be used without nimbus as well.  Cumulus allows
+        you to server files to users via a known and adopted REST API. You
+        clients will be able to access your data storaging service with the
+        Amazon S3 clients they already use.
+        
+        After installing this python package some additional system configuration is
+        needed.
+        
+Platform: UNKNOWN

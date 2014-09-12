@@ -1,0 +1,8 @@
+[console_scripts]
+cumulus-add-user = pycb.tools.add_user:main
+cumulus-create-repo-admin = pycb.tools.base_repo:main
+cumulus-list-users = pycb.tools.list_users:main
+cumulus = pycb.cumulus:main
+cumulus-remove-user = pycb.tools.remove_user:main
+cumulus-quota = pycb.tools.set_quota:main
+

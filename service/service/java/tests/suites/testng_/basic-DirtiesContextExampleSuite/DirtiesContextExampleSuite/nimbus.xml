@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="wireles-guest-16-38-161.uchicago.edu" name="org.globus.workspace.testing.suites.basic.DirtiesContextExampleSuite" tests="2" failures="0" timestamp="7 Jul 2014 22:46:02 GMT" time="8.781" errors="0">
-  <testcase name="dirtyTest" time="0.056" classname="org.globus.workspace.testing.suites.basic.DirtiesContextExampleSuite"/>
-  <testcase name="checkEmpty" time="0.001" classname="org.globus.workspace.testing.suites.basic.DirtiesContextExampleSuite"/>
-</testsuite>

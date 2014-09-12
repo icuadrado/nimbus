@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="wireles-guest-16-38-161.uchicago.edu" name="org.globus.workspace.testing.suites.basic.BasicSuite" tests="2" failures="0" timestamp="3 Jul 2014 17:18:42 GMT" time="10.495" errors="0">
-  <testcase name="retrieveModuleLocator" time="0.007" classname="org.globus.workspace.testing.suites.basic.BasicSuite"/>
-  <testcase name="leaseOne" time="2.114" classname="org.globus.workspace.testing.suites.basic.BasicSuite"/>
-</testsuite>

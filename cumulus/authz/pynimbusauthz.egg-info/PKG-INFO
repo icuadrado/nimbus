@@ -1,0 +1,15 @@
+Metadata-Version: 1.0
+Name: pynimbusauthz
+Version: 2.10.1
+Summary: An Open Source User Management Library for Nimbus.
+Home-page: http://www.nimbusproject.org/
+Author: John Bresnahan
+Author-email: bresnaha@mcs.anl.gov
+License: Apache2
+Description: 
+        This library makes use of a database to create user accounts suitable
+        for the cumulus s3 transfer service and the nimbus IaaS system.
+        
+        A database needs to be setup and configured outside of this package.
+        
+Platform: UNKNOWN

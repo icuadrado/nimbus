@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="wireles-guest-16-38-161.uchicago.edu" name="org.globus.workspace.testing.suites.spotinstances.Issue26Suite" tests="1" failures="0" timestamp="7 Jul 2014 23:01:01 GMT" time="8.162" errors="0">
-  <testcase name="tooMuchMemory" time="0.025" classname="org.globus.workspace.testing.suites.spotinstances.Issue26Suite"/>
-</testsuite>

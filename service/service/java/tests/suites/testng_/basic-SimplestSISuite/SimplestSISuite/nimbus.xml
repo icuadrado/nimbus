@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="wireles-guest-16-38-161.uchicago.edu" name="org.globus.workspace.testing.suites.spotinstances.SimplestSISuite" tests="1" failures="0" timestamp="7 Jul 2014 23:01:52 GMT" time="13.984" errors="0">
-  <testcase name="singleInstancePreemption" time="5.496" classname="org.globus.workspace.testing.suites.spotinstances.SimplestSISuite"/>
-</testsuite>

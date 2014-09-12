@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="wireles-guest-16-38-161.uchicago.edu" name="org.globus.workspace.testing.suites.spotinstances.SimpleSISuite" tests="2" failures="0" timestamp="7 Jul 2014 23:01:35 GMT" time="19.243" errors="0">
-  <testcase name="simpleBackfillPreemptionTest" time="7.117" classname="org.globus.workspace.testing.suites.spotinstances.SimpleSISuite"/>
-  <testcase name="simpleBackfillTest" time="2.418" classname="org.globus.workspace.testing.suites.spotinstances.SimpleSISuite"/>
-</testsuite>

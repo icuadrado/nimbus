@@ -1,0 +1,4 @@
+Twisted
+boto > 1.9
+pyOpenSSL
+pynimbusauthz

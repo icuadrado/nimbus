@@ -1,0 +1,10 @@
+[console_scripts]
+nimbusauthz-rebase = pynimbusauthz.rebase:main
+nimbusauthz-ls = pynimbusauthz.ls:main
+nimbusauthz-chmod = pynimbusauthz.chmod:main
+nimbusauthz-quota = pynimbusauthz.quota:main
+nimbusauthz-touch = pynimbusauthz.touch:main
+nimbusauthz-add-user = pynimbusauthz.add_user:main
+nimbusauthz-stat = pynimbusauthz.stat:main
+nimbusauthz-list-users = pynimbusauthz.list_user:main
+

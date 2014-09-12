@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="wireles-guest-16-38-161.uchicago.edu" name="org.globus.workspace.testing.suites.basic.Issue37Suite" tests="2" failures="0" timestamp="7 Jul 2014 22:46:31 GMT" time="12.605" errors="0">
-  <testcase name="leaseOnePublicOnePrivate" time="3.139" classname="org.globus.workspace.testing.suites.basic.Issue37Suite"/>
-  <testcase name="leaseTwoPrivate" time="2.041" classname="org.globus.workspace.testing.suites.basic.Issue37Suite"/>
-</testsuite>

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="wireles-guest-16-38-161.uchicago.edu" name="org.globus.workspace.testing.suites.basic.AsyncRequestMapSuite" tests="2" failures="0" timestamp="3 Jul 2014 17:19:49 GMT" time="6.951" errors="0">
-  <testcase name="retrieveModuleLocator" time="0.004" classname="org.globus.workspace.testing.suites.basic.AsyncRequestMapSuite"/>
-  <testcase name="persistOne" time="0.152" classname="org.globus.workspace.testing.suites.basic.AsyncRequestMapSuite"/>
-</testsuite>
